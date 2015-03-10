@@ -82,8 +82,6 @@
             [self.navigationController pushViewController:messengerViewController
                                                  animated:YES];
         } else {
-            [self.navigationController setViewControllers:[NSArray arrayWithArray:self.messengerViewControllers]
-                                                 animated:NO];
             [self.navigationController popToViewController:messengerViewController
                                                   animated:YES];
             
