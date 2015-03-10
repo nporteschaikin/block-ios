@@ -65,6 +65,11 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
     [self.view setNeedsUpdateConstraints];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.messageTextField endEditing:YES];
+}
+
 - (void)updateViewConstraints {
     if (!self.didSetupConstraints) {
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
