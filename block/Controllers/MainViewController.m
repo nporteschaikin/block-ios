@@ -83,7 +83,7 @@
                                                  animated:YES];
         } else {
             [self.navigationController setViewControllers:[NSArray arrayWithArray:self.messengerViewControllers]
-                                                 animated:YES];
+                                                 animated:NO];
             [self.navigationController popToViewController:messengerViewController
                                                   animated:YES];
             
@@ -224,7 +224,14 @@
 - (UINavigationController *)navigationController {
     if (!_navigationController) {
         _navigationController = [[UINavigationController alloc] initWithRootViewController:[[UIViewController alloc] init]];
-        _navigationController.view.backgroundColor = [UIColor whiteColor];
+        UIView *view = _navigationController.view;
+        UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
+        view.layer.masksToBounds = NO;
+        view.layer.shadowColor = [UIColor blackColor].CGColor;
+        view.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+        view.layer.shadowOpacity = 0.5f;
+        view.layer.shadowPath = path.CGPath;
+        view.backgroundColor = [UIColor whiteColor];
     }
     return _navigationController;
 }
