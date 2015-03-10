@@ -29,6 +29,8 @@
 @property (strong, nonatomic, readonly) UIView *navigationControllerView;
 @property (strong, nonatomic, readonly) UIView *roomNavigatorView;
 
+@property (nonatomic) BOOL roomNavigatorViewIsOpen;
+
 @end
 
 @implementation MainViewController
@@ -90,6 +92,7 @@
 }
 
 - (void)openRoomNavigatorView:(BOOL)open {
+    self.roomNavigatorViewIsOpen = open;
     [UIView animateWithDuration:0.5
                           delay:0
          usingSpringWithDamping:0.8
@@ -219,12 +222,20 @@
 
 - (void)messengerViewControllerSwipedLeft:(MessengerViewController *)messengerViewController {
     NSUInteger nextIndex = [self.messengerViewControllers indexOfObject:messengerViewController] + 1;
-    [self viewMessengerViewControllerAtIndex:nextIndex];
+    if (self.roomNavigatorViewIsOpen) {
+        [self openRoomNavigatorView:NO];
+    } else {
+        [self viewMessengerViewControllerAtIndex:nextIndex];
+    }
 }
 
 - (void)messengerViewControllerSwipedRight:(MessengerViewController *)messengerViewController {
     NSUInteger nextIndex = [self.messengerViewControllers indexOfObject:messengerViewController] - 1;
-    [self viewMessengerViewControllerAtIndex:nextIndex];
+    if (!self.roomNavigatorViewIsOpen && nextIndex == -1) {
+        [self openRoomNavigatorView:YES];
+    } else {
+        [self viewMessengerViewControllerAtIndex:nextIndex];
+    }
 }
 
 #pragma mark - Navigation controller
