@@ -11,27 +11,38 @@
 #import "SessionManager.h"
 
 @interface LoginViewController () <FBLoginViewDelegate>
+
+@property (strong, nonatomic) FBLoginView *loginView;
+
 @end
 
 @implementation LoginViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setFacebookLoginView];
+- (id)init {
+    if (self = [super init]) {
+        self.view.backgroundColor = [UIColor blackColor];
+        [self.view addSubview:self.loginView];
+    }
+    return self;
 }
 
-- (void)setFacebookLoginView {
+- (void)viewDidLoad {
+    [super viewDidLoad];
     [FBSession.activeSession closeAndClearTokenInformation];
     [FBSession.activeSession close];
     [FBSession setActiveSession:nil];
-    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"public_profile",
-                                                                            @"email",
-                                                                            @"user_friends"]];
-    loginView.center = self.view.center;
-    loginView.delegate = self;
-    [self.view addSubview:loginView];
 }
 
+- (FBLoginView *)loginView {
+    if (!_loginView) {
+        _loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"public_profile",
+                                                                    @"email",
+                                                                    @"user_friends"]];
+        _loginView.delegate = self;
+        _loginView.center = self.view.center;
+    }
+    return _loginView;
+}
 
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
     NSString *fbAccessToken = [[[FBSession activeSession] accessTokenData] accessToken];
