@@ -223,8 +223,10 @@
 }
 
 - (void)handleMessengerViewControllerRightBarButtonItem:(MessengerViewController *)messengerViewController {
-    NSUInteger index = [self.messengerViewControllers indexOfObject:messengerViewController];
-    [self.socketController leaveRoomAtIndex:index];
+    if (self.socketController.openRooms.count >= 2) {
+        NSUInteger index = [self.messengerViewControllers indexOfObject:messengerViewController];
+        [self.socketController leaveRoomAtIndex:index];
+    }
 }
 
 - (void)messengerViewControllerSwipedLeft:(MessengerViewController *)messengerViewController {
