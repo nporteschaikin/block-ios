@@ -75,6 +75,7 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.view setNeedsUpdateConstraints];
+    [self scrollToBottomAnimated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -181,21 +182,28 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
 - (void)addMessage:(NSDictionary *)message
             byUser:(NSDictionary *)user {
     NSMutableDictionary *theMessage = [NSMutableDictionary dictionaryWithDictionary:message];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(self.messages.count - 1)
-                                                inSection:0];
     [theMessage setObject:user
                    forKey:@"user"];
     [self.messages addObject:theMessage];
-    [self.tableView beginUpdates];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath]
-                          withRowAnimation:UITableViewRowAnimationLeft];
-    [self.tableView endUpdates];
+    [self.tableView reloadData];
+    [self scrollToBottomAnimated:NO];
 }
 
 - (void)setMessageHistory:(NSArray *)messages {
     if (messages.count) {
         self.messages = [NSMutableArray arrayWithArray:messages];
         [self.tableView reloadData];
+        [self scrollToBottomAnimated:NO];
+    }
+}
+
+- (void)scrollToBottomAnimated:(BOOL)animated {
+    NSInteger lastIndex = self.messages.count - 1;
+    if (lastIndex >= 0) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastIndex
+                                                                  inSection:0]
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:animated];
     }
 }
 
@@ -209,6 +217,10 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
         textField.text = nil;
     }
     return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    [self scrollToBottomAnimated:YES];
 }
 
 #pragma mark - Right hand bar button handler
