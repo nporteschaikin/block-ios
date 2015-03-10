@@ -12,6 +12,8 @@
 
 @protocol MessengerViewControllerDelegate
 
+- (void)handleMessengerViewControllerLeftBarButtonItem:(MessengerViewController *)messengerViewController;
+
 - (void)messengerViewController:(MessengerViewController *)messengerViewController
                     messageSent:(NSString *)message;
 

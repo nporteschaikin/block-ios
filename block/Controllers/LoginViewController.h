@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SessionManager.h"
+
+@class LoginViewController;
+
+@protocol LoginViewControllerDelegate
+
+- (void)loginViewController:(LoginViewController *)loginViewController
+ didLogInWithSessionManager:(SessionManager *)sessionManager;
+
+@end
 
 @interface LoginViewController : UIViewController
+
+@property (strong, nonatomic) id<LoginViewControllerDelegate> delegate;
 
 @end

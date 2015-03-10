@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4F350E811AA7479800637F98 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F350E801AA7479800637F98 /* MainViewController.m */; };
 		4F350E8D1AA79D3700637F98 /* RoomNavigatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F350E8C1AA79D3700637F98 /* RoomNavigatorViewController.m */; };
-		4F350E931AA7A29400637F98 /* RoomsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F350E921AA7A29400637F98 /* RoomsViewController.m */; };
 		4F55608F1AA65B2500090AFF /* FindingCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F55608E1AA65B2500090AFF /* FindingCityViewController.m */; };
 		4F5560951AA668B600090AFF /* APIManager+Cities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5560941AA668B600090AFF /* APIManager+Cities.m */; };
 		4F5560981AA66D5E00090AFF /* APIManager+Auth.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5560971AA66D5E00090AFF /* APIManager+Auth.m */; };
@@ -28,9 +27,7 @@
 		E46B8CAE1AA573FA00F9DF03 /* SocketIOTransportWebsocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E46B8CA81AA573FA00F9DF03 /* SocketIOTransportWebsocket.m */; };
 		E46B8CAF1AA573FA00F9DF03 /* SocketIOTransportXHR.m in Sources */ = {isa = PBXBuildFile; fileRef = E46B8CAA1AA573FA00F9DF03 /* SocketIOTransportXHR.m */; };
 		E46B8CB01AA5742E00F9DF03 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659A81AA570710028EE2D /* FacebookSDK.framework */; };
-		E478A8801AA6B9540071FD11 /* RoomsNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E478A87F1AA6B9540071FD11 /* RoomsNavigationController.m */; };
 		E4986E1C1AACB6F400E3F81A /* SocketController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4986E1B1AACB6F400E3F81A /* SocketController.m */; };
-		E4986E1F1AACD89B00E3F81A /* SocketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4986E1E1AACD89B00E3F81A /* SocketViewController.m */; };
 		E4C659AB1AA570E60028EE2D /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659AA1AA570E60028EE2D /* libicucore.dylib */; };
 		E4C659AD1AA570ED0028EE2D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659AC1AA570ED0028EE2D /* CFNetwork.framework */; };
 		E4C659AF1AA570F30028EE2D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659AE1AA570F30028EE2D /* Security.framework */; };
@@ -64,8 +61,6 @@
 		4F350E801AA7479800637F98 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		4F350E8B1AA79D3700637F98 /* RoomNavigatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorViewController.h; sourceTree = "<group>"; };
 		4F350E8C1AA79D3700637F98 /* RoomNavigatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorViewController.m; sourceTree = "<group>"; };
-		4F350E911AA7A29400637F98 /* RoomsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomsViewController.h; sourceTree = "<group>"; };
-		4F350E921AA7A29400637F98 /* RoomsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomsViewController.m; sourceTree = "<group>"; };
 		4F55608D1AA65B2500090AFF /* FindingCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindingCityViewController.h; sourceTree = "<group>"; };
 		4F55608E1AA65B2500090AFF /* FindingCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindingCityViewController.m; sourceTree = "<group>"; };
 		4F5560931AA668B600090AFF /* APIManager+Cities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "APIManager+Cities.h"; sourceTree = "<group>"; };
@@ -102,12 +97,8 @@
 		E46B8CA81AA573FA00F9DF03 /* SocketIOTransportWebsocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketIOTransportWebsocket.m; sourceTree = "<group>"; };
 		E46B8CA91AA573FA00F9DF03 /* SocketIOTransportXHR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIOTransportXHR.h; sourceTree = "<group>"; };
 		E46B8CAA1AA573FA00F9DF03 /* SocketIOTransportXHR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketIOTransportXHR.m; sourceTree = "<group>"; };
-		E478A87E1AA6B9540071FD11 /* RoomsNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomsNavigationController.h; sourceTree = "<group>"; };
-		E478A87F1AA6B9540071FD11 /* RoomsNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomsNavigationController.m; sourceTree = "<group>"; };
 		E4986E1A1AACB6F400E3F81A /* SocketController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketController.h; sourceTree = "<group>"; };
 		E4986E1B1AACB6F400E3F81A /* SocketController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketController.m; sourceTree = "<group>"; };
-		E4986E1D1AACD89B00E3F81A /* SocketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketViewController.h; sourceTree = "<group>"; };
-		E4986E1E1AACD89B00E3F81A /* SocketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketViewController.m; sourceTree = "<group>"; };
 		E4C659A81AA570710028EE2D /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		E4C659AA1AA570E60028EE2D /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		E4C659AC1AA570ED0028EE2D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -302,12 +293,6 @@
 				4F55609D1AA678FD00090AFF /* SelectCityViewController.m */,
 				E4986E1A1AACB6F400E3F81A /* SocketController.h */,
 				E4986E1B1AACB6F400E3F81A /* SocketController.m */,
-				E4986E1D1AACD89B00E3F81A /* SocketViewController.h */,
-				E4986E1E1AACD89B00E3F81A /* SocketViewController.m */,
-				4F350E911AA7A29400637F98 /* RoomsViewController.h */,
-				4F350E921AA7A29400637F98 /* RoomsViewController.m */,
-				E478A87E1AA6B9540071FD11 /* RoomsNavigationController.h */,
-				E478A87F1AA6B9540071FD11 /* RoomsNavigationController.m */,
 				4F350E8B1AA79D3700637F98 /* RoomNavigatorViewController.h */,
 				4F350E8C1AA79D3700637F98 /* RoomNavigatorViewController.m */,
 				E4E137811AA5552F007C8F50 /* MessengerViewController.h */,
@@ -462,15 +447,12 @@
 				E4D8E0AF1AA550B3003EA242 /* NSDictionary+QueryString.m in Sources */,
 				4F7FDA6E1AA6346B0092103B /* BlockTextField.m in Sources */,
 				4F5560951AA668B600090AFF /* APIManager+Cities.m in Sources */,
-				4F350E931AA7A29400637F98 /* RoomsViewController.m in Sources */,
 				E46B8CAB1AA573FA00F9DF03 /* SocketIO.m in Sources */,
 				4FF795EB1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m in Sources */,
 				4F7FDA741AA6350E0092103B /* UIFont+Block.m in Sources */,
 				4F350E811AA7479800637F98 /* MainViewController.m in Sources */,
-				E478A8801AA6B9540071FD11 /* RoomsNavigationController.m in Sources */,
 				4F7FDA6B1AA621340092103B /* MessageTableViewCell.m in Sources */,
 				4F55609E1AA678FD00090AFF /* SelectCityViewController.m in Sources */,
-				E4986E1F1AACD89B00E3F81A /* SocketViewController.m in Sources */,
 				E4D8E0B91AA5519C003EA242 /* Constants.m in Sources */,
 				E4D8E0A81AA55065003EA242 /* SessionManager.m in Sources */,
 				E4D8E0A41AA55025003EA242 /* LoginViewController.m in Sources */,

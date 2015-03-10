@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
-#import "LoginViewController.h"
 #import "AppearanceHelper.h"
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -25,8 +24,7 @@
     
     [AppearanceHelper customizeAppearance];
     
-    LoginViewController *loginViewController = [[LoginViewController alloc] init];
-    MainViewController *mainViewController = [[MainViewController alloc] initWithCurrentViewController:loginViewController];
+    MainViewController *mainViewController = [[MainViewController alloc] init];
     self.window.rootViewController = mainViewController;
     
     [self.window makeKeyAndVisible];

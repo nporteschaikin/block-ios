@@ -10,16 +10,4 @@
 
 @interface MainViewController : UIViewController
 
-- (id)initWithCurrentViewController:(UIViewController *)viewController;
-- (void)transitionToViewController:(UIViewController *)toViewController
-                          duration:(NSTimeInterval)duration
-                           options:(UIViewAnimationOptions)options
-                        animations:(void (^)(UIViewController *lastController))animations
-                        completion:(void (^)(BOOL))completion;
-- (void)slideToViewController:(UIViewController *)toViewController
-                     duration:(NSTimeInterval)duration
-                   completion:(void (^)(BOOL))completion;
-- (void)fadeToViewController:(UIViewController *)toViewController
-                    duration:(NSTimeInterval)duration
-                  completion:(void (^)(BOOL))completion;
 @end

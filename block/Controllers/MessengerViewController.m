@@ -40,32 +40,29 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
     return self;
 }
 
-- (void)viewDidLoad {
-    [self.tableView registerClass:[MessageTableViewCell class]
-                   forCellReuseIdentifier:tableViewCellReuseIdentifier];
-    
+- (void)setNavigationBarItems {
     NSString *roomName = [self.room objectForKey:@"name"];
     if (roomName) self.navigationItem.title = roomName;
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Leave"
-                                                                              style:UIBarButtonItemStyleDone
-                                                                             target:self
-                                                                             action:@selector(handleRightBarButton)];
-    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks
+                                                                                          target:self
+                                                                                          action:@selector(handleLeftBarButtonItem)];
+}
+
+- (void)addKeyboardObserver {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillChangeFrame:)
                                                  name:UIKeyboardWillChangeFrameNotification object:nil];
-    
+}
+
+- (void)viewDidLoad {
+    [self setNavigationBarItems];
+    [self addKeyboardObserver];
     [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.view setNeedsUpdateConstraints];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
 }
 
 - (void)updateViewConstraints {
@@ -243,6 +240,12 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
  numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) return self.messages.count;
     return 1;
+}
+
+#pragma mark - Handle left bar button item
+
+- (void)handleLeftBarButtonItem {
+    [self.theDelegate handleMessengerViewControllerLeftBarButtonItem:self];
 }
 
 @end

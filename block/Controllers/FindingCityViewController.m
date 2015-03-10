@@ -7,10 +7,7 @@
 //
 
 #import <CoreLocation/CoreLocation.h>
-#import "MainViewController.h"
-#import "SocketViewController.h"
 #import "FindingCityViewController.h"
-#import "SelectCityViewController.h"
 #import "APIManager+Cities.h"
 
 static NSString * const locatingStatusLabelText = @"Locating a city closest to you...";
@@ -32,7 +29,7 @@ static NSString * const couldNotFindLocationStatusLabelText = @"Block could not 
 - (id)initWithSessionManager:(SessionManager *)sessionManager {
     if (self = [super init]) {
         self.sessionManager = sessionManager;
-        self.view.backgroundColor = [UIColor whiteColor];
+        self.view.backgroundColor = [UIColor grayColor];
         [self.view addSubview:self.statusLabel];
     }
     return self;
@@ -52,6 +49,7 @@ static NSString * const couldNotFindLocationStatusLabelText = @"Block could not 
         _statusLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _statusLabel.numberOfLines = 0;
         _statusLabel.textAlignment = NSTextAlignmentCenter;
+        _statusLabel.text = locatingStatusLabelText;
     }
     return _statusLabel;
 }
@@ -118,35 +116,19 @@ static NSString * const couldNotFindLocationStatusLabelText = @"Block could not 
         dispatch_async(dispatch_get_main_queue(), ^{
             switch (cities.count) {
                 case 1:
-                    [self pushRoomsViewControllerWithCity:[cities firstObject]];
+                    [self.delegate findingCityViewController:self
+                                           didFindSingleCity:[cities firstObject]];
                     break;
                 case 0:
                     self.statusLabel.text = noCitiesAroundLocationStatusLabelText;
                     break;
                 default:
-                    [self pushSelectCityViewControllerWithCities:cities];
+                    [self.delegate findingCityViewController:self
+                                       didFindMultipleCities:cities];
                     break;
             }
         });
     }];
-}
-
-- (void)pushSelectCityViewControllerWithCities:(NSArray *)cities {
-    SelectCityViewController *selectCityViewController = [[SelectCityViewController alloc] initWithCities:cities
-                                                                                           sessionManager:self.sessionManager];
-    [(MainViewController *)self.parentViewController transitionToViewController:selectCityViewController
-                                                                       duration:0.5
-                                                                        options:UIViewAnimationOptionTransitionNone
-                                                                     animations:nil
-                                                                     completion:nil];
-}
-
-- (void)pushRoomsViewControllerWithCity:(NSDictionary *)city {
-    SocketViewController *socketViewController = [[SocketViewController alloc] initWithCityID:[city objectForKey:@"id"]
-                                                                               sessionManager:self.sessionManager];
-    [(MainViewController *)self.parentViewController slideToViewController:socketViewController
-                                                                  duration:0.5
-                                                                completion:nil];
 }
 
 - (void)locationManager:(CLLocationManager *)manager

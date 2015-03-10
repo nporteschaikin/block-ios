@@ -7,11 +7,8 @@
 //
 
 #import <FacebookSDK/FacebookSDK.h>
-#import "MainViewController.h"
 #import "LoginViewController.h"
-#import "FindingCityViewController.h"
 #import "SessionManager.h"
-#import "Constants.h"
 
 @interface LoginViewController () <FBLoginViewDelegate>
 @end
@@ -20,20 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setSession];
-}
-
-- (void)setSession {
-    
-    [SessionManager withSessionToken:^(SessionManager *sessionManager) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self pushFindingCityViewControllerWithSessionManager:sessionManager];
-        });
-    } onFail:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self setFacebookLoginView];
-        });
-    }];
+    [self setFacebookLoginView];
 }
 
 - (void)setFacebookLoginView {
@@ -53,18 +37,10 @@
     NSString *fbAccessToken = [[[FBSession activeSession] accessTokenData] accessToken];
     [SessionManager withFacebookAccessToken:fbAccessToken onComplete:^(SessionManager *sessionManager) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self pushFindingCityViewControllerWithSessionManager:sessionManager];
+            [self.delegate loginViewController:self
+                    didLogInWithSessionManager:sessionManager];
         });
     } onFail:nil];
-}
-
-- (void)pushFindingCityViewControllerWithSessionManager:(SessionManager *)sessionManager {
-    FindingCityViewController *findingCityViewController = [[FindingCityViewController alloc] initWithSessionManager:sessionManager];
-    [(MainViewController *)self.parentViewController transitionToViewController:findingCityViewController
-                                                                       duration:20
-                                                                        options:UIViewAnimationOptionCurveEaseIn
-                                                                     animations:nil
-                                                                     completion:nil];
 }
 
 @end
