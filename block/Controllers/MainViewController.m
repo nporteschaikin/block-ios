@@ -80,9 +80,7 @@
 - (void)removeMessengerViewControllerAtIndex:(NSUInteger)index {
     MessengerViewController *messengerViewController = [self.messengerViewControllers objectAtIndex:index];
     [self.messengerViewControllers removeObject:messengerViewController];
-    if (self.navigationController.topViewController == messengerViewController) {
-        [self viewMessengerViewControllerAtIndex:((index - 1) || 0)];
-    }
+    [self viewMessengerViewControllerAtIndex:0];
 }
 
 - (void)viewMessengerViewControllerAtIndex:(NSUInteger)index {
@@ -182,7 +180,7 @@
 
 - (void)roomJoinedAtIndex:(NSUInteger)index
          socketController:(SocketController *)socketController {
-    NSDictionary *room = [socketController.rooms objectAtIndex:index];
+    NSDictionary *room = [socketController.openRooms objectAtIndex:index];
     [self createMessengerViewControllerForRoom:room];
     [self viewMessengerViewControllerAtIndex:index];
     [self.roomNavigatorViewController openRoomAtIndex:index];
