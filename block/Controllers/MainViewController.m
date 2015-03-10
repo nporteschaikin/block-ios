@@ -189,7 +189,7 @@
              inRoomAtIndex:(NSUInteger)index
           socketController:(SocketController *)socketController {
     MessengerViewController *messengerViewController = [self.messengerViewControllers objectAtIndex:index];
-    [messengerViewController addMessages:messages];
+    [messengerViewController setMessageHistory:messages];
 }
 
 - (void)messageSent:(NSDictionary *)message

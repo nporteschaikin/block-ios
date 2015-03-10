@@ -31,8 +31,8 @@
 @property (strong, nonatomic, readonly) NSDictionary *room;
 
 - (id)initWithRoom:(NSDictionary *)room;
+- (void)setMessageHistory:(NSArray *)messages;
 - (void)addMessage:(NSDictionary *)message
             byUser:(NSDictionary *)user;
-- (void)addMessages:(NSArray *)messages;
 
 @end

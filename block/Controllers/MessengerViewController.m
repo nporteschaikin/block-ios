@@ -180,30 +180,22 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
 
 - (void)addMessage:(NSDictionary *)message
             byUser:(NSDictionary *)user {
-    NSMutableDictionary *messageWithUser = [NSMutableDictionary dictionaryWithDictionary:message];
-    [messageWithUser setObject:user
-                        forKey:@"user"];
-    [self.messages addObject:messageWithUser];
-    [self.tableView reloadData];
-    [self scrollToBottomOfTableView];
+    NSMutableDictionary *theMessage = [NSMutableDictionary dictionaryWithDictionary:message];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(self.messages.count - 1)
+                                                inSection:0];
+    [theMessage setObject:user
+                   forKey:@"user"];
+    [self.messages addObject:theMessage];
+    [self.tableView beginUpdates];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath]
+                          withRowAnimation:UITableViewRowAnimationLeft];
+    [self.tableView endUpdates];
 }
 
-- (void)addMessages:(NSArray *)messages {
+- (void)setMessageHistory:(NSArray *)messages {
     if (messages.count) {
-        [self.messages addObjectsFromArray:messages];
+        self.messages = [NSMutableArray arrayWithArray:messages];
         [self.tableView reloadData];
-    }
-    [self scrollToBottomOfTableView];
-}
-
-- (void)scrollToBottomOfTableView {
-    if (self.messages.count) {
-        NSIndexPath* indexPath = [NSIndexPath indexPathForRow:(self.messages.count - 1)
-                                                    inSection:0];
-        [self.tableView layoutIfNeeded];
-        [self.tableView scrollToRowAtIndexPath:indexPath
-                              atScrollPosition:UITableViewScrollPositionBottom
-                                      animated:NO];
     }
 }
 
@@ -222,6 +214,7 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
 #pragma mark - Right hand bar button handler
 
 - (void)handleRightBarButton {
+
     [self.theDelegate messengerViewControllerAskedToLeave:self];
 }
 
