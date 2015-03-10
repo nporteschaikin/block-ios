@@ -46,6 +46,9 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks
                                                                                           target:self
                                                                                           action:@selector(handleLeftBarButtonItem)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
+                                                                                           target:self
+                                                                                           action:@selector(handleRightBarButtonItem)];
 }
 
 - (void)addKeyboardObserver {
@@ -223,13 +226,6 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
     [self scrollToBottomAnimated:YES];
 }
 
-#pragma mark - Right hand bar button handler
-
-- (void)handleRightBarButton {
-
-    [self.theDelegate messengerViewControllerAskedToLeave:self];
-}
-
 #pragma mark - Keyboard notification target
 
 - (void)keyboardWillChangeFrame:(NSNotification *)notification {
@@ -264,13 +260,17 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
     return 1;
 }
 
-#pragma mark - Handle left bar button item
+#pragma mark - Handle bar button items
 
 - (void)handleLeftBarButtonItem {
     [self.theDelegate handleMessengerViewControllerLeftBarButtonItem:self];
 }
 
-#pragma mark - Handle left bar button item
+- (void)handleRightBarButtonItem {
+    [self.theDelegate handleMessengerViewControllerRightBarButtonItem:self];
+}
+
+#pragma mark - Handle swips
 
 - (void)handleSwipe:(UISwipeGestureRecognizer*)swipe {
     if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {

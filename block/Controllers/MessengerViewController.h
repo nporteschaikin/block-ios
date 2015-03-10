@@ -14,10 +14,10 @@
 
 - (void)handleMessengerViewControllerLeftBarButtonItem:(MessengerViewController *)messengerViewController;
 
+- (void)handleMessengerViewControllerRightBarButtonItem:(MessengerViewController *)messengerViewController;
+
 - (void)messengerViewController:(MessengerViewController *)messengerViewController
                     messageSent:(NSString *)message;
-
-- (void)messengerViewControllerAskedToLeave:(MessengerViewController *)messengerViewController;
 
 - (void)messengerViewControllerSwipedLeft:(MessengerViewController *)messengerViewController;
 

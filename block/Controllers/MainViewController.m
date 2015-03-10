@@ -77,6 +77,14 @@
     [self.messengerViewControllers addObject:messengerViewController];
 }
 
+- (void)removeMessengerViewControllerAtIndex:(NSUInteger)index {
+    MessengerViewController *messengerViewController = [self.messengerViewControllers objectAtIndex:index];
+    [self.messengerViewControllers removeObject:messengerViewController];
+    if (self.navigationController.topViewController == messengerViewController) {
+        [self viewMessengerViewControllerAtIndex:((index - 1) || 0)];
+    }
+}
+
 - (void)viewMessengerViewControllerAtIndex:(NSUInteger)index {
     if (index < self.messengerViewControllers.count) {
         MessengerViewController *messengerViewController = [self.messengerViewControllers objectAtIndex:index];
@@ -182,7 +190,8 @@
 
 - (void)roomLeftAtIndex:(NSUInteger)index
        socketController:(SocketController *)socketController {
-    // nothing yet
+    [self removeMessengerViewControllerAtIndex:index];
+    [self.roomNavigatorViewController leaveRoomAtIndex:index];
 }
 
 - (void)messageHistorySent:(NSArray *)messages
@@ -211,13 +220,13 @@
                            roomAtIndex:index];
 }
 
-- (void)messengerViewControllerAskedToLeave:(MessengerViewController *)messengerViewController {
-    NSUInteger index = [self.messengerViewControllers indexOfObject:messengerViewController];
-    [self.socketController leaveRoomAtIndex:index];
-}
-
 - (void)handleMessengerViewControllerLeftBarButtonItem:(MessengerViewController *)messengerViewController {
     [self openRoomNavigatorView:YES];
+}
+
+- (void)handleMessengerViewControllerRightBarButtonItem:(MessengerViewController *)messengerViewController {
+    NSUInteger index = [self.messengerViewControllers indexOfObject:messengerViewController];
+    [self.socketController leaveRoomAtIndex:index];
 }
 
 - (void)messengerViewControllerSwipedLeft:(MessengerViewController *)messengerViewController {
