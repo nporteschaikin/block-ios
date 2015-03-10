@@ -46,12 +46,13 @@
 
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
     NSString *fbAccessToken = [[[FBSession activeSession] accessTokenData] accessToken];
-    [SessionManager withFacebookAccessToken:fbAccessToken onComplete:^(SessionManager *sessionManager) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate loginViewController:self
-                    didLogInWithSessionManager:sessionManager];
-        });
-    } onFail:nil];
+    [SessionManager withFacebookAccessToken:fbAccessToken
+                                 onComplete:^(SessionManager *sessionManager) {
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                        [self.delegate loginViewController:self
+                                                didLogInWithSessionManager:sessionManager];
+                                    });
+                                 } onFail:nil];
 }
 
 @end
