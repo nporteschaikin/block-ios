@@ -7,64 +7,51 @@
 //
 
 #import <FacebookSDK/FacebookSDK.h>
-#import "MainViewController.h"
 #import "LoginViewController.h"
-#import "FindingCityViewController.h"
 #import "SessionManager.h"
-#import "Constants.h"
 
 @interface LoginViewController () <FBLoginViewDelegate>
+
+@property (strong, nonatomic) FBLoginView *loginView;
+
 @end
 
 @implementation LoginViewController
 
+- (id)init {
+    if (self = [super init]) {
+        self.view.backgroundColor = [UIColor blackColor];
+        [self.view addSubview:self.loginView];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setSession];
-}
-
-- (void)setSession {
-    
-    [SessionManager withSessionToken:^(SessionManager *sessionManager) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self pushFindingCityViewControllerWithSessionManager:sessionManager];
-        });
-    } onFail:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self setFacebookLoginView];
-        });
-    }];
-}
-
-- (void)setFacebookLoginView {
     [FBSession.activeSession closeAndClearTokenInformation];
     [FBSession.activeSession close];
     [FBSession setActiveSession:nil];
-    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"public_profile",
-                                                                            @"email",
-                                                                            @"user_friends"]];
-    loginView.center = self.view.center;
-    loginView.delegate = self;
-    [self.view addSubview:loginView];
 }
 
+- (FBLoginView *)loginView {
+    if (!_loginView) {
+        _loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"public_profile",
+                                                                    @"email",
+                                                                    @"user_friends"]];
+        _loginView.delegate = self;
+        _loginView.center = self.view.center;
+    }
+    return _loginView;
+}
 
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
     NSString *fbAccessToken = [[[FBSession activeSession] accessTokenData] accessToken];
     [SessionManager withFacebookAccessToken:fbAccessToken onComplete:^(SessionManager *sessionManager) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self pushFindingCityViewControllerWithSessionManager:sessionManager];
+            [self.delegate loginViewController:self
+                    didLogInWithSessionManager:sessionManager];
         });
     } onFail:nil];
-}
-
-- (void)pushFindingCityViewControllerWithSessionManager:(SessionManager *)sessionManager {
-    FindingCityViewController *findingCityViewController = [[FindingCityViewController alloc] initWithSessionManager:sessionManager];
-    [(MainViewController *)self.parentViewController transitionToViewController:findingCityViewController
-                                                                       duration:20
-                                                                        options:UIViewAnimationOptionCurveEaseIn
-                                                                     animations:nil
-                                                                     completion:nil];
 }
 
 @end

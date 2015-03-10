@@ -12,10 +12,16 @@
 
 @protocol MessengerViewControllerDelegate
 
+- (void)handleMessengerViewControllerLeftBarButtonItem:(MessengerViewController *)messengerViewController;
+
 - (void)messengerViewController:(MessengerViewController *)messengerViewController
                     messageSent:(NSString *)message;
 
 - (void)messengerViewControllerAskedToLeave:(MessengerViewController *)messengerViewController;
+
+- (void)messengerViewControllerSwipedLeft:(MessengerViewController *)messengerViewController;
+
+- (void)messengerViewControllerSwipedRight:(MessengerViewController *)messengerViewController;
 
 @end
 

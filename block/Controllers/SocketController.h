@@ -18,7 +18,7 @@
 - (void)sessionRoomsSentWithSocketController:(SocketController *)socketController;
 
 - (void)roomJoinedAtIndex:(NSUInteger)index
-     withSocketController:(SocketController *)socketController;
+         socketController:(SocketController *)socketController;
 
 - (void)roomLeftAtIndex:(NSUInteger)index
        socketController:(SocketController *)socketController;

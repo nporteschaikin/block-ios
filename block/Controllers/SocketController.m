@@ -147,7 +147,7 @@
         NSDictionary *room = [self roomByID:roomID];
         [self.openRooms addObject:room];
         [self.delegate roomJoinedAtIndex:(self.openRooms.count - 1)
-                    withSocketController:self];
+                        socketController:self];
         [self.socket sendEvent:@"room:history"
                       withData:roomID];
     } else if ([name isEqualToString:@"room:left"]) {
