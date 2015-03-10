@@ -219,6 +219,16 @@
     [self openRoomNavigatorView:YES];
 }
 
+- (void)messengerViewControllerSwipedLeft:(MessengerViewController *)messengerViewController {
+    NSUInteger nextIndex = [self.messengerViewControllers indexOfObject:messengerViewController] + 1;
+    [self viewMessengerViewControllerAtIndex:nextIndex];
+}
+
+- (void)messengerViewControllerSwipedRight:(MessengerViewController *)messengerViewController {
+    NSUInteger nextIndex = [self.messengerViewControllers indexOfObject:messengerViewController] - 1;
+    [self viewMessengerViewControllerAtIndex:nextIndex];
+}
+
 #pragma mark - Navigation controller
 
 - (UINavigationController *)navigationController {

@@ -19,6 +19,10 @@
 
 - (void)messengerViewControllerAskedToLeave:(MessengerViewController *)messengerViewController;
 
+- (void)messengerViewControllerSwipedLeft:(MessengerViewController *)messengerViewController;
+
+- (void)messengerViewControllerSwipedRight:(MessengerViewController *)messengerViewController;
+
 @end
 
 @interface MessengerViewController : UIViewController

@@ -54,9 +54,21 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
                                                  name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
+- (void)addSwipeGestureRecognizers {
+    UISwipeGestureRecognizer *leftSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                                          action:@selector(handleSwipe:)];
+    leftSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:leftSwipeRecognizer];
+    UISwipeGestureRecognizer *rightSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                                               action:@selector(handleSwipe:)];
+    rightSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:rightSwipeRecognizer];
+}
+
 - (void)viewDidLoad {
     [self setNavigationBarItems];
     [self addKeyboardObserver];
+    [self addSwipeGestureRecognizers];
     [super viewDidLoad];
 }
 
@@ -251,6 +263,16 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
 
 - (void)handleLeftBarButtonItem {
     [self.theDelegate handleMessengerViewControllerLeftBarButtonItem:self];
+}
+
+#pragma mark - Handle left bar button item
+
+- (void)handleSwipe:(UISwipeGestureRecognizer*)swipe {
+    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
+        [self.theDelegate messengerViewControllerSwipedLeft:self];
+    } else {
+        [self.theDelegate messengerViewControllerSwipedRight:self];
+    }
 }
 
 @end
