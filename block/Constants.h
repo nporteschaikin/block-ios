@@ -15,6 +15,8 @@ FOUNDATION_EXPORT NSString * const IOCitiesAroundLocationEndpoint;
 FOUNDATION_EXPORT NSString * const IORoomsByCityEndpoint;
 FOUNDATION_EXPORT NSString * const IOCityEndpoint;
 
+FOUNDATION_EXPORT NSString * const HockeyAppIdentifier;
+
 FOUNDATION_EXPORT NSString * const SessionTokenUserDefaultsKey;
 
 FOUNDATION_EXPORT CGFloat const InputPaddingX;
