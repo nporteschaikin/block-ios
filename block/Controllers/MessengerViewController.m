@@ -82,7 +82,11 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.view setNeedsUpdateConstraints];
-    [self scrollToBottomAnimated:NO];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self scrollToBottomAnimated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -193,14 +197,12 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
                    forKey:@"user"];
     [self.messages addObject:theMessage];
     [self.tableView reloadData];
-    [self scrollToBottomAnimated:NO];
 }
 
 - (void)setMessageHistory:(NSArray *)messages {
     if (messages.count) {
         self.messages = [NSMutableArray arrayWithArray:messages];
         [self.tableView reloadData];
-        [self scrollToBottomAnimated:NO];
     }
 }
 
@@ -267,16 +269,19 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
 #pragma mark - Handle bar button items
 
 - (void)handleLeftBarButtonItem {
+    [self.messageTextField endEditing:YES];
     [self.theDelegate handleMessengerViewControllerLeftBarButtonItem:self];
 }
 
 - (void)handleRightBarButtonItem {
+    [self.messageTextField endEditing:YES];
     [self.theDelegate handleMessengerViewControllerRightBarButtonItem:self];
 }
 
 #pragma mark - Handle gesture recognizers
 
 - (void)handleSwipe:(UISwipeGestureRecognizer*)swipe {
+    [self.messageTextField endEditing:YES];
     if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
         [self.theDelegate messengerViewControllerSwipedLeft:self];
     } else {
