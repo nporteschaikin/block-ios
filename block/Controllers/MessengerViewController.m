@@ -57,7 +57,7 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
                                                  name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
-- (void)addSwipeGestureRecognizers {
+- (void)addGestureRecognizers {
     UISwipeGestureRecognizer *leftSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                           action:@selector(handleSwipe:)];
     leftSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -66,12 +66,16 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
                                                                                                action:@selector(handleSwipe:)];
     rightSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:rightSwipeRecognizer];
+    
+    UITapGestureRecognizer *tableViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                                 action:@selector(handleTableViewTap:)];
+    [self.view addGestureRecognizer:tableViewGestureRecognizer];
 }
 
 - (void)viewDidLoad {
     [self setNavigationBarItems];
     [self addKeyboardObserver];
-    [self addSwipeGestureRecognizers];
+    [self addGestureRecognizers];
     [super viewDidLoad];
 }
 
@@ -270,13 +274,19 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
     [self.theDelegate handleMessengerViewControllerRightBarButtonItem:self];
 }
 
-#pragma mark - Handle swips
+#pragma mark - Handle gesture recognizers
 
 - (void)handleSwipe:(UISwipeGestureRecognizer*)swipe {
     if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
         [self.theDelegate messengerViewControllerSwipedLeft:self];
     } else {
         [self.theDelegate messengerViewControllerSwipedRight:self];
+    }
+}
+
+- (void)handleTableViewTap:(UITapGestureRecognizer *)tap {
+    if (self.messageTextField.isEditing) {
+        [self.messageTextField endEditing:YES];
     }
 }
 
