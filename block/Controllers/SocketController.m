@@ -14,7 +14,8 @@
 
 @interface SocketController () <SocketIODelegate>
 
-@property (nonatomic, readwrite) BOOL didConnect;
+@property (nonatomic, readwrite) BOOL isSocketConnected;
+@property (nonatomic, readwrite) BOOL wasSocketConnected;
 
 @property (strong, nonatomic) NSString *cityID;
 @property (strong, nonatomic) SessionManager *sessionManager;
@@ -37,38 +38,41 @@
         self.delegate = delegate;
         self.socket = [[SocketIO alloc] initWithDelegate:self];
         self.openRooms = [NSMutableArray array];
-        [self observeApplicationIsActive];
+        self.isSocketConnected = NO;
     }
     return self;
 }
 
 - (void)connect {
+    [self connectAPI:^(NSDictionary *city) {
+        [self connectSocket];
+    }];
+}
+
+- (void)reconnect {
+    if (self.wasSocketConnected && !self.isSocketConnected) {
+        [self connectSocket];
+    }
+}
+
+- (void)connectAPI:(void(^)(NSDictionary *city))onComplete {
     [APIManager getCityByID:self.cityID
                  onComplete:^(NSDictionary *city) {
                      self.city = city;
                      self.rooms = [city objectForKey:@"rooms"];
-                     [self.socket connectToHost:IOBaseURL
-                                         onPort:0
-                                     withParams:@{@"token": self.sessionManager.sessionToken,
-                                                  @"city": self.cityID}];
-    }];
-}
-   
-- (void)observeApplicationIsActive {
-   [[NSNotificationCenter defaultCenter] addObserver:self
-                                            selector:@selector(applicationIsActive:)
-                                                name:UIApplicationDidBecomeActiveNotification
-                                              object:nil];
+                     onComplete(city);
+                 }];
 }
 
-- (void)applicationIsActive:(NSNotification *)notification {
-    if (!self.socket.isConnected && self.didConnect) {
-        [self connect];
-    }
+- (void)connectSocket {
+    [self.socket connectToHost:IOBaseURL
+                        onPort:0
+                    withParams:@{@"token": self.sessionManager.sessionToken,
+                                 @"city": self.cityID}];
 }
 
 - (void)joinRoomAtIndex:(NSUInteger)index {
-    if (self.isConnected) {
+    if (self.isSocketConnected) {
         NSNumber *roomID = [self roomIDAtIndex:index];
         [self.socket sendEvent:@"room:join"
                       withData:roomID];
@@ -76,16 +80,26 @@
 }
 
 - (void)leaveRoomAtIndex:(NSUInteger)index {
-    if (self.isConnected) {
+    if (self.isSocketConnected) {
         NSNumber *roomID = [self openRoomIDAtIndex:index];
         [self.socket sendEvent:@"room:leave"
                       withData:roomID];
     }
 }
 
+- (void)requestMessageHistoryAtIndex:(NSUInteger)index {
+    NSLog(@"-------request--------");
+    if (self.isSocketConnected) {
+            NSLog(@"-------connect--------");
+        NSNumber *roomID = [self openRoomIDAtIndex:index];
+        [self.socket sendEvent:@"room:history"
+                      withData:roomID];
+    }
+}
+
 - (void)sendMessage:(NSString *)message
         roomAtIndex:(NSUInteger)index {
-    if (self.isConnected) {
+    if (self.isSocketConnected) {
         NSNumber *roomID = [self openRoomIDAtIndex:index];
         [self.socket sendEvent:@"message:send"
                       withData:@{@"room": roomID,
@@ -94,7 +108,7 @@
 }
 
 - (void)joinDefaultRoom {
-    if (self.isConnected) {
+    if (self.isSocketConnected) {
         NSNumber *roomID = [self.city objectForKey:@"defaultRoomId"];
         [self.socket sendEvent:@"room:join"
                       withData:roomID];
@@ -136,8 +150,13 @@
 #pragma mark SocketIODelegate
 
 - (void)socketIODidConnect:(SocketIO *)socket {
-    self.didConnect = YES;
-    [self.delegate socketConnected:self];
+    self.isSocketConnected = YES;
+    if (self.wasSocketConnected) {
+        [self.delegate socketReconnected:self];
+    } else {
+        [self.delegate socketConnected:self];
+    }
+    self.wasSocketConnected = YES;
 }
 
 - (void)socketIO:(SocketIO *)socket
@@ -151,18 +170,12 @@
             [self.openRooms addObject:room];
         }
         [self.delegate sessionRoomsSentWithSocketController:self];
-        for (NSNumber *roomID in roomIDs) {
-            [self.socket sendEvent:@"room:history"
-                          withData:roomID];
-        }
     } else if ([name isEqualToString:@"room:joined"]) {
         NSNumber *roomID = (NSNumber *)[args objectAtIndex:0];
         NSDictionary *room = [self roomByID:roomID];
         [self.openRooms addObject:room];
         [self.delegate roomJoinedAtIndex:(self.openRooms.count - 1)
                         socketController:self];
-        [self.socket sendEvent:@"room:history"
-                      withData:roomID];
     } else if ([name isEqualToString:@"room:left"]) {
         NSUInteger index = [self openRoomIndexByID:(NSNumber *)[args objectAtIndex:0]];
         [self.openRooms removeObjectAtIndex:index];
@@ -180,6 +193,13 @@
                             inRoomAtIndex:index
                          socketController:self];
     }
+}
+
+- (void)socketIODidDisconnect:(SocketIO *)socket
+        disSocketConnectedWithError:(NSError *)error {
+    self.isSocketConnected = NO;
+    [self.delegate socketDisconnected:self
+                            withError:error];
 }
 
 @end
