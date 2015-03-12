@@ -14,7 +14,6 @@
 
 @interface SocketController () <SocketIODelegate>
 
-@property (nonatomic, readwrite) BOOL isConnected;
 @property (nonatomic, readwrite) BOOL didConnect;
 
 @property (strong, nonatomic) NSString *cityID;
@@ -138,7 +137,6 @@
 #pragma mark SocketIODelegate
 
 - (void)socketIODidConnect:(SocketIO *)socket {
-    self.isConnected = YES;
     self.didConnect = YES;
     [self.delegate socketConnected:self];
 }
