@@ -15,6 +15,11 @@
 
 - (void)socketConnected:(SocketController *)socketController;
 
+- (void)socketReconnected:(SocketController *)socketController;
+
+- (void)socketDisconnected:(SocketController *)socketController
+                 withError:(NSError *)error;
+
 - (void)sessionRoomsSentWithSocketController:(SocketController *)socketController;
 
 - (void)roomJoinedAtIndex:(NSUInteger)index
@@ -40,7 +45,6 @@
 @property (strong, nonatomic, readonly) NSDictionary *city;
 @property (strong, nonatomic, readonly) NSArray *rooms;
 @property (strong, nonatomic, readonly) NSMutableArray *openRooms;
-@property (nonatomic, readonly) BOOL isConnected;
 
 - (id)initWithCityID:(NSString *)cityID
       sessionManager:(SessionManager *)sessionManager
@@ -48,9 +52,13 @@
 
 - (void)connect;
 
+- (void)reconnect;
+
 - (void)joinRoomAtIndex:(NSUInteger)index;
 
 - (void)leaveRoomAtIndex:(NSUInteger)index;
+
+- (void)requestMessageHistoryAtIndex:(NSUInteger)index;
 
 - (void)sendMessage:(NSString *)message
         roomAtIndex:(NSUInteger)index;

@@ -77,6 +77,10 @@
     [self.messengerViewControllers addObject:messengerViewController];
 }
 
+- (void)requestMessageHistoryAtIndex:(NSUInteger)index {
+    [self.socketController requestMessageHistoryAtIndex:index];
+}
+
 - (void)removeMessengerViewControllerAtIndex:(NSUInteger)index {
     MessengerViewController *messengerViewController = [self.messengerViewControllers objectAtIndex:index];
     [self.messengerViewControllers removeObject:messengerViewController];
@@ -166,10 +170,24 @@
                              completion:nil];
 }
 
+- (void)socketReconnected:(SocketController *)socketController {
+    for (NSUInteger i=0; i<self.messengerViewControllers.count; i++) {
+        [self requestMessageHistoryAtIndex:i];
+    }
+}
+
+- (void)socketDisconnected:(SocketController *)socketController
+                 withError:(NSError *)error {
+    [socketController reconnect];
+}
+
 - (void)sessionRoomsSentWithSocketController:(SocketController *)socketController {
     if (socketController.openRooms.count) {
+        NSUInteger i=0;
         for (NSDictionary *room in socketController.openRooms) {
             [self createMessengerViewControllerForRoom:room];
+            [self requestMessageHistoryAtIndex:i];
+            i++;
         }
         [self viewMessengerViewControllerAtIndex:0];
         [self.roomNavigatorViewController openSessionRooms];
@@ -183,6 +201,7 @@
     NSDictionary *room = [socketController.openRooms objectAtIndex:index];
     [self createMessengerViewControllerForRoom:room];
     [self viewMessengerViewControllerAtIndex:index];
+    [self requestMessageHistoryAtIndex:index];
     [self.roomNavigatorViewController openRoomAtIndex:index];
 }
 
