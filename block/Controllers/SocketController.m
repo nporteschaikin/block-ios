@@ -37,7 +37,6 @@
         self.delegate = delegate;
         self.socket = [[SocketIO alloc] initWithDelegate:self];
         self.openRooms = [NSMutableArray array];
-        self.isConnected = NO;
         [self observeApplicationIsActive];
     }
     return self;
