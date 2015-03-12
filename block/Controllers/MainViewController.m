@@ -30,6 +30,7 @@
 @property (strong, nonatomic, readonly) UIView *roomNavigatorView;
 
 @property (nonatomic) BOOL roomNavigatorViewIsOpen;
+@property (nonatomic) NSUInteger currentMessengerViewControllerIndex;
 
 @end
 
@@ -89,6 +90,7 @@
 
 - (void)viewMessengerViewControllerAtIndex:(NSUInteger)index {
     if (index < self.messengerViewControllers.count) {
+        self.currentMessengerViewControllerIndex = index;
         MessengerViewController *messengerViewController = [self.messengerViewControllers objectAtIndex:index];
         if (![self.navigationController.viewControllers containsObject:messengerViewController]) {
             [self.navigationController pushViewController:messengerViewController
@@ -98,6 +100,8 @@
                                                   animated:YES];
             
         }
+    } else if (self.messengerViewControllers.count) {
+        [self viewMessengerViewControllerAtIndex:0];
     }
 }
 
@@ -182,14 +186,20 @@
 }
 
 - (void)sessionRoomsSentWithSocketController:(SocketController *)socketController {
+    NSArray *messengerViewControllers = [NSArray arrayWithArray:self.messengerViewControllers];
+    [self.messengerViewControllers removeAllObjects];
     if (socketController.openRooms.count) {
         NSUInteger i=0;
         for (NSDictionary *room in socketController.openRooms) {
-            [self createMessengerViewControllerForRoom:room];
+            if (i < messengerViewControllers.count) {
+                MessengerViewController *messengerViewController = [messengerViewControllers objectAtIndex:i];
+                if (messengerViewController.room == room) [self.messengerViewControllers addObject:messengerViewController];
+            }
+            if (i >= self.messengerViewControllers.count) [self createMessengerViewControllerForRoom:room];
             [self requestMessageHistoryAtIndex:i];
             i++;
         }
-        [self viewMessengerViewControllerAtIndex:0];
+        [self viewMessengerViewControllerAtIndex:self.currentMessengerViewControllerIndex];
         [self.roomNavigatorViewController openSessionRooms];
     } else {
         [socketController joinDefaultRoom];

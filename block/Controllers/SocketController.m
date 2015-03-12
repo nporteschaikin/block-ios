@@ -149,7 +149,7 @@
 
 - (void)socketIODidConnect:(SocketIO *)socket {
     self.isSocketConnected = YES;
-    if (self.wasSocketConnected) {
+    if (self.wasSocketConnected == YES) {
         [self.delegate socketReconnected:self];
     } else {
         [self.delegate socketConnected:self];
@@ -162,34 +162,15 @@
     NSString *name = packet.name;
     NSArray *args = packet.args;
     if ([name isEqualToString:@"session:rooms"]) {
-        NSArray *roomIDs = (NSArray *)[args objectAtIndex:0];
-        for (NSNumber *roomID in roomIDs) {
-            NSDictionary *room = [self roomByID:roomID];
-            [self.openRooms addObject:room];
-        }
-        [self.delegate sessionRoomsSentWithSocketController:self];
+        [self handleSessionRoomsEvent:args];
     } else if ([name isEqualToString:@"room:joined"]) {
-        NSNumber *roomID = (NSNumber *)[args objectAtIndex:0];
-        NSDictionary *room = [self roomByID:roomID];
-        [self.openRooms addObject:room];
-        [self.delegate roomJoinedAtIndex:(self.openRooms.count - 1)
-                        socketController:self];
+        [self handleRoomJoinedEvent:args];
     } else if ([name isEqualToString:@"room:left"]) {
-        NSUInteger index = [self openRoomIndexByID:(NSNumber *)[args objectAtIndex:0]];
-        [self.openRooms removeObjectAtIndex:index];
-        [self.delegate roomLeftAtIndex:index
-                      socketController:self];
+        [self handleRoomLeftEvent:args];
     } else if ([name isEqualToString:@"message:sent"]) {
-        NSUInteger index = [self openRoomIndexByID:(NSNumber *)[args objectAtIndex:0]];
-        [self.delegate messageSent:(NSDictionary *)[args objectAtIndex:1]
-                      inRoomAtIndex:index
-                            byUser:(NSDictionary *)[args objectAtIndex:2]
-                  socketController:self];
+        [self handleMessageSentEvent:args];
     } else if ([name isEqualToString:@"room:history"]) {
-        NSUInteger index = [self openRoomIndexByID:(NSNumber *)[args objectAtIndex:0]];
-        [self.delegate messageHistorySent:(NSArray *)[args objectAtIndex:1]
-                            inRoomAtIndex:index
-                         socketController:self];
+        [self handleRoomHistoryEvent:args];
     }
 }
 
@@ -198,6 +179,48 @@
     self.isSocketConnected = NO;
     [self.delegate socketDisconnected:self
                             withError:error];
+}
+
+#pragma mark - Event handlers
+
+- (void)handleSessionRoomsEvent:(NSArray *)args {
+    NSArray *roomIDs = (NSArray *)[args objectAtIndex:0];
+    [self.openRooms removeAllObjects];
+    for (NSNumber *roomID in roomIDs) {
+        NSDictionary *room = [self roomByID:roomID];
+        [self.openRooms addObject:room];
+    }
+    [self.delegate sessionRoomsSentWithSocketController:self];
+}
+
+- (void)handleRoomJoinedEvent:(NSArray *)args {
+    NSNumber *roomID = (NSNumber *)[args objectAtIndex:0];
+    NSDictionary *room = [self roomByID:roomID];
+    [self.openRooms addObject:room];
+    [self.delegate roomJoinedAtIndex:(self.openRooms.count - 1)
+                    socketController:self];
+}
+
+- (void)handleRoomLeftEvent:(NSArray *)args {
+    NSUInteger index = [self openRoomIndexByID:(NSNumber *)[args objectAtIndex:0]];
+    [self.openRooms removeObjectAtIndex:index];
+    [self.delegate roomLeftAtIndex:index
+                  socketController:self];
+}
+
+- (void)handleMessageSentEvent:(NSArray *)args {
+    NSUInteger index = [self openRoomIndexByID:(NSNumber *)[args objectAtIndex:0]];
+    [self.delegate messageSent:(NSDictionary *)[args objectAtIndex:1]
+                 inRoomAtIndex:index
+                        byUser:(NSDictionary *)[args objectAtIndex:2]
+              socketController:self];
+}
+
+- (void)handleRoomHistoryEvent:(NSArray *)args {
+    NSUInteger index = [self openRoomIndexByID:(NSNumber *)[args objectAtIndex:0]];
+    [self.delegate messageHistorySent:(NSArray *)[args objectAtIndex:1]
+                        inRoomAtIndex:index
+                     socketController:self];
 }
 
 @end
