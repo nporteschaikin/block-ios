@@ -141,7 +141,7 @@
 }
 
 - (NSUInteger)openRoomIndexByID:(NSNumber *)roomID {
-    NSDictionary *room = [self roomByID:roomID];
+    NSDictionary *room = [self openRoomByID:roomID];
     return [self.openRooms indexOfObject:room];
 }
 
