@@ -14,13 +14,8 @@
 
 @interface SocketController () <SocketIODelegate>
 
-<<<<<<< HEAD
-@property (nonatomic, readwrite) BOOL isConnected;
-@property (nonatomic, readwrite) BOOL wasConnected;
-=======
 @property (nonatomic, readwrite) BOOL isSocketConnected;
 @property (nonatomic, readwrite) BOOL wasSocketConnected;
->>>>>>> reconnect
 
 @property (strong, nonatomic) NSString *cityID;
 @property (strong, nonatomic) SessionManager *sessionManager;
