@@ -66,7 +66,7 @@
 }
 
 - (void)connectSocketControllerWithCity:(NSDictionary *)city {
-    self.socketController = [[SocketController alloc] initWithCityID:[city objectForKey:@"id"]
+    self.socketController = [[SocketController alloc] initWithCityID:[city objectForKey:@"_id"]
                                                       sessionManager:self.sessionManager
                                                             delegate:self];
     [self.socketController connect];
@@ -202,7 +202,7 @@
         [self viewMessengerViewControllerAtIndex:self.currentMessengerViewControllerIndex];
         [self.roomNavigatorViewController openSessionRooms];
     } else {
-        [socketController joinDefaultRoom];
+        [socketController joinFirstRoom];
     }
 }
 
@@ -229,8 +229,8 @@
 }
 
 - (void)messageSent:(NSDictionary *)message
-      inRoomAtIndex:(NSUInteger)index
              byUser:(NSDictionary *)user
+      inRoomAtIndex:(NSUInteger)index
    socketController:(SocketController *)socketController {
     MessengerViewController *messengerViewController = [self.messengerViewControllers objectAtIndex:index];
     [messengerViewController addMessage:message

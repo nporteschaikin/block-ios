@@ -108,7 +108,6 @@ static NSString * const couldNotFindLocationStatusLabelText = @"Block could not 
      didUpdateLocations:(NSArray *)locations {
     CLLocation *location = [locations firstObject];
     [self updateCitiesByLocation:location];
-    NSLog(@"%@", location);
     [manager stopUpdatingLocation];
 }
 
