@@ -73,7 +73,7 @@
 
 - (void)joinRoomAtIndex:(NSUInteger)index {
     if (self.isSocketConnected) {
-        NSNumber *roomID = [self roomIDAtIndex:index];
+        NSString *roomID = [self roomIDAtIndex:index];
         [self.socket sendEvent:@"room:join"
                       withData:roomID];
     }
@@ -81,7 +81,7 @@
 
 - (void)leaveRoomAtIndex:(NSUInteger)index {
     if (self.isSocketConnected) {
-        NSNumber *roomID = [self openRoomIDAtIndex:index];
+        NSString *roomID = [self openRoomIDAtIndex:index];
         [self.socket sendEvent:@"room:leave"
                       withData:roomID];
     }
@@ -89,7 +89,7 @@
 
 - (void)requestMessageHistoryAtIndex:(NSUInteger)index {
     if (self.isSocketConnected) {
-        NSNumber *roomID = [self openRoomIDAtIndex:index];
+        NSString *roomID = [self openRoomIDAtIndex:index];
         [self.socket sendEvent:@"room:history"
                       withData:roomID];
     }
@@ -98,49 +98,50 @@
 - (void)sendMessage:(NSString *)message
         roomAtIndex:(NSUInteger)index {
     if (self.isSocketConnected) {
-        NSNumber *roomID = [self openRoomIDAtIndex:index];
+        NSString *roomID = [self openRoomIDAtIndex:index];
         [self.socket sendEvent:@"message:send"
                       withData:@{@"room": roomID,
                                  @"message": message}];
     }
 }
 
-- (void)joinDefaultRoom {
+- (void)joinFirstRoom {
     if (self.isSocketConnected) {
-        NSNumber *roomID = [self.city objectForKey:@"defaultRoomId"];
+        NSDictionary *room = [self.rooms firstObject];
+        NSString *roomID = [room valueForKey:@"_id"];
         [self.socket sendEvent:@"room:join"
                       withData:roomID];
     }
 }
 
-- (NSDictionary *)roomByID:(NSNumber *)roomID {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(id == %d)", [roomID intValue]];
+- (NSDictionary *)roomByID:(NSString *)roomID {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(_id == %@)", roomID];
     NSArray *rooms = [self.rooms filteredArrayUsingPredicate:predicate];
     return [rooms firstObject];
 }
 
-- (NSDictionary *)openRoomByID:(NSNumber *)roomID {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(id == %d)", [roomID intValue]];
+- (NSDictionary *)openRoomByID:(NSString *)roomID {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(_id == %@)", roomID];
     NSArray *rooms = [self.openRooms filteredArrayUsingPredicate:predicate];
     return [rooms firstObject];
 }
 
-- (NSNumber *)roomIDAtIndex:(NSUInteger)index {
+- (NSString *)roomIDAtIndex:(NSUInteger)index {
     NSDictionary *room = [self.rooms objectAtIndex:index];
-    return [room objectForKey:@"id"];
+    return [room objectForKey:@"_id"];
 }
 
-- (NSNumber *)openRoomIDAtIndex:(NSUInteger)index {
+- (NSString *)openRoomIDAtIndex:(NSUInteger)index {
     NSDictionary *room = [self.openRooms objectAtIndex:index];
-    return [room objectForKey:@"id"];
+    return [room objectForKey:@"_id"];
 }
 
-- (NSUInteger)roomIndexByID:(NSNumber *)roomID {
+- (NSUInteger)roomIndexByID:(NSString *)roomID {
     NSDictionary *room = [self roomByID:roomID];
     return [self.rooms indexOfObject:room];
 }
 
-- (NSUInteger)openRoomIndexByID:(NSNumber *)roomID {
+- (NSUInteger)openRoomIndexByID:(NSString *)roomID {
     NSDictionary *room = [self openRoomByID:roomID];
     return [self.openRooms indexOfObject:room];
 }
@@ -186,7 +187,7 @@
 - (void)handleSessionRoomsEvent:(NSArray *)args {
     NSArray *roomIDs = (NSArray *)[args objectAtIndex:0];
     [self.openRooms removeAllObjects];
-    for (NSNumber *roomID in roomIDs) {
+    for (NSString *roomID in roomIDs) {
         NSDictionary *room = [self roomByID:roomID];
         [self.openRooms addObject:room];
     }
@@ -194,7 +195,7 @@
 }
 
 - (void)handleRoomJoinedEvent:(NSArray *)args {
-    NSNumber *roomID = (NSNumber *)[args objectAtIndex:0];
+    NSString *roomID = (NSString *)[args objectAtIndex:0];
     NSDictionary *room = [self roomByID:roomID];
     [self.openRooms addObject:room];
     [self.delegate roomJoinedAtIndex:(self.openRooms.count - 1)
@@ -202,22 +203,22 @@
 }
 
 - (void)handleRoomLeftEvent:(NSArray *)args {
-    NSUInteger index = [self openRoomIndexByID:(NSNumber *)[args objectAtIndex:0]];
+    NSUInteger index = [self openRoomIndexByID:(NSString *)[args objectAtIndex:0]];
     [self.openRooms removeObjectAtIndex:index];
     [self.delegate roomLeftAtIndex:index
                   socketController:self];
 }
 
 - (void)handleMessageSentEvent:(NSArray *)args {
-    NSUInteger index = [self openRoomIndexByID:(NSNumber *)[args objectAtIndex:0]];
-    [self.delegate messageSent:(NSDictionary *)[args objectAtIndex:1]
+    NSUInteger index = [self openRoomIndexByID:(NSString *)[args objectAtIndex:0]];
+    [self.delegate messageSent:(NSDictionary *)[args objectAtIndex:2]
+                        byUser:(NSDictionary *)[args objectAtIndex:1]
                  inRoomAtIndex:index
-                        byUser:(NSDictionary *)[args objectAtIndex:2]
               socketController:self];
 }
 
 - (void)handleRoomHistoryEvent:(NSArray *)args {
-    NSUInteger index = [self openRoomIndexByID:(NSNumber *)[args objectAtIndex:0]];
+    NSUInteger index = [self openRoomIndexByID:(NSString *)[args objectAtIndex:0]];
     [self.delegate messageHistorySent:(NSArray *)[args objectAtIndex:1]
                         inRoomAtIndex:index
                      socketController:self];

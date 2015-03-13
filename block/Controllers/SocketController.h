@@ -29,8 +29,8 @@
        socketController:(SocketController *)socketController;
 
 - (void)messageSent:(NSDictionary *)message
-      inRoomAtIndex:(NSUInteger)index
              byUser:(NSDictionary *)user
+      inRoomAtIndex:(NSUInteger)index
    socketController:(SocketController *)socketController;
 
 - (void)messageHistorySent:(NSArray *)messages
@@ -63,6 +63,6 @@
 - (void)sendMessage:(NSString *)message
         roomAtIndex:(NSUInteger)index;
 
-- (void)joinDefaultRoom;
+- (void)joinFirstRoom;
 
 @end
