@@ -7,23 +7,18 @@
 //
 
 #import "MessengerViewController.h"
-#import "MessageTableViewCell.h"
+#import "MessagesTableViewController.h"
 #import "BlockTextField.h"
 #import "Constants.h"
 
-NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
-
-@interface MessengerViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface MessengerViewController () <UITextFieldDelegate>
 
 @property (nonatomic, readwrite) BOOL didSetupConstraints;
-
 @property (strong, nonatomic, readwrite) NSDictionary *room;
-
+@property (strong, nonatomic) MessagesTableViewController *tableViewController;
 @property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) BlockTextField *messageTextField;
-@property (strong, nonatomic) NSLayoutConstraint *messageTextFieldBottomConstraint;
-
-@property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) BlockTextField *textField;
+@property (strong, nonatomic) NSLayoutConstraint *textFieldBottomConstraint;
 
 @end
 
@@ -32,10 +27,12 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
 - (id)initWithRoom:(NSDictionary *)room {
     if (self = [self init]) {
         self.room = room;
-        self.messages = [NSMutableArray array];
-        self.view.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:self.tableView];
-        [self.view addSubview:self.messageTextField];
+        [self.view addSubview:self.textField];
+        [self addChildViewController:self.tableViewController];
+        [self.view addSubview:self.tableViewController.view];
+        [self.tableViewController didMoveToParentViewController:self];
+        [self.view addSubview:self.textField];
+        [self.view setBackgroundColor:[UIColor whiteColor]];
     }
     return self;
 }
@@ -69,7 +66,7 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
     
     UITapGestureRecognizer *tableViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                                  action:@selector(handleTableViewTap:)];
-    [self.view addGestureRecognizer:tableViewGestureRecognizer];
+    [self.tableView addGestureRecognizer:tableViewGestureRecognizer];
 }
 
 - (void)viewDidLoad {
@@ -84,14 +81,9 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
     [self.view setNeedsUpdateConstraints];
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    [self scrollToBottomAnimated:YES];
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.messageTextField endEditing:YES];
+    [self.textField endEditing:YES];
 }
 
 - (void)updateViewConstraints {
@@ -103,110 +95,55 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
                                                               attribute:NSLayoutAttributeTop
                                                              multiplier:1
                                                                constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
                                                               attribute:NSLayoutAttributeLeft
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.view
                                                               attribute:NSLayoutAttributeLeft
                                                              multiplier:1
                                                                constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
                                                               attribute:NSLayoutAttributeRight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.view
                                                               attribute:NSLayoutAttributeRight
                                                              multiplier:1
                                                                constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
                                                               attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.messageTextField
+                                                              relatedBy:NSLayoutRelationGreaterThanOrEqual
+                                                                 toItem:self.textField
                                                               attribute:NSLayoutAttributeTop
                                                              multiplier:1
                                                                constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messageTextField
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.textField
                                                               attribute:NSLayoutAttributeLeft
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.view
                                                               attribute:NSLayoutAttributeLeft
                                                              multiplier:1
                                                                constant:-1]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messageTextField
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.textField
                                                               attribute:NSLayoutAttributeRight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.view
                                                               attribute:NSLayoutAttributeRight
                                                              multiplier:1
                                                                constant:1]];
-        [self.view addConstraint:self.messageTextFieldBottomConstraint];
+        [self.view addConstraint:self.textFieldBottomConstraint];
         self.didSetupConstraints = YES;
     }
     [super updateViewConstraints];
 }
 
-- (UITableView *)tableView {
-    if (!_tableView) {
-        _tableView = [[UITableView alloc] init];
-        _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        _tableView.estimatedRowHeight = 55.0f;
-        _tableView.separatorColor = [UIColor clearColor];
-        [_tableView registerClass:[MessageTableViewCell class]
-                   forCellReuseIdentifier:tableViewCellReuseIdentifier];
-    }
-    return _tableView;
-}
-
-- (BlockTextField *)messageTextField {
-    if (!_messageTextField) {
-        _messageTextField = [[BlockTextField alloc] init];
-        _messageTextField.delegate = self;
-        _messageTextField.translatesAutoresizingMaskIntoConstraints = NO;
-        _messageTextField.frame = CGRectInset(_messageTextField.frame, -1, -1);
-        _messageTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-        _messageTextField.layer.borderWidth = 1;
-    }
-    return _messageTextField;
-}
-
-- (NSLayoutConstraint *)messageTextFieldBottomConstraint {
-    if (!_messageTextFieldBottomConstraint) {
-        _messageTextFieldBottomConstraint = [NSLayoutConstraint constraintWithItem:self.messageTextField
-                                                                         attribute:NSLayoutAttributeBottom
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self.view
-                                                                         attribute:NSLayoutAttributeBottom
-                                                                        multiplier:1
-                                                                          constant:0];
-    }
-    return _messageTextFieldBottomConstraint;
-}
-
 - (void)addMessage:(NSDictionary *)message
             byUser:(NSDictionary *)user {
-    NSMutableDictionary *theMessage = [NSMutableDictionary dictionaryWithDictionary:message];
-    [theMessage setObject:user
-                   forKey:@"user"];
-    [self.messages addObject:theMessage];
-    [self.tableView reloadData];
+    [self.tableViewController addMessage:message
+                                  byUser:user];
 }
 
 - (void)setMessageHistory:(NSArray *)messages {
-    if (messages.count) {
-        self.messages = [NSMutableArray arrayWithArray:messages];
-        [self.tableView reloadData];
-    }
-}
-
-- (void)scrollToBottomAnimated:(BOOL)animated {
-    NSInteger lastIndex = self.messages.count - 1;
-    if (lastIndex >= 0) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastIndex
-                                                                  inSection:0]
-                              atScrollPosition:UITableViewScrollPositionBottom
-                                      animated:animated];
-    }
+    [self.tableViewController setMessageHistory:messages];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -222,7 +159,7 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    [self scrollToBottomAnimated:YES];
+    [self.tableViewController scrollToBottomAnimated:YES];
 }
 
 #pragma mark - Keyboard notification target
@@ -231,50 +168,29 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
     CGFloat startY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue]);
     CGFloat endY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue]);
     NSTimeInterval movementDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    if (self.messageTextFieldBottomConstraint) {
-        self.messageTextFieldBottomConstraint.constant = (self.messageTextFieldBottomConstraint.constant) + (endY - startY);
+    if (self.textFieldBottomConstraint) {
+        self.textFieldBottomConstraint.constant = (self.textFieldBottomConstraint.constant) + (endY - startY);
     }
     [UIView animateWithDuration:movementDuration animations:^{
         [self.view layoutIfNeeded];
     }];
 }
-
-#pragma mark - UITableViewDataSource
-
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:tableViewCellReuseIdentifier];
-    NSDictionary *message = [self.messages objectAtIndex:indexPath.row];
-    NSDictionary *user = [message objectForKey:@"user"];
-    [cell setMessage:[message objectForKey:@"message"]];
-    [cell setUserName:[user objectForKey:@"name"]];
-    [cell setNeedsUpdateConstraints];
-    [cell updateConstraintsIfNeeded];
-    return cell;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView
- numberOfRowsInSection:(NSInteger)section {
-    if (tableView == self.tableView) return self.messages.count;
-    return 1;
-}
-
 #pragma mark - Handle bar button items
 
 - (void)handleLeftBarButtonItem {
-    [self.messageTextField endEditing:YES];
+    [self.textField endEditing:YES];
     [self.theDelegate handleMessengerViewControllerLeftBarButtonItem:self];
 }
 
 - (void)handleRightBarButtonItem {
-    [self.messageTextField endEditing:YES];
+    [self.textField endEditing:YES];
     [self.theDelegate handleMessengerViewControllerRightBarButtonItem:self];
 }
 
 #pragma mark - Handle gesture recognizers
 
 - (void)handleSwipe:(UISwipeGestureRecognizer*)swipe {
-    [self.messageTextField endEditing:YES];
+    [self.textField endEditing:YES];
     if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
         [self.theDelegate messengerViewControllerSwipedLeft:self];
     } else {
@@ -283,9 +199,49 @@ NSString * const tableViewCellReuseIdentifier = @"tableViewCellReuseIdentifier";
 }
 
 - (void)handleTableViewTap:(UITapGestureRecognizer *)tap {
-    if (self.messageTextField.isEditing) {
-        [self.messageTextField endEditing:YES];
+    if (self.textField.isEditing) {
+        [self.textField endEditing:YES];
     }
+}
+
+#pragma mark - Table view controller
+
+- (MessagesTableViewController *)tableViewController {
+    if (!_tableViewController) {
+        _tableViewController = [[MessagesTableViewController alloc] init];
+    }
+    return _tableViewController;
+}
+
+- (UITableView *)tableView {
+    return self.tableViewController.tableView;
+}
+
+#pragma mark - Text field
+
+- (BlockTextField *)textField {
+    if (!_textField) {
+        _textField = [[BlockTextField alloc] init];
+        _textField.delegate = self;
+        _textField.translatesAutoresizingMaskIntoConstraints = NO;
+        _textField.frame = CGRectInset(_textField.frame, -1, -1);
+        _textField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        _textField.layer.borderWidth = 1;
+    }
+    return _textField;
+}
+
+- (NSLayoutConstraint *)textFieldBottomConstraint {
+    if (!_textFieldBottomConstraint) {
+        _textFieldBottomConstraint = [NSLayoutConstraint constraintWithItem:self.textField
+                                                                         attribute:NSLayoutAttributeBottom
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:self.view
+                                                                         attribute:NSLayoutAttributeBottom
+                                                                        multiplier:1
+                                                                          constant:0];
+    }
+    return _textFieldBottomConstraint;
 }
 
 @end

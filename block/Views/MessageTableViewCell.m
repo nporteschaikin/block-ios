@@ -23,16 +23,9 @@
     reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style
                     reuseIdentifier:reuseIdentifier]) {
-        
         [self.contentView addSubview:self.userNameLabel];
         [self.contentView addSubview:self.messageLabel];
         [self.contentView addSubview:self.timeAgoLabel];
-        
-        UIView *selectedBackgroundView = [[UIView alloc] init];
-        selectedBackgroundView.backgroundColor = [UIColor clearColor];
-        self.selectedBackgroundView = selectedBackgroundView;
-        
-        self.contentView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     }
     return self;
 }
@@ -41,7 +34,6 @@
     [super layoutSubviews];
     [self.contentView setNeedsLayout];
     [self.contentView layoutIfNeeded];
-    self.userNameLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.messageLabel.bounds);
     self.messageLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.messageLabel.bounds);
 }
 
@@ -70,7 +62,7 @@
                                                                       constant:17]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.messageLabel
                                                                      attribute:NSLayoutAttributeTop
-                                                                     relatedBy:NSLayoutRelationEqual
+                                                                     relatedBy:NSLayoutRelationGreaterThanOrEqual
                                                                         toItem:self.userNameLabel
                                                                      attribute:NSLayoutAttributeBottom
                                                                     multiplier:1

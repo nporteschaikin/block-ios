@@ -36,6 +36,7 @@
 		E46B8CAE1AA573FA00F9DF03 /* SocketIOTransportWebsocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E46B8CA81AA573FA00F9DF03 /* SocketIOTransportWebsocket.m */; };
 		E46B8CAF1AA573FA00F9DF03 /* SocketIOTransportXHR.m in Sources */ = {isa = PBXBuildFile; fileRef = E46B8CAA1AA573FA00F9DF03 /* SocketIOTransportXHR.m */; };
 		E46B8CB01AA5742E00F9DF03 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659A81AA570710028EE2D /* FacebookSDK.framework */; };
+		E4800B471AB29A1000308917 /* MessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4800B461AB29A1000308917 /* MessagesTableViewController.m */; };
 		E4986E1C1AACB6F400E3F81A /* SocketController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4986E1B1AACB6F400E3F81A /* SocketController.m */; };
 		E4C659AB1AA570E60028EE2D /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659AA1AA570E60028EE2D /* libicucore.dylib */; };
 		E4C659AD1AA570ED0028EE2D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659AC1AA570ED0028EE2D /* CFNetwork.framework */; };
@@ -115,6 +116,8 @@
 		E46B8CA81AA573FA00F9DF03 /* SocketIOTransportWebsocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketIOTransportWebsocket.m; sourceTree = "<group>"; };
 		E46B8CA91AA573FA00F9DF03 /* SocketIOTransportXHR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIOTransportXHR.h; sourceTree = "<group>"; };
 		E46B8CAA1AA573FA00F9DF03 /* SocketIOTransportXHR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketIOTransportXHR.m; sourceTree = "<group>"; };
+		E4800B451AB29A1000308917 /* MessagesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesTableViewController.h; sourceTree = "<group>"; };
+		E4800B461AB29A1000308917 /* MessagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesTableViewController.m; sourceTree = "<group>"; };
 		E4986E1A1AACB6F400E3F81A /* SocketController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketController.h; sourceTree = "<group>"; };
 		E4986E1B1AACB6F400E3F81A /* SocketController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketController.m; sourceTree = "<group>"; };
 		E4C659A81AA570710028EE2D /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
@@ -247,6 +250,13 @@
 			path = "socket.IO-objc";
 			sourceTree = "<group>";
 		};
+		E4800B3E1AB2951B00308917 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		E4C659A71AA5705C0028EE2D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -288,6 +298,7 @@
 		E4D8E07A1AA549B7003EA242 /* block */ = {
 			isa = PBXGroup;
 			children = (
+				E4800B3E1AB2951B00308917 /* New Group */,
 				4F7FDA5C1AA617070092103B /* Views */,
 				E46B8C961AA5724E00F9DF03 /* Libraries */,
 				E4E137841AA55536007C8F50 /* Data Sources */,
@@ -348,6 +359,8 @@
 				4F350E8C1AA79D3700637F98 /* RoomNavigatorViewController.m */,
 				E4E137811AA5552F007C8F50 /* MessengerViewController.h */,
 				E4E137821AA5552F007C8F50 /* MessengerViewController.m */,
+				E4800B451AB29A1000308917 /* MessagesTableViewController.h */,
+				E4800B461AB29A1000308917 /* MessagesTableViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -509,6 +522,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4D8E0811AA549B7003EA242 /* AppDelegate.m in Sources */,
+				E4800B471AB29A1000308917 /* MessagesTableViewController.m in Sources */,
 				E4E137831AA5552F007C8F50 /* MessengerViewController.m in Sources */,
 				E46B8CAC1AA573FA00F9DF03 /* SocketIOJSONSerialization.m in Sources */,
 				4F350E8D1AA79D3700637F98 /* RoomNavigatorViewController.m in Sources */,
