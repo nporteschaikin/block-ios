@@ -42,9 +42,9 @@
 @interface SocketController : NSObject
 
 @property (strong, nonatomic) id<SocketControllerDelegate> delegate;
+@property (strong, nonatomic, readonly) NSString *cityID;
 @property (strong, nonatomic, readonly) NSDictionary *city;
-@property (strong, nonatomic, readonly) NSArray *rooms;
-@property (strong, nonatomic, readonly) NSMutableArray *openRooms;
+@property (strong, nonatomic, readonly) NSMutableArray *rooms;
 
 - (id)initWithCityID:(NSString *)cityID
       sessionManager:(SessionManager *)sessionManager
@@ -54,7 +54,7 @@
 
 - (void)reconnect;
 
-- (void)joinRoomAtIndex:(NSUInteger)index;
+- (void)joinRoom:(NSDictionary *)room;
 
 - (void)leaveRoomAtIndex:(NSUInteger)index;
 
@@ -63,6 +63,14 @@
 - (void)sendMessage:(NSString *)message
         roomAtIndex:(NSUInteger)index;
 
-- (void)joinFirstRoom;
+- (void)joinDefaultRoom;
+
+- (BOOL)roomExists:(NSDictionary *)room;
+
+- (NSDictionary *)roomByID:(NSString *)roomID;
+
+- (NSUInteger)roomIndexByID:(NSString *)roomID;
+
+- (NSUInteger)roomIndexByRoom:(NSDictionary *)room;
 
 @end

@@ -202,6 +202,7 @@
     if (self.textField.isEditing) {
         [self.textField endEditing:YES];
     }
+    [self.theDelegate messengerViewControllerTableViewTapped:self];
 }
 
 #pragma mark - Table view controller

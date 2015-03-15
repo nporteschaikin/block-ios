@@ -7,53 +7,38 @@
 //
 
 #import "RoomNavigatorViewController.h"
-#import "RoomNavigatorTableViewCell.h"
+#import "RoomNavigatorSearchResultsController.h"
+#import "APIManager+Cities.h"
 
-static NSString * const reuseIdentifier = @"RoomNavigatorTableViewCell";
-
-@interface RoomNavigatorViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface RoomNavigatorViewController () <UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate, RoomNavigatorSearchResultsControllerDelegate>
 
 @property (strong, nonatomic) NSDictionary *city;
+@property (strong, nonatomic) NSString *cityID;
 @property (strong, nonatomic) NSArray *rooms;
-@property (strong, nonatomic, readonly) NSArray *unopenedRooms;
-@property (strong, nonatomic) NSMutableArray *openRooms;
+@property (strong, nonatomic) RoomNavigatorSearchResultsController *searchResultsController;
+@property (strong, nonatomic) UISearchController *searchController;
+@property (strong, nonatomic) UIButton *createNewRoomButton;
 
 @end
 
 @implementation RoomNavigatorViewController
 
-- (id)initWithCity:(NSDictionary *)city
-             rooms:(NSArray *)rooms
-         openRooms:(NSMutableArray *)openRooms {
-    if (self = [self init]) {
-        self.city = city;
-        self.rooms = rooms;
-        self.openRooms = openRooms;
-    }
-    return self;
-}
-
-- (id)init {
+- (id)initWithCityID:(NSString *)cityID
+                city:(NSDictionary *)city
+               rooms:(NSArray *)rooms {
     if (self = [super init]) {
-        self.tableView.delegate = self;
-        self.tableView.dataSource = self;
-        self.tableView.separatorColor = [UIColor clearColor];
-        self.tableView.backgroundColor = [UIColor grayColor];
+        self.city = city;
+        self.cityID = cityID;
+        self.rooms = rooms;
         self.definesPresentationContext = YES;
     }
     return self;
 }
 
-- (NSArray *)unopenedRooms {
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:self.rooms];
-    [mutableArray removeObjectsInArray:self.openRooms];
-    return mutableArray;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.tableView registerClass:[RoomNavigatorTableViewCell class]
-           forCellReuseIdentifier:reuseIdentifier];
+    [self.searchController.searchBar sizeToFit];
+    self.tableView.tableHeaderView = self.searchController.searchBar;
 }
 
 - (void)openSessionRooms {
@@ -68,38 +53,82 @@ static NSString * const reuseIdentifier = @"RoomNavigatorTableViewCell";
     [self.tableView reloadData];
 }
 
+#pragma mark - RoomNavigatorSearchResultsController
+
+- (RoomNavigatorSearchResultsController *)searchResultsController {
+    if (!_searchResultsController) {
+        _searchResultsController = [[RoomNavigatorSearchResultsController alloc] init];
+        _searchResultsController.theDelegate = self;
+    }
+    return _searchResultsController;
+}
+
+#pragma mark - UISearchController
+
+- (UISearchController *)searchController {
+    if (!_searchController) {
+        _searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchResultsController];
+        _searchController.delegate = self;
+        _searchController.searchResultsUpdater = self;
+        _searchController.dimsBackgroundDuringPresentation = NO;
+        _searchController.hidesNavigationBarDuringPresentation = YES;
+        _searchController.searchBar.barTintColor = [UIColor clearColor];
+        _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
+        _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
+        _searchController.searchBar.delegate = self;
+    }
+    return _searchController;
+}
+
+- (BOOL)searchIsActive {
+    return self.searchController.active;
+}
+
+#pragma mark - UISearchControllerDelegate
+
+- (void)didPresentSearchController:(UISearchController *)searchController {
+    [self.theDelegate roomNavigatorViewControllerBeganSearch:self];
+}
+
+- (void)didDismissSearchController:(UISearchController *)searchController {
+    [self.theDelegate roomNavigatorViewControllerEndedSearch:self];
+}
+
+#pragma mark - UISearchResultsUpdating
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    NSString *query = searchController.searchBar.text;
+    [APIManager searchForRoom:query
+                 inCityWithID:self.cityID
+                   onComplete:^(NSArray *rooms) {
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           [self.searchResultsController updateSearchResults:rooms];
+                       });
+                   }];
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView
 titleForHeaderInSection:(NSInteger)section {
-    switch (section) {
-        case 0:
-            return @"Open";
-        default:
-            return [NSString stringWithFormat:@"In %@", [self.city objectForKey:@"name"]];
-    }
+    return @"Open";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section {
-    switch (section) {
-        case 0:
-            return self.openRooms.count;
-        default:
-            return self.unopenedRooms.count;
-    }
+    return self.rooms.count;
 }
 
 - (RoomNavigatorTableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RoomNavigatorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    NSDictionary *room = (indexPath.section == 0) ? [self.openRooms objectAtIndex:indexPath.row]
-        : [self.unopenedRooms objectAtIndex:indexPath.row];
-    [cell setName:[room objectForKey:@"name"]];
+    NSDictionary *room = [self.rooms objectAtIndex:indexPath.row];
+    NSString *name = [room objectForKey:@"name"];
+    [cell setName:name];
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
     return cell;
@@ -110,17 +139,19 @@ titleForHeaderInSection:(NSInteger)section {
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSUInteger index = indexPath.row;
-    if (indexPath.section == 0) {
-        [self.theDelegate roomNavigatorViewController:self
-                                  selectedRoomAtIndex:index];
-    } else {
-        NSDictionary *room = [self.unopenedRooms objectAtIndex:index];
-        NSUInteger roomsIndex = [self.rooms indexOfObject:room];
-        [self.theDelegate roomNavigatorViewController:self
-                                    openedRoomAtIndex:roomsIndex];
-    }
+    [self.theDelegate roomNavigatorViewController:self
+                              selectedRoomAtIndex:index];
     [tableView deselectRowAtIndexPath:indexPath
                              animated:YES];
+}
+
+#pragma mark - RoomNavigatorSearchResultsControllerDelegate
+
+- (void)roomSelected:(NSDictionary *)room
+searchResultsController:(RoomNavigatorSearchResultsController *)searchResultsController {
+    [self.theDelegate roomNavigatorViewController:self
+                                       openedRoom:room];
+    self.searchController.searchBar.text = nil;
 }
 
 @end

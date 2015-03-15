@@ -17,4 +17,8 @@
 + (void)getCityByID:(NSString *)cityID
          onComplete:(void(^)(NSDictionary *city))onComplete;
 
++ (void)searchForRoom:(NSString *)query
+         inCityWithID:(NSString *)cityID
+           onComplete:(void(^)(NSArray *rooms))onComplete;
+
 @end
