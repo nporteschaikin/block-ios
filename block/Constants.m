@@ -8,8 +8,8 @@
 
 #import "Constants.h"
 
-// NSString * const IOBaseURL = @"block-io.herokuapp.com";
-NSString * const IOBaseURL = @"127.0.0.1:3333";
+NSString * const IOBaseURL = @"block-io.herokuapp.com";
+// NSString * const IOBaseURL = @"127.0.0.1:3333";
 
 NSString * const IOAuthEndpoint = @"auth";
 NSString * const IOCitiesAroundLocationEndpoint = @"cities/around";
