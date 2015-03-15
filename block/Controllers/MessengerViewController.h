@@ -23,6 +23,8 @@
 
 - (void)messengerViewControllerSwipedRight:(MessengerViewController *)messengerViewController;
 
+- (void)messengerViewControllerTableViewTapped:(MessengerViewController *)messengerViewController;
+
 @end
 
 @interface MessengerViewController : UIViewController

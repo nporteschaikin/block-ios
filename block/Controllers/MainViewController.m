@@ -90,16 +90,11 @@
 
 - (void)viewMessengerViewControllerAtIndex:(NSUInteger)index {
     if (index < self.messengerViewControllers.count) {
-        self.currentMessengerViewControllerIndex = index;
-        MessengerViewController *messengerViewController = [self.messengerViewControllers objectAtIndex:index];
-        if (![self.navigationController.viewControllers containsObject:messengerViewController]) {
-            [self.navigationController pushViewController:messengerViewController
-                                                 animated:YES];
-        } else {
-            [self.navigationController popToViewController:messengerViewController
-                                                  animated:YES];
-            
-        }
+        NSMutableArray *messengerViewControllers = [NSMutableArray arrayWithArray:self.messengerViewControllers];
+        MessengerViewController *messengerViewController = [messengerViewControllers objectAtIndex:index];
+        self.navigationController.viewControllers = messengerViewControllers;
+        [self.navigationController popToViewController:messengerViewController
+                                              animated:YES];
     } else if (self.messengerViewControllers.count) {
         [self viewMessengerViewControllerAtIndex:0];
     }
@@ -114,7 +109,8 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          CGRect viewFrame = self.navigationControllerView.frame;
-                         viewFrame.origin.x = (open ? (CGRectGetWidth(viewFrame) - 60.f) : 0);
+                         BOOL searchIsActive = self.roomNavigatorViewController.searchIsActive;
+                         viewFrame.origin.x = (open ? (CGRectGetWidth(viewFrame) - (searchIsActive ? 0 : 60.f)) : 0);
                          self.navigationControllerView.frame = viewFrame;
                      } completion:nil];
 }
@@ -188,9 +184,9 @@
 - (void)sessionRoomsSentWithSocketController:(SocketController *)socketController {
     NSArray *messengerViewControllers = [NSArray arrayWithArray:self.messengerViewControllers];
     [self.messengerViewControllers removeAllObjects];
-    if (socketController.openRooms.count) {
+    if (socketController.rooms.count) {
         NSUInteger i=0;
-        for (NSDictionary *room in socketController.openRooms) {
+        for (NSDictionary *room in socketController.rooms) {
             if (i < messengerViewControllers.count) {
                 MessengerViewController *messengerViewController = [messengerViewControllers objectAtIndex:i];
                 if (messengerViewController.room == room) [self.messengerViewControllers addObject:messengerViewController];
@@ -202,13 +198,13 @@
         [self viewMessengerViewControllerAtIndex:self.currentMessengerViewControllerIndex];
         [self.roomNavigatorViewController openSessionRooms];
     } else {
-        [socketController joinFirstRoom];
+        [socketController joinDefaultRoom];
     }
 }
 
 - (void)roomJoinedAtIndex:(NSUInteger)index
          socketController:(SocketController *)socketController {
-    NSDictionary *room = [socketController.openRooms objectAtIndex:index];
+    NSDictionary *room = [socketController.rooms objectAtIndex:index];
     [self createMessengerViewControllerForRoom:room];
     [self viewMessengerViewControllerAtIndex:index];
     [self requestMessageHistoryAtIndex:index];
@@ -248,11 +244,11 @@
 }
 
 - (void)handleMessengerViewControllerLeftBarButtonItem:(MessengerViewController *)messengerViewController {
-    [self openRoomNavigatorView:YES];
+    [self openRoomNavigatorView:1];
 }
 
 - (void)handleMessengerViewControllerRightBarButtonItem:(MessengerViewController *)messengerViewController {
-    if (self.socketController.openRooms.count >= 2) {
+    if (self.socketController.rooms.count >= 2) {
         NSUInteger index = [self.messengerViewControllers indexOfObject:messengerViewController];
         [self.socketController leaveRoomAtIndex:index];
     }
@@ -273,6 +269,12 @@
         [self openRoomNavigatorView:YES];
     } else {
         [self viewMessengerViewControllerAtIndex:nextIndex];
+    }
+}
+
+- (void)messengerViewControllerTableViewTapped:(MessengerViewController *)messengerViewController {
+    if (self.roomNavigatorViewIsOpen) {
+        [self openRoomNavigatorView:NO];
     }
 }
 
@@ -301,9 +303,9 @@
 
 - (RoomNavigatorViewController *)roomNavigatorViewController {
     if (!_roomNavigatorViewController) {
-        _roomNavigatorViewController = [[RoomNavigatorViewController alloc] initWithCity:self.socketController.city
-                                                                                   rooms:self.socketController.rooms
-                                                                               openRooms:self.socketController.openRooms];
+        _roomNavigatorViewController = [[RoomNavigatorViewController alloc] initWithCityID:self.socketController.cityID
+                                                                                      city:self.socketController.city
+                                                                                     rooms:self.socketController.rooms];
         _roomNavigatorViewController.theDelegate = self;
     }
     return _roomNavigatorViewController;
@@ -316,15 +318,29 @@
 #pragma mark - RoomNavigatorViewControllerDelegate
 
 - (void)roomNavigatorViewController:(RoomNavigatorViewController *)roomNavigatorViewController
-                  openedRoomAtIndex:(NSUInteger)index {
-    [self.socketController joinRoomAtIndex:index];
-    [self openRoomNavigatorView:NO];
+                         openedRoom:(NSDictionary *)room {
+    if ([self.socketController roomExists:room]) {
+        NSUInteger index = [self.socketController roomIndexByRoom:room];
+        [self roomNavigatorViewController:roomNavigatorViewController
+                      selectedRoomAtIndex:index];
+    } else {
+        [self.socketController joinRoom:room];
+        [self openRoomNavigatorView:NO];
+    }
 }
 
 - (void)roomNavigatorViewController:(RoomNavigatorViewController *)roomNavigatorViewController
                 selectedRoomAtIndex:(NSUInteger)index {
     [self viewMessengerViewControllerAtIndex:index];
     [self openRoomNavigatorView:NO];
+}
+
+- (void)roomNavigatorViewControllerBeganSearch:(RoomNavigatorViewController *)roomNavigatorViewController {
+    [self openRoomNavigatorView:YES];
+}
+
+- (void)roomNavigatorViewControllerEndedSearch:(RoomNavigatorViewController *)roomNavigatorViewController {
+    [self openRoomNavigatorView:YES];
 }
 
 @end

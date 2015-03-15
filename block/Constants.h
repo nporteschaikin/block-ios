@@ -14,6 +14,7 @@ FOUNDATION_EXPORT NSString * const IOAuthEndpoint;
 FOUNDATION_EXPORT NSString * const IOCitiesAroundLocationEndpoint;
 FOUNDATION_EXPORT NSString * const IORoomsByCityEndpoint;
 FOUNDATION_EXPORT NSString * const IOCityEndpoint;
+FOUNDATION_EXPORT NSString * const IOCityRoomSearchEndpoint;
 
 FOUNDATION_EXPORT NSString * const HockeyAppIdentifier;
 

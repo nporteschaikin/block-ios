@@ -37,6 +37,9 @@
 		E46B8CAF1AA573FA00F9DF03 /* SocketIOTransportXHR.m in Sources */ = {isa = PBXBuildFile; fileRef = E46B8CAA1AA573FA00F9DF03 /* SocketIOTransportXHR.m */; };
 		E46B8CB01AA5742E00F9DF03 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659A81AA570710028EE2D /* FacebookSDK.framework */; };
 		E4800B471AB29A1000308917 /* MessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4800B461AB29A1000308917 /* MessagesTableViewController.m */; };
+		E4800B501AB4B18D00308917 /* RoomNavigatorSearchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4800B4F1AB4B18D00308917 /* RoomNavigatorSearchResultsController.m */; };
+		E4800B531AB5C87E00308917 /* RoomNavigatorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4800B521AB5C87E00308917 /* RoomNavigatorTableViewController.m */; };
+		E4800B561AB61F6000308917 /* CreateNewRoomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E4800B551AB61F6000308917 /* CreateNewRoomButton.m */; };
 		E4986E1C1AACB6F400E3F81A /* SocketController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4986E1B1AACB6F400E3F81A /* SocketController.m */; };
 		E4C659AB1AA570E60028EE2D /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659AA1AA570E60028EE2D /* libicucore.dylib */; };
 		E4C659AD1AA570ED0028EE2D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659AC1AA570ED0028EE2D /* CFNetwork.framework */; };
@@ -118,6 +121,12 @@
 		E46B8CAA1AA573FA00F9DF03 /* SocketIOTransportXHR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketIOTransportXHR.m; sourceTree = "<group>"; };
 		E4800B451AB29A1000308917 /* MessagesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesTableViewController.h; sourceTree = "<group>"; };
 		E4800B461AB29A1000308917 /* MessagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesTableViewController.m; sourceTree = "<group>"; };
+		E4800B4E1AB4B18D00308917 /* RoomNavigatorSearchResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorSearchResultsController.h; sourceTree = "<group>"; };
+		E4800B4F1AB4B18D00308917 /* RoomNavigatorSearchResultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorSearchResultsController.m; sourceTree = "<group>"; };
+		E4800B511AB5C87E00308917 /* RoomNavigatorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableViewController.h; sourceTree = "<group>"; };
+		E4800B521AB5C87E00308917 /* RoomNavigatorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorTableViewController.m; sourceTree = "<group>"; };
+		E4800B541AB61F6000308917 /* CreateNewRoomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateNewRoomButton.h; sourceTree = "<group>"; };
+		E4800B551AB61F6000308917 /* CreateNewRoomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateNewRoomButton.m; sourceTree = "<group>"; };
 		E4986E1A1AACB6F400E3F81A /* SocketController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketController.h; sourceTree = "<group>"; };
 		E4986E1B1AACB6F400E3F81A /* SocketController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketController.m; sourceTree = "<group>"; };
 		E4C659A81AA570710028EE2D /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
@@ -190,6 +199,8 @@
 				4F7FDA6D1AA6346B0092103B /* BlockTextField.m */,
 				4FF795E91AA8AD840005AB36 /* RoomNavigatorTableViewCell.h */,
 				4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m */,
+				E4800B541AB61F6000308917 /* CreateNewRoomButton.h */,
+				E4800B551AB61F6000308917 /* CreateNewRoomButton.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -355,8 +366,12 @@
 				4F55609D1AA678FD00090AFF /* SelectCityViewController.m */,
 				E4986E1A1AACB6F400E3F81A /* SocketController.h */,
 				E4986E1B1AACB6F400E3F81A /* SocketController.m */,
+				E4800B511AB5C87E00308917 /* RoomNavigatorTableViewController.h */,
+				E4800B521AB5C87E00308917 /* RoomNavigatorTableViewController.m */,
 				4F350E8B1AA79D3700637F98 /* RoomNavigatorViewController.h */,
 				4F350E8C1AA79D3700637F98 /* RoomNavigatorViewController.m */,
+				E4800B4E1AB4B18D00308917 /* RoomNavigatorSearchResultsController.h */,
+				E4800B4F1AB4B18D00308917 /* RoomNavigatorSearchResultsController.m */,
 				E4E137811AA5552F007C8F50 /* MessengerViewController.h */,
 				E4E137821AA5552F007C8F50 /* MessengerViewController.m */,
 				E4800B451AB29A1000308917 /* MessagesTableViewController.h */,
@@ -526,7 +541,9 @@
 				E4E137831AA5552F007C8F50 /* MessengerViewController.m in Sources */,
 				E46B8CAC1AA573FA00F9DF03 /* SocketIOJSONSerialization.m in Sources */,
 				4F350E8D1AA79D3700637F98 /* RoomNavigatorViewController.m in Sources */,
+				E4800B531AB5C87E00308917 /* RoomNavigatorTableViewController.m in Sources */,
 				4F5560981AA66D5E00090AFF /* APIManager+Auth.m in Sources */,
+				E4800B561AB61F6000308917 /* CreateNewRoomButton.m in Sources */,
 				E4D8E07E1AA549B7003EA242 /* main.m in Sources */,
 				E46B8CAD1AA573FA00F9DF03 /* SocketIOPacket.m in Sources */,
 				E4D8E0AF1AA550B3003EA242 /* NSDictionary+QueryString.m in Sources */,
@@ -548,6 +565,7 @@
 				4F55608F1AA65B2500090AFF /* FindingCityViewController.m in Sources */,
 				4F7FDA711AA634DF0092103B /* AppearanceHelper.m in Sources */,
 				E46B8CAE1AA573FA00F9DF03 /* SocketIOTransportWebsocket.m in Sources */,
+				E4800B501AB4B18D00308917 /* RoomNavigatorSearchResultsController.m in Sources */,
 				4FF796031AA8FE570005AB36 /* NSArray+Map.m in Sources */,
 				E46B8CAF1AA573FA00F9DF03 /* SocketIOTransportXHR.m in Sources */,
 			);

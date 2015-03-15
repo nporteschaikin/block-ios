@@ -36,4 +36,16 @@
                    }];
 }
 
++ (void)searchForRoom:(NSString *)query
+         inCityWithID:(NSString *)cityID
+           onComplete:(void(^)(NSArray *rooms))onComplete {
+    [[self sharedManager] POST:[NSString stringWithFormat:IOCityRoomSearchEndpoint, cityID]
+                sessionManager:nil
+                        params:@{@"query": query}
+                   onComplete:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                       onComplete([NSJSONSerialization JSONObjectWithData:data
+                                                                  options:kNilOptions error:nil]);
+                   }];
+}
+
 @end
