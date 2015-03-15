@@ -694,7 +694,7 @@
 				INFOPLIST_FILE = block/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "72c9fe5e-eb9a-4d73-b148-6b350665a298";
+				PROVISIONING_PROFILE = "b83c2b64-6263-47a3-8b78-4d6ba20c8b7b";
 			};
 			name = Debug;
 		};
@@ -712,7 +712,7 @@
 				INFOPLIST_FILE = block/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "72c9fe5e-eb9a-4d73-b148-6b350665a298";
+				PROVISIONING_PROFILE = "b83c2b64-6263-47a3-8b78-4d6ba20c8b7b";
 			};
 			name = Release;
 		};
