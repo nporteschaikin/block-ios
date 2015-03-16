@@ -692,9 +692,10 @@
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
 				);
 				INFOPLIST_FILE = block/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b83c2b64-6263-47a3-8b78-4d6ba20c8b7b";
+				PROVISIONING_PROFILE = "53e641d3-bb36-4a65-ba13-26a5d56bdf34";
 			};
 			name = Debug;
 		};
@@ -710,9 +711,10 @@
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
 				);
 				INFOPLIST_FILE = block/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b83c2b64-6263-47a3-8b78-4d6ba20c8b7b";
+				PROVISIONING_PROFILE = "53e641d3-bb36-4a65-ba13-26a5d56bdf34";
 			};
 			name = Release;
 		};
