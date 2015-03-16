@@ -19,10 +19,6 @@
 - (void)messengerViewController:(MessengerViewController *)messengerViewController
                     messageSent:(NSString *)message;
 
-- (void)messengerViewControllerSwipedLeft:(MessengerViewController *)messengerViewController;
-
-- (void)messengerViewControllerSwipedRight:(MessengerViewController *)messengerViewController;
-
 - (void)messengerViewControllerTableViewTapped:(MessengerViewController *)messengerViewController;
 
 @end

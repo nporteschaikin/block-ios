@@ -55,15 +55,6 @@
 }
 
 - (void)addGestureRecognizers {
-    UISwipeGestureRecognizer *leftSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                                                          action:@selector(handleSwipe:)];
-    leftSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.view addGestureRecognizer:leftSwipeRecognizer];
-    UISwipeGestureRecognizer *rightSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                                                               action:@selector(handleSwipe:)];
-    rightSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.view addGestureRecognizer:rightSwipeRecognizer];
-    
     UITapGestureRecognizer *tableViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                                  action:@selector(handleTableViewTap:)];
     [self.tableView addGestureRecognizer:tableViewGestureRecognizer];
@@ -188,15 +179,6 @@
 }
 
 #pragma mark - Handle gesture recognizers
-
-- (void)handleSwipe:(UISwipeGestureRecognizer*)swipe {
-    [self.textField endEditing:YES];
-    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
-        [self.theDelegate messengerViewControllerSwipedLeft:self];
-    } else {
-        [self.theDelegate messengerViewControllerSwipedRight:self];
-    }
-}
 
 - (void)handleTableViewTap:(UITapGestureRecognizer *)tap {
     if (self.textField.isEditing) {

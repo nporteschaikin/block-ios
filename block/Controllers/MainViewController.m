@@ -90,16 +90,15 @@
 
 - (void)viewMessengerViewControllerAtIndex:(NSUInteger)index {
     if (index < self.messengerViewControllers.count) {
-        MessengerViewController *messengerViewController = [self.messengerViewControllers objectAtIndex:index];
-        NSUInteger currentIndex = [self.messengerViewControllers indexOfObject:self.navigationController.topViewController];
-        if (index != currentIndex) {
-            if ([self.navigationController.viewControllers containsObject:messengerViewController]) {
-                [self.navigationController popToViewController:messengerViewController
-                                                      animated:YES];
-            } else {
-                [self.navigationController pushViewController:messengerViewController
-                                                     animated:YES];
-            }        }
+        MessengerViewController *viewController = [self.messengerViewControllers objectAtIndex:index];
+        if ([self.navigationController.viewControllers containsObject:viewController]) {
+            [self.navigationController popToViewController:viewController
+                                                  animated:YES];
+        } else {
+            [self.navigationController pushViewController:viewController
+                                                 animated:YES];
+        }
+        self.currentMessengerViewControllerIndex = index;
     }
 }
 
@@ -198,7 +197,7 @@
             [self requestMessageHistoryAtIndex:i];
             i++;
         }
-        [self viewMessengerViewControllerAtIndex:(self.currentMessengerViewControllerIndex || 0)];
+        [self viewMessengerViewControllerAtIndex:self.currentMessengerViewControllerIndex || 0];
         [self.roomNavigatorViewController openSessionRooms];
     } else {
         [socketController joinDefaultRoom];
@@ -247,31 +246,13 @@
 }
 
 - (void)handleMessengerViewControllerLeftBarButtonItem:(MessengerViewController *)messengerViewController {
-    [self openRoomNavigatorView:1];
+    [self openRoomNavigatorView:YES];
 }
 
 - (void)handleMessengerViewControllerRightBarButtonItem:(MessengerViewController *)messengerViewController {
     if (self.socketController.rooms.count >= 2) {
         NSUInteger index = [self.messengerViewControllers indexOfObject:messengerViewController];
         [self.socketController leaveRoomAtIndex:index];
-    }
-}
-
-- (void)messengerViewControllerSwipedLeft:(MessengerViewController *)messengerViewController {
-    NSUInteger nextIndex = [self.messengerViewControllers indexOfObject:messengerViewController] + 1;
-    if (self.roomNavigatorViewIsOpen) {
-        [self openRoomNavigatorView:NO];
-    } else {
-        [self viewMessengerViewControllerAtIndex:nextIndex];
-    }
-}
-
-- (void)messengerViewControllerSwipedRight:(MessengerViewController *)messengerViewController {
-    NSUInteger nextIndex = [self.messengerViewControllers indexOfObject:messengerViewController] - 1;
-    if (!self.roomNavigatorViewIsOpen && nextIndex == -1) {
-        [self openRoomNavigatorView:YES];
-    } else {
-        [self viewMessengerViewControllerAtIndex:nextIndex];
     }
 }
 
