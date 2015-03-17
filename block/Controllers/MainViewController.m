@@ -89,16 +89,24 @@
 }
 
 - (void)viewMessengerViewControllerAtIndex:(NSUInteger)index {
+    CATransition* transition = [CATransition animation];
+    transition.duration = 0.5;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionFade;
+    [self.navigationControllerView.layer addAnimation:transition
+                                                forKey:nil];
     if (index < self.messengerViewControllers.count) {
         MessengerViewController *viewController = [self.messengerViewControllers objectAtIndex:index];
         if ([self.navigationController.viewControllers containsObject:viewController]) {
             [self.navigationController popToViewController:viewController
-                                                  animated:YES];
+                                                  animated:NO];
         } else {
             [self.navigationController pushViewController:viewController
-                                                 animated:YES];
+                                                 animated:NO];
         }
         self.currentMessengerViewControllerIndex = index;
+    } else {
+        [self viewMessengerViewControllerAtIndex:0];
     }
 }
 
