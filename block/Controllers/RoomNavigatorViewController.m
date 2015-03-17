@@ -152,6 +152,7 @@ searchResultsController:(RoomNavigatorSearchResultsController *)searchResultsCon
     [self.theDelegate roomNavigatorViewController:self
                                        openedRoom:room];
     self.searchController.searchBar.text = nil;
+    [self.searchController.searchBar resignFirstResponder];
 }
 
 @end
