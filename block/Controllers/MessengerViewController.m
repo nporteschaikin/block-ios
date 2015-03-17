@@ -149,10 +149,6 @@
     return YES;
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    [self.tableViewController scrollToBottomAnimated:YES];
-}
-
 #pragma mark - Keyboard notification target
 
 - (void)keyboardWillChangeFrame:(NSNotification *)notification {
@@ -162,9 +158,10 @@
     if (self.textFieldBottomConstraint) {
         self.textFieldBottomConstraint.constant = (self.textFieldBottomConstraint.constant) + (endY - startY);
     }
-    [UIView animateWithDuration:movementDuration animations:^{
-        [self.view layoutIfNeeded];
-    }];
+    [UIView animateWithDuration:movementDuration
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }];
 }
 #pragma mark - Handle bar button items
 

@@ -16,13 +16,7 @@
     NSDateFormatter *gmtFormatter = [[NSDateFormatter alloc] init];
     gmtFormatter.dateFormat = dateFormat;
     gmtFormatter.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
-    NSDate *gmtDate = [gmtFormatter dateFromString:dateString];
-    NSString *gmtString = [gmtFormatter stringFromDate:gmtDate];
-    
-    NSDateFormatter *localFormatter = [[NSDateFormatter alloc] init];
-    localFormatter.dateFormat = dateFormat;
-    localFormatter.timeZone = [NSTimeZone localTimeZone];
-    return [localFormatter dateFromString:gmtString];
+    return [gmtFormatter dateFromString:dateString];
 }
 
 @end
