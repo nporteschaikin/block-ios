@@ -12,5 +12,6 @@
 
 - (void)setUserName:(NSString *)userName;
 - (void)setMessage:(NSString *)message;
+- (void)setTimeAgo:(NSString *)createdAt;
 
 @end

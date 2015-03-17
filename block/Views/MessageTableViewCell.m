@@ -7,6 +7,8 @@
 //
 
 #import "MessageTableViewCell.h"
+#import "NSDate+ISO8601.h"
+#import "NSDate+TimeAgo.h"
 
 @interface MessageTableViewCell ()
 
@@ -60,6 +62,13 @@
                                                                      attribute:NSLayoutAttributeLeft
                                                                     multiplier:1
                                                                       constant:17]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.timeAgoLabel
+                                                                     attribute:NSLayoutAttributeLeft
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:self.userNameLabel
+                                                                     attribute:NSLayoutAttributeRight
+                                                                    multiplier:1
+                                                                      constant:5]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.messageLabel
                                                                      attribute:NSLayoutAttributeTop
                                                                      relatedBy:NSLayoutRelationGreaterThanOrEqual
@@ -138,6 +147,12 @@
 
 - (void)setMessage:(NSString *)message {
     self.messageLabel.text = message;
+}
+
+- (void)setTimeAgo:(NSString *)createdAt {
+    NSDate *date = [NSDate dateWithISO8601:createdAt];
+    NSLog(@"%@ %@", createdAt, date);
+    self.timeAgoLabel.text = [date timeAgo];
 }
 
 @end
