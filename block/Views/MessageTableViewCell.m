@@ -151,7 +151,6 @@
 
 - (void)setTimeAgo:(NSString *)createdAt {
     NSDate *date = [NSDate dateWithISO8601:createdAt];
-    NSLog(@"%@ %@", createdAt, date);
     self.timeAgoLabel.text = [date timeAgo];
 }
 
