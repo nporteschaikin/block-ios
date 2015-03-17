@@ -166,6 +166,7 @@
 #pragma mark - SocketControllerDelegate
 
 - (void)socketConnected:(SocketController *)socketController {
+    [self addChildViewController:self.roomNavigatorViewController];
     [self.view insertSubview:self.roomNavigatorView
                 belowSubview:self.navigationControllerView];
     [self dismissViewControllerAnimated:YES

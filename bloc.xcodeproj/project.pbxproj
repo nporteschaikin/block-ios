@@ -48,7 +48,6 @@
 		E4D8E07E1AA549B7003EA242 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D8E07D1AA549B7003EA242 /* main.m */; };
 		E4D8E0811AA549B7003EA242 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D8E0801AA549B7003EA242 /* AppDelegate.m */; };
 		E4D8E0891AA549B7003EA242 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4D8E0881AA549B7003EA242 /* Images.xcassets */; };
-		E4D8E08C1AA549B7003EA242 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4D8E08A1AA549B7003EA242 /* LaunchScreen.xib */; };
 		E4D8E0981AA549B7003EA242 /* blockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D8E0971AA549B7003EA242 /* blockTests.m */; };
 		E4D8E0A41AA55025003EA242 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D8E0A31AA55025003EA242 /* LoginViewController.m */; };
 		E4D8E0A81AA55065003EA242 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D8E0A71AA55065003EA242 /* SessionManager.m */; };
@@ -140,7 +139,6 @@
 		E4D8E07F1AA549B7003EA242 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E4D8E0801AA549B7003EA242 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E4D8E0881AA549B7003EA242 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		E4D8E08B1AA549B7003EA242 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		E4D8E0911AA549B7003EA242 /* blockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = blockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4D8E0961AA549B7003EA242 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E4D8E0971AA549B7003EA242 /* blockTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = blockTests.m; sourceTree = "<group>"; };
@@ -321,7 +319,6 @@
 				E4D8E0881AA549B7003EA242 /* Images.xcassets */,
 				E4D8E0B71AA5519C003EA242 /* Constants.h */,
 				E4D8E0B81AA5519C003EA242 /* Constants.m */,
-				E4D8E08A1AA549B7003EA242 /* LaunchScreen.xib */,
 				E4D8E07B1AA549B7003EA242 /* Supporting Files */,
 			);
 			path = block;
@@ -475,7 +472,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E4D8E0731AA549B7003EA242 /* Build configuration list for PBXProject "block" */;
+			buildConfigurationList = E4D8E0731AA549B7003EA242 /* Build configuration list for PBXProject "bloc" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -501,7 +498,6 @@
 			files = (
 				E402930C1AB103050004FA04 /* HockeySDK.xcconfig in Resources */,
 				E402930D1AB103050004FA04 /* HockeySDKResources.bundle in Resources */,
-				E4D8E08C1AA549B7003EA242 /* LaunchScreen.xib in Resources */,
 				E4D8E0891AA549B7003EA242 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -589,17 +585,6 @@
 			targetProxy = E4D8E0921AA549B7003EA242 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		E4D8E08A1AA549B7003EA242 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E4D8E08B1AA549B7003EA242 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E4D8E0991AA549B7003EA242 /* Debug */ = {
@@ -757,7 +742,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E4D8E0731AA549B7003EA242 /* Build configuration list for PBXProject "block" */ = {
+		E4D8E0731AA549B7003EA242 /* Build configuration list for PBXProject "bloc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4D8E0991AA549B7003EA242 /* Debug */,
