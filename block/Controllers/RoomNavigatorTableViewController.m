@@ -7,13 +7,15 @@
 //
 
 #import "RoomNavigatorTableViewController.h"
+#import "UIColor+Block.h"
 
 @implementation RoomNavigatorTableViewController
 
 - (id)init {
     if (self = [super init]) {
         self.tableView.separatorColor = [UIColor clearColor];
-        self.tableView.backgroundColor = [UIColor grayColor];
+        self.tableView.backgroundColor = [UIColor blockGreyColor];
+        self.edgesForExtendedLayout=UIRectEdgeNone;
     }
     return self;
 }
@@ -22,6 +24,13 @@
     [super viewDidLoad];
     [self.tableView registerClass:[RoomNavigatorTableViewCell class]
            forCellReuseIdentifier:reuseIdentifier];
+}
+
+- (void)tableView:(UITableView *)tableView
+willDisplayHeaderView:(UITableViewHeaderFooterView *)view
+       forSection:(NSInteger)section {
+    view.tintColor = [UIColor clearColor];
+    view.textLabel.textColor = [UIColor lightGrayColor];
 }
 
 @end

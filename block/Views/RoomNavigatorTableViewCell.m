@@ -85,7 +85,7 @@
 }
 
 - (void)setName:(NSString *)name {
-    self.nameLabel.text = name;
+    self.nameLabel.text = [NSString stringWithFormat:@"# %@", name];
 }
 
 @end

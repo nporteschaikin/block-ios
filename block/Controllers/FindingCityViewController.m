@@ -9,6 +9,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "FindingCityViewController.h"
 #import "APIManager+Cities.h"
+#import "UIColor+Block.h"
 
 static NSString * const locatingStatusLabelText = @"Locating a city closest to you...";
 static NSString * const noCitiesAroundLocationStatusLabelText = @"There are no cities around your current location.";
@@ -29,7 +30,7 @@ static NSString * const couldNotFindLocationStatusLabelText = @"Block could not 
 - (id)initWithSessionManager:(SessionManager *)sessionManager {
     if (self = [super init]) {
         self.sessionManager = sessionManager;
-        self.view.backgroundColor = [UIColor grayColor];
+        self.view.backgroundColor = [UIColor blockGreyColor];
         [self.view addSubview:self.statusLabel];
     }
     return self;
@@ -50,6 +51,7 @@ static NSString * const couldNotFindLocationStatusLabelText = @"Block could not 
         _statusLabel.numberOfLines = 0;
         _statusLabel.textAlignment = NSTextAlignmentCenter;
         _statusLabel.text = locatingStatusLabelText;
+        _statusLabel.textColor = [UIColor blockGreenColor];
     }
     return _statusLabel;
 }

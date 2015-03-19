@@ -27,11 +27,12 @@
 @interface RoomNavigatorViewController : RoomNavigatorTableViewController
 
 @property (strong, nonatomic) id<RoomNavigatorControllerDelegate> theDelegate;
+@property (strong, nonatomic) NSDictionary *city;
+@property (strong, nonatomic) NSString *cityID;
+@property (strong, nonatomic) NSArray *rooms;
 @property (nonatomic, readonly) BOOL searchIsActive;
 
-- (id)initWithCityID:(NSString *)cityID
-                city:(NSDictionary *)city
-               rooms:(NSArray *)rooms;
+- (id)init;
 
 - (void)openSessionRooms;
 

@@ -13,6 +13,7 @@
 #import "SelectCityViewController.h"
 #import "MessengerViewController.h"
 #import "SocketController.h"
+#import "UIColor+Block.h"
 
 @interface MainViewController () <LoginViewControllerDelegate, FindingCityViewControllerDelegate, SocketControllerDelegate, MessengerViewControllerDelegate, RoomNavigatorControllerDelegate>
 
@@ -36,9 +37,22 @@
 
 @implementation MainViewController
 
+- (id)init {
+    if (self = [super init]) {
+        self.view.backgroundColor = [UIColor blockGreyColor];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addChildViewController:self.navigationController];
     [self.view addSubview:self.navigationControllerView];
+    [self.navigationController didMoveToParentViewController:self];
+    [self addChildViewController:self.roomNavigatorViewController];
+    [self.view insertSubview:self.roomNavigatorView
+                belowSubview:self.navigationControllerView];
+    [self.roomNavigatorViewController didMoveToParentViewController:self];
     [self start];
 }
 
@@ -110,7 +124,12 @@
     }
 }
 
-- (void)openRoomNavigatorView:(BOOL)open {
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+- (void)openRoomNavigatorView:(BOOL)open
+                       offset:(CGFloat)offset {
     self.roomNavigatorViewIsOpen = open;
     [UIView animateWithDuration:0.5
                           delay:0
@@ -119,10 +138,11 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          CGRect viewFrame = self.navigationControllerView.frame;
-                         BOOL searchIsActive = self.roomNavigatorViewController.searchIsActive;
-                         viewFrame.origin.x = (open ? (CGRectGetWidth(viewFrame) - (searchIsActive ? 0 : 60.f)) : 0);
+                         viewFrame.origin.x = open ? (CGRectGetWidth(viewFrame) - offset) : (0 + offset);
                          self.navigationControllerView.frame = viewFrame;
-                     } completion:nil];
+                     } completion:^(BOOL finished) {
+                         [self.roomNavigatorViewController didMoveToParentViewController:self];
+                     }];
 }
 
 - (NSMutableArray *)messengerViewControllers {
@@ -174,9 +194,9 @@
 #pragma mark - SocketControllerDelegate
 
 - (void)socketConnected:(SocketController *)socketController {
-    [self addChildViewController:self.roomNavigatorViewController];
-    [self.view insertSubview:self.roomNavigatorView
-                belowSubview:self.navigationControllerView];
+    self.roomNavigatorViewController.city = socketController.city;
+    self.roomNavigatorViewController.cityID = socketController.cityID;
+    self.roomNavigatorViewController.rooms = socketController.rooms;
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }
@@ -255,7 +275,8 @@
 }
 
 - (void)handleMessengerViewControllerLeftBarButtonItem:(MessengerViewController *)messengerViewController {
-    [self openRoomNavigatorView:YES];
+    [self openRoomNavigatorView:YES
+                         offset:60.f];
 }
 
 - (void)handleMessengerViewControllerRightBarButtonItem:(MessengerViewController *)messengerViewController {
@@ -267,7 +288,8 @@
 
 - (void)messengerViewControllerTableViewTapped:(MessengerViewController *)messengerViewController {
     if (self.roomNavigatorViewIsOpen) {
-        [self openRoomNavigatorView:NO];
+        [self openRoomNavigatorView:NO
+                             offset:0];
     }
 }
 
@@ -276,6 +298,7 @@
 - (UINavigationController *)navigationController {
     if (!_navigationController) {
         _navigationController = [[UINavigationController alloc] initWithRootViewController:[[UIViewController alloc] init]];
+        _navigationController.view.translatesAutoresizingMaskIntoConstraints = NO;
         UIView *view = _navigationController.view;
         UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
         view.layer.masksToBounds = NO;
@@ -296,10 +319,9 @@
 
 - (RoomNavigatorViewController *)roomNavigatorViewController {
     if (!_roomNavigatorViewController) {
-        _roomNavigatorViewController = [[RoomNavigatorViewController alloc] initWithCityID:self.socketController.cityID
-                                                                                      city:self.socketController.city
-                                                                                     rooms:self.socketController.rooms];
+        _roomNavigatorViewController = [[RoomNavigatorViewController alloc] init];
         _roomNavigatorViewController.theDelegate = self;
+        _roomNavigatorViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _roomNavigatorViewController;
 }
@@ -318,22 +340,26 @@
                       selectedRoomAtIndex:index];
     } else {
         [self.socketController joinRoom:room];
-        [self openRoomNavigatorView:NO];
+        [self openRoomNavigatorView:NO
+                             offset:0];
     }
 }
 
 - (void)roomNavigatorViewController:(RoomNavigatorViewController *)roomNavigatorViewController
                 selectedRoomAtIndex:(NSUInteger)index {
     [self viewMessengerViewControllerAtIndex:index];
-    [self openRoomNavigatorView:NO];
+    [self openRoomNavigatorView:NO
+                         offset:0];
 }
 
 - (void)roomNavigatorViewControllerBeganSearch:(RoomNavigatorViewController *)roomNavigatorViewController {
-    [self openRoomNavigatorView:YES];
+    [self openRoomNavigatorView:YES
+                         offset:0];
 }
 
 - (void)roomNavigatorViewControllerEndedSearch:(RoomNavigatorViewController *)roomNavigatorViewController {
-    [self openRoomNavigatorView:YES];
+    [self openRoomNavigatorView:YES
+                         offset:60];
 }
 
 @end

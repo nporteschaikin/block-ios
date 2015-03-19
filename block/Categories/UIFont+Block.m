@@ -39,7 +39,7 @@ static NSString * const defaultFont = @"Avenir";
 
 + (UIFont *)defaultLabelFont {
     return [self fontWithName:defaultFont
-                         size:12.0f];
+                         size:14.0f];
 }
 
 @end

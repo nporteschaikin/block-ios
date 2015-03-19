@@ -12,9 +12,6 @@
 
 @interface RoomNavigatorViewController () <UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate, RoomNavigatorSearchResultsControllerDelegate>
 
-@property (strong, nonatomic) NSDictionary *city;
-@property (strong, nonatomic) NSString *cityID;
-@property (strong, nonatomic) NSArray *rooms;
 @property (strong, nonatomic) RoomNavigatorSearchResultsController *searchResultsController;
 @property (strong, nonatomic) UISearchController *searchController;
 @property (strong, nonatomic) UIButton *createNewRoomButton;
@@ -23,14 +20,8 @@
 
 @implementation RoomNavigatorViewController
 
-- (id)initWithCityID:(NSString *)cityID
-                city:(NSDictionary *)city
-               rooms:(NSArray *)rooms {
+- (id)init {
     if (self = [super init]) {
-        self.city = city;
-        self.cityID = cityID;
-        self.rooms = rooms;
-        self.definesPresentationContext = YES;
     }
     return self;
 }
@@ -71,10 +62,7 @@
         _searchController.delegate = self;
         _searchController.searchResultsUpdater = self;
         _searchController.dimsBackgroundDuringPresentation = NO;
-        _searchController.hidesNavigationBarDuringPresentation = YES;
-        _searchController.searchBar.barTintColor = [UIColor clearColor];
-        _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
-        _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
+        _searchController.hidesNavigationBarDuringPresentation = NO;
         _searchController.searchBar.delegate = self;
     }
     return _searchController;
@@ -86,11 +74,11 @@
 
 #pragma mark - UISearchControllerDelegate
 
-- (void)didPresentSearchController:(UISearchController *)searchController {
+- (void)willPresentSearchController:(UISearchController *)searchController {
     [self.theDelegate roomNavigatorViewControllerBeganSearch:self];
 }
 
-- (void)didDismissSearchController:(UISearchController *)searchController {
+- (void)willDismissSearchController:(UISearchController *)searchController {
     [self.theDelegate roomNavigatorViewControllerEndedSearch:self];
 }
 

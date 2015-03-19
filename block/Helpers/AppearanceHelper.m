@@ -7,22 +7,22 @@
 //
 
 #import "AppearanceHelper.h"
+#import "UIColor+Block.h"
 #import "UIFont+Block.h"
 
 @implementation AppearanceHelper
 
 + (void)customizeAppearance {
-    [[UINavigationBar appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor blackColor],
-                                                            NSFontAttributeName:[UIFont defaultNavigationBarFont] }];
-    [[UITabBarItem appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor blackColor],
-                                                         NSFontAttributeName:[UIFont defaultTabBarButtonFont] }
-                                             forState:UIControlStateNormal];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor blackColor],
-                                                            NSFontAttributeName:[UIFont defaultBarButtonFont] }
-                                                forState:UIControlStateNormal];
     [[UITextView appearance] setFont:[UIFont defaultTextViewFont]];
     [[UITextField appearance] setFont:[UIFont defaultTextFieldFont]];
     [[UILabel appearance] setFont:[UIFont defaultLabelFont]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor blockGreyColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor blockGreenColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont defaultNavigationBarFont],
+                                                           NSForegroundColorAttributeName:[UIColor blockGreenColor]}];
+    [[UISearchBar appearance] setBarTintColor:[UIColor clearColor]];
+    [[UISearchBar appearance] setBackgroundColor:[UIColor clearColor]];
+    [[UISearchBar appearance] setBackgroundImage:[[UIImage alloc] init]];
 }
 
 @end

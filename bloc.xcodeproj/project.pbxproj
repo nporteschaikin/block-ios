@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F132B891ABB490000AD1704 /* UIColor+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F132B881ABB490000AD1704 /* UIColor+Block.m */; };
 		4F350E811AA7479800637F98 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F350E801AA7479800637F98 /* MainViewController.m */; };
 		4F350E8D1AA79D3700637F98 /* RoomNavigatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F350E8C1AA79D3700637F98 /* RoomNavigatorViewController.m */; };
 		4F55608F1AA65B2500090AFF /* FindingCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F55608E1AA65B2500090AFF /* FindingCityViewController.m */; };
@@ -71,6 +72,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4F132B871ABB490000AD1704 /* UIColor+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Block.h"; sourceTree = "<group>"; };
+		4F132B881ABB490000AD1704 /* UIColor+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Block.m"; sourceTree = "<group>"; };
 		4F350E7F1AA7479800637F98 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		4F350E801AA7479800637F98 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		4F350E8B1AA79D3700637F98 /* RoomNavigatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorViewController.h; sourceTree = "<group>"; };
@@ -265,13 +268,6 @@
 			path = "socket.IO-objc";
 			sourceTree = "<group>";
 		};
-		E4800B3E1AB2951B00308917 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "New Group";
-			sourceTree = "<group>";
-		};
 		E4C659A71AA5705C0028EE2D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -313,7 +309,6 @@
 		E4D8E07A1AA549B7003EA242 /* block */ = {
 			isa = PBXGroup;
 			children = (
-				E4800B3E1AB2951B00308917 /* New Group */,
 				4F7FDA5C1AA617070092103B /* Views */,
 				E46B8C961AA5724E00F9DF03 /* Libraries */,
 				E4E137841AA55536007C8F50 /* Data Sources */,
@@ -413,6 +408,8 @@
 				E48A21471AB7E572001E2F2D /* NSDate+ISO8601.m */,
 				E48A21491AB7E5D3001E2F2D /* NSDate+TimeAgo.h */,
 				E48A214A1AB7E5D3001E2F2D /* NSDate+TimeAgo.m */,
+				4F132B871ABB490000AD1704 /* UIColor+Block.h */,
+				4F132B881ABB490000AD1704 /* UIColor+Block.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -552,6 +549,7 @@
 				E4800B561AB61F6000308917 /* CreateNewRoomButton.m in Sources */,
 				E4D8E07E1AA549B7003EA242 /* main.m in Sources */,
 				E48A214B1AB7E5D3001E2F2D /* NSDate+TimeAgo.m in Sources */,
+				4F132B891ABB490000AD1704 /* UIColor+Block.m in Sources */,
 				E46B8CAD1AA573FA00F9DF03 /* SocketIOPacket.m in Sources */,
 				E4D8E0AF1AA550B3003EA242 /* NSDictionary+QueryString.m in Sources */,
 				4F7FDA6E1AA6346B0092103B /* BlockTextField.m in Sources */,
