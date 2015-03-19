@@ -15,7 +15,6 @@
     if (self = [super init]) {
         self.tableView.separatorColor = [UIColor clearColor];
         self.tableView.backgroundColor = [UIColor blockGreyColor];
-        self.edgesForExtendedLayout=UIRectEdgeNone;
     }
     return self;
 }

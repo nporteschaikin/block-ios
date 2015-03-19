@@ -20,12 +20,6 @@
 
 @implementation RoomNavigatorViewController
 
-- (id)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.searchController.searchBar sizeToFit];
@@ -139,8 +133,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 searchResultsController:(RoomNavigatorSearchResultsController *)searchResultsController {
     [self.theDelegate roomNavigatorViewController:self
                                        openedRoom:room];
-    self.searchController.searchBar.text = nil;
-    [self.searchController.searchBar resignFirstResponder];
 }
 
 @end
