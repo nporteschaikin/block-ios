@@ -26,6 +26,8 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
         self.offscreenCells = [NSMutableDictionary dictionary];
         self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
         self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
+        self.tableView.separatorColor = [UIColor clearColor];
+        self.tableView.contentInset = UIEdgeInsetsMake(14, 0, 14, 0);
         [self.tableView registerClass:[MessageTableViewCell class]
                forCellReuseIdentifier:reuseIdentifier];
     }

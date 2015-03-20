@@ -47,21 +47,21 @@
                                                                         toItem:self.contentView
                                                                      attribute:NSLayoutAttributeTop
                                                                     multiplier:1
-                                                                      constant:17]];
+                                                                      constant:10]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.timeAgoLabel
                                                                      attribute:NSLayoutAttributeTop
                                                                      relatedBy:NSLayoutRelationEqual
                                                                         toItem:self.contentView
                                                                      attribute:NSLayoutAttributeTop
                                                                     multiplier:1
-                                                                      constant:17]];
+                                                                      constant:10]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.userNameLabel
                                                                      attribute:NSLayoutAttributeLeft
                                                                      relatedBy:NSLayoutRelationEqual
                                                                         toItem:self.contentView
                                                                      attribute:NSLayoutAttributeLeft
                                                                     multiplier:1
-                                                                      constant:17]];
+                                                                      constant:14]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.timeAgoLabel
                                                                      attribute:NSLayoutAttributeLeft
                                                                      relatedBy:NSLayoutRelationEqual
@@ -89,7 +89,7 @@
                                                                         toItem:self.contentView
                                                                      attribute:NSLayoutAttributeRight
                                                                     multiplier:1
-                                                                      constant:-17]];
+                                                                      constant:-14]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.timeAgoLabel
                                                                      attribute:NSLayoutAttributeRight
                                                                      relatedBy:NSLayoutRelationEqual
@@ -103,7 +103,7 @@
                                                                         toItem:self.contentView
                                                                      attribute:NSLayoutAttributeBottom
                                                                     multiplier:1
-                                                                      constant:-17]];
+                                                                      constant:-10]];
     }
     [super updateConstraints];
 }
@@ -115,6 +115,8 @@
         _userNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _userNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _userNameLabel.numberOfLines = 1;
+        _userNameLabel.font = [UIFont fontWithName:@"Helvetica-Bold"
+                                              size:14.f];
     }
     return _userNameLabel;
 }
@@ -126,6 +128,8 @@
         _messageLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _messageLabel.numberOfLines = 0;
+        _messageLabel.font = [UIFont fontWithName:@"Helvetica"
+                                             size:14.f];
     }
     return _messageLabel;
 }
@@ -137,6 +141,8 @@
         _timeAgoLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         _timeAgoLabel.textColor = [UIColor grayColor];
         _timeAgoLabel.numberOfLines = 1;
+        _timeAgoLabel.font = [UIFont fontWithName:@"Helvetica"
+                                             size:14.f];
     }
     return _timeAgoLabel;
 }

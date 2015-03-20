@@ -8,7 +8,6 @@
 
 #import "MessengerViewController.h"
 #import "MessagesTableViewController.h"
-#import "BlockTextField.h"
 #import "Constants.h"
 
 @interface MessengerViewController () <UITextFieldDelegate>
@@ -17,8 +16,9 @@
 @property (strong, nonatomic, readwrite) NSDictionary *room;
 @property (strong, nonatomic) MessagesTableViewController *tableViewController;
 @property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) BlockTextField *textField;
-@property (strong, nonatomic) NSLayoutConstraint *textFieldBottomConstraint;
+@property (strong, nonatomic) UIToolbar *messageToolbar;
+@property (strong, nonatomic) UITextField *messageToolbarTextField;
+@property (strong, nonatomic) NSLayoutConstraint *messageToolbarBottomConstraint;
 
 @end
 
@@ -27,11 +27,11 @@
 - (id)initWithRoom:(NSDictionary *)room {
     if (self = [self init]) {
         self.room = room;
-        [self.view addSubview:self.textField];
         [self addChildViewController:self.tableViewController];
         [self.view addSubview:self.tableViewController.view];
         [self.tableViewController didMoveToParentViewController:self];
-        [self.view addSubview:self.textField];
+        [self.view addSubview:self.messageToolbar];
+        
         [self.view setBackgroundColor:[UIColor whiteColor]];
     }
     return self;
@@ -74,12 +74,11 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.textField endEditing:YES];
 }
 
 - (void)updateViewConstraints {
     if (!self.didSetupConstraints) {
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
                                                               attribute:NSLayoutAttributeTop
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.topLayoutGuide
@@ -102,26 +101,33 @@
                                                                constant:0]];
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
                                                               attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationGreaterThanOrEqual
-                                                                 toItem:self.textField
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.messageToolbar
                                                               attribute:NSLayoutAttributeTop
                                                              multiplier:1
                                                                constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.textField
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messageToolbar
                                                               attribute:NSLayoutAttributeLeft
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.view
                                                               attribute:NSLayoutAttributeLeft
                                                              multiplier:1
-                                                               constant:-1]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.textField
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messageToolbar
                                                               attribute:NSLayoutAttributeRight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.view
                                                               attribute:NSLayoutAttributeRight
                                                              multiplier:1
-                                                               constant:1]];
-        [self.view addConstraint:self.textFieldBottomConstraint];
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messageToolbar
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:self.messageToolbarBottomConstraint];
         self.didSetupConstraints = YES;
     }
     [super updateViewConstraints];
@@ -137,15 +143,31 @@
     [self.tableViewController setMessageHistory:messages];
 }
 
+- (void)sendMessageWithTextField:(UITextField *)textField {
+    if (![textField.text isEqualToString:@""]) {
+        [self.theDelegate messengerViewController:self
+                                      messageSent:textField.text];
+        textField.text = nil;
+    } else {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil
+                                                                                 message:@"A message is required."
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Continue"
+                                                                style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        [alertController addAction:defaultAction];
+        [self presentViewController:alertController
+                           animated:YES
+                         completion:nil];
+        [textField becomeFirstResponder];
+    }
+}
+
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
-    if ([textField.text length] > 0 || textField.text != nil || [textField.text isEqual:@""] == FALSE) {
-        [self.theDelegate messengerViewController:self
-                                      messageSent:textField.text];
-        textField.text = nil;
-    }
+    [self sendMessageWithTextField:textField];
     return YES;
 }
 
@@ -155,8 +177,8 @@
     CGFloat startY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue]);
     CGFloat endY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue]);
     NSTimeInterval movementDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    if (self.textFieldBottomConstraint) {
-        self.textFieldBottomConstraint.constant = (self.textFieldBottomConstraint.constant) + (endY - startY);
+    if (self.messageToolbarBottomConstraint) {
+        self.messageToolbarBottomConstraint.constant = (self.messageToolbarBottomConstraint.constant) + (endY - startY);
     }
     [UIView animateWithDuration:movementDuration
                      animations:^{
@@ -166,21 +188,21 @@
 #pragma mark - Handle bar button items
 
 - (void)handleLeftBarButtonItem {
-    [self.textField endEditing:YES];
+    //[self.textField endEditing:YES];
     [self.theDelegate handleMessengerViewControllerLeftBarButtonItem:self];
 }
 
 - (void)handleRightBarButtonItem {
-    [self.textField endEditing:YES];
+    //[self.textField endEditing:YES];
     [self.theDelegate handleMessengerViewControllerRightBarButtonItem:self];
 }
 
 #pragma mark - Handle gesture recognizers
 
 - (void)handleTableViewTap:(UITapGestureRecognizer *)tap {
-    if (self.textField.isEditing) {
-        [self.textField endEditing:YES];
-    }
+//    if (self.textField.isEditing) {
+//        [self.textField endEditing:YES];
+//    }
     [self.theDelegate messengerViewControllerTableViewTapped:self];
 }
 
@@ -193,35 +215,58 @@
     return _tableViewController;
 }
 
-- (UITableView *)tableView {
-    return self.tableViewController.tableView;
+#pragma mark - Toolbar
+
+- (UIToolbar *)messageToolbar {
+    if (!_messageToolbar) {
+        _messageToolbar = [[UIToolbar alloc] init];
+        _messageToolbar.translatesAutoresizingMaskIntoConstraints = NO;
+        UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                    target:nil
+                                                                                    action:nil];
+        fixedSpace.width = 5.0f;
+        _messageToolbar.items = @[
+                                  [[UIBarButtonItem alloc] initWithCustomView:self.messageToolbarTextField],
+                                  fixedSpace,
+                                  [[UIBarButtonItem alloc] initWithTitle:@"Send"
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:nil
+                                                                  action:nil]
+                                ];
+        [_messageToolbar sizeToFit];
+    }
+    return _messageToolbar;
+}
+
+- (NSLayoutConstraint *)messageToolbarBottomConstraint {
+    if (!_messageToolbarBottomConstraint) {
+        _messageToolbarBottomConstraint = [NSLayoutConstraint constraintWithItem:self.messageToolbar
+                                           
+                                                                       attribute:NSLayoutAttributeBottom
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.view
+                                                                attribute:NSLayoutAttributeBottom
+                                                               multiplier:1
+                                                                 constant:0];
+    }
+    return _messageToolbarBottomConstraint;
 }
 
 #pragma mark - Text field
 
-- (BlockTextField *)textField {
-    if (!_textField) {
-        _textField = [[BlockTextField alloc] init];
-        _textField.delegate = self;
-        _textField.translatesAutoresizingMaskIntoConstraints = NO;
-        _textField.frame = CGRectInset(_textField.frame, -1, -1);
-        _textField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-        _textField.layer.borderWidth = 1;
+- (UITextField *)messageToolbarTextField {
+    if (!_messageToolbarTextField) {
+        _messageToolbarTextField = [[UITextField alloc] initWithFrame:CGRectMake(20, 20, 20, 28)];
+        _messageToolbarTextField.delegate = self;
+        _messageToolbarTextField.backgroundColor = [UIColor whiteColor];
+        _messageToolbarTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth
+            | UIViewAutoresizingFlexibleRightMargin;
+//            UIViewAutoresizingFlexibleTopMargin |
+//            UIViewAutoresizingFlexibleBottomMargin |
+//            UIViewAutoresizingFlexibleLeftMargin;
+            //UIViewAutoresizingFlexibleRightMargin;
     }
-    return _textField;
-}
-
-- (NSLayoutConstraint *)textFieldBottomConstraint {
-    if (!_textFieldBottomConstraint) {
-        _textFieldBottomConstraint = [NSLayoutConstraint constraintWithItem:self.textField
-                                                                         attribute:NSLayoutAttributeBottom
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self.view
-                                                                         attribute:NSLayoutAttributeBottom
-                                                                        multiplier:1
-                                                                          constant:0];
-    }
-    return _textFieldBottomConstraint;
+    return _messageToolbarTextField;
 }
 
 @end
