@@ -19,6 +19,7 @@
 		4F7FDA6E1AA6346B0092103B /* BlockTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FDA6D1AA6346B0092103B /* BlockTextField.m */; };
 		4F7FDA711AA634DF0092103B /* AppearanceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FDA701AA634DF0092103B /* AppearanceHelper.m */; };
 		4F7FDA741AA6350E0092103B /* UIFont+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FDA731AA6350E0092103B /* UIFont+Block.m */; };
+		4FDF503E1ABC5356007719AD /* MessengerToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDF503D1ABC5356007719AD /* MessengerToolbar.m */; };
 		4FF795EB1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m */; };
 		4FF796031AA8FE570005AB36 /* NSArray+Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF796021AA8FE570005AB36 /* NSArray+Map.m */; };
 		E40292FB1AB102C20004FA04 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E40292FA1AB102C20004FA04 /* AssetsLibrary.framework */; };
@@ -96,6 +97,8 @@
 		4F7FDA701AA634DF0092103B /* AppearanceHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppearanceHelper.m; path = block/Helpers/AppearanceHelper.m; sourceTree = SOURCE_ROOT; };
 		4F7FDA721AA6350E0092103B /* UIFont+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIFont+Block.h"; path = "block/Categories/UIFont+Block.h"; sourceTree = SOURCE_ROOT; };
 		4F7FDA731AA6350E0092103B /* UIFont+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFont+Block.m"; path = "block/Categories/UIFont+Block.m"; sourceTree = SOURCE_ROOT; };
+		4FDF503C1ABC5356007719AD /* MessengerToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessengerToolbar.h; sourceTree = "<group>"; };
+		4FDF503D1ABC5356007719AD /* MessengerToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessengerToolbar.m; sourceTree = "<group>"; };
 		4FF795E91AA8AD840005AB36 /* RoomNavigatorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableViewCell.h; sourceTree = "<group>"; };
 		4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorTableViewCell.m; sourceTree = "<group>"; };
 		4FF796011AA8FE570005AB36 /* NSArray+Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Map.h"; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 				4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m */,
 				E4800B541AB61F6000308917 /* CreateNewRoomButton.h */,
 				E4800B551AB61F6000308917 /* CreateNewRoomButton.m */,
+				4FDF503C1ABC5356007719AD /* MessengerToolbar.h */,
+				4FDF503D1ABC5356007719AD /* MessengerToolbar.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -564,6 +569,7 @@
 				E4D8E0A81AA55065003EA242 /* SessionManager.m in Sources */,
 				E4D8E0A41AA55025003EA242 /* LoginViewController.m in Sources */,
 				4F7FDA651AA6186A0092103B /* BlockTextView.m in Sources */,
+				4FDF503E1ABC5356007719AD /* MessengerToolbar.m in Sources */,
 				E46B8C9B1AA5727200F9DF03 /* SRWebSocket.m in Sources */,
 				E4D8E0AB1AA55074003EA242 /* APIManager.m in Sources */,
 				E4986E1C1AACB6F400E3F81A /* SocketController.m in Sources */,

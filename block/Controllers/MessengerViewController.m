@@ -8,17 +8,17 @@
 
 #import "MessengerViewController.h"
 #import "MessagesTableViewController.h"
+#import "MessengerToolbar.h"
 #import "Constants.h"
 
-@interface MessengerViewController () <UITextFieldDelegate>
+@interface MessengerViewController () <MessengerToolbarDelegate>
 
 @property (nonatomic, readwrite) BOOL didSetupConstraints;
 @property (strong, nonatomic, readwrite) NSDictionary *room;
 @property (strong, nonatomic) MessagesTableViewController *tableViewController;
 @property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) UIToolbar *messageToolbar;
-@property (strong, nonatomic) UITextField *messageToolbarTextField;
-@property (strong, nonatomic) NSLayoutConstraint *messageToolbarBottomConstraint;
+@property (strong, nonatomic) MessengerToolbar *messengerToolbar;
+@property (strong, nonatomic) NSLayoutConstraint *messengerToolbarBottomConstraint;
 
 @end
 
@@ -30,9 +30,7 @@
         [self addChildViewController:self.tableViewController];
         [self.view addSubview:self.tableViewController.view];
         [self.tableViewController didMoveToParentViewController:self];
-        [self.view addSubview:self.messageToolbar];
-        
-        [self.view setBackgroundColor:[UIColor whiteColor]];
+        [self.view addSubview:self.messengerToolbar];
     }
     return self;
 }
@@ -102,32 +100,32 @@
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
                                                               attribute:NSLayoutAttributeBottom
                                                               relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.messageToolbar
+                                                                 toItem:self.messengerToolbar
                                                               attribute:NSLayoutAttributeTop
                                                              multiplier:1
                                                                constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messageToolbar
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messengerToolbar
                                                               attribute:NSLayoutAttributeLeft
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.view
                                                               attribute:NSLayoutAttributeLeft
                                                              multiplier:1
                                                                constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messageToolbar
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messengerToolbar
                                                               attribute:NSLayoutAttributeRight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.view
                                                               attribute:NSLayoutAttributeRight
                                                              multiplier:1
                                                                constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messageToolbar
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messengerToolbar
                                                               attribute:NSLayoutAttributeBottom
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.view
                                                               attribute:NSLayoutAttributeBottom
                                                              multiplier:1
                                                                constant:0]];
-        [self.view addConstraint:self.messageToolbarBottomConstraint];
+        //[self.view addConstraint:self.messengerToolbarBottomConstraint];
         self.didSetupConstraints = YES;
     }
     [super updateViewConstraints];
@@ -143,7 +141,7 @@
     [self.tableViewController setMessageHistory:messages];
 }
 
-- (void)sendMessageWithTextField:(UITextField *)textField {
+- (void)sendMessageWithTextField:(UITextView *)textField {
     if (![textField.text isEqualToString:@""]) {
         [self.theDelegate messengerViewController:self
                                       messageSent:textField.text];
@@ -163,27 +161,19 @@
     }
 }
 
-#pragma mark - UITextFieldDelegate
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    [self sendMessageWithTextField:textField];
-    return YES;
-}
-
 #pragma mark - Keyboard notification target
 
 - (void)keyboardWillChangeFrame:(NSNotification *)notification {
-    CGFloat startY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue]);
-    CGFloat endY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue]);
-    NSTimeInterval movementDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    if (self.messageToolbarBottomConstraint) {
-        self.messageToolbarBottomConstraint.constant = (self.messageToolbarBottomConstraint.constant) + (endY - startY);
-    }
-    [UIView animateWithDuration:movementDuration
-                     animations:^{
-                         [self.view layoutIfNeeded];
-                     }];
+//    CGFloat startY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue]);
+//    CGFloat endY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue]);
+//    NSTimeInterval movementDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+//    if (self.messengerToolbarBottomConstraint) {
+//        self.messengerToolbarBottomConstraint.constant = (self.messengerToolbarBottomConstraint.constant) + (endY - startY);
+//    }
+//    [UIView animateWithDuration:movementDuration
+//                     animations:^{
+//                         [self.view layoutIfNeeded];
+//                     }];
 }
 #pragma mark - Handle bar button items
 
@@ -217,56 +207,44 @@
 
 #pragma mark - Toolbar
 
-- (UIToolbar *)messageToolbar {
-    if (!_messageToolbar) {
-        _messageToolbar = [[UIToolbar alloc] init];
-        _messageToolbar.translatesAutoresizingMaskIntoConstraints = NO;
-        UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                                                                    target:nil
-                                                                                    action:nil];
-        fixedSpace.width = 5.0f;
-        _messageToolbar.items = @[
-                                  [[UIBarButtonItem alloc] initWithCustomView:self.messageToolbarTextField],
-                                  fixedSpace,
-                                  [[UIBarButtonItem alloc] initWithTitle:@"Send"
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:nil
-                                                                  action:nil]
-                                ];
-        [_messageToolbar sizeToFit];
+- (MessengerToolbar *)messengerToolbar {
+    if (!_messengerToolbar) {
+        _messengerToolbar = [[MessengerToolbar alloc] initWithFrame:CGRectMake(0,
+                                                                               self.view.frame.size.height-50,
+                                                                               self.view.frame.size.width,
+                                                                               50)];
+        _messengerToolbar.theDelegate = self;
+        _messengerToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
     }
-    return _messageToolbar;
+    return _messengerToolbar;
 }
 
-- (NSLayoutConstraint *)messageToolbarBottomConstraint {
-    if (!_messageToolbarBottomConstraint) {
-        _messageToolbarBottomConstraint = [NSLayoutConstraint constraintWithItem:self.messageToolbar
-                                           
-                                                                       attribute:NSLayoutAttributeBottom
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:self.view
-                                                                attribute:NSLayoutAttributeBottom
-                                                               multiplier:1
-                                                                 constant:0];
+- (NSLayoutConstraint *)messengerToolbarBottomConstraint {
+    if (!_messengerToolbarBottomConstraint) {
+        _messengerToolbarBottomConstraint = [NSLayoutConstraint constraintWithItem:self.messengerToolbar
+                                                                         attribute:NSLayoutAttributeBottom
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:self.view
+                                                                         attribute:NSLayoutAttributeBottom
+                                                                        multiplier:1
+                                                                          constant:0];
     }
-    return _messageToolbarBottomConstraint;
+    return _messengerToolbarBottomConstraint;
 }
 
-#pragma mark - Text field
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    self.messengerToolbar.frame = CGRectMake(0,
+                                             self.view.frame.size.height-50,
+                                             self.view.frame.size.width,
+                                             50);
+}
 
-- (UITextField *)messageToolbarTextField {
-    if (!_messageToolbarTextField) {
-        _messageToolbarTextField = [[UITextField alloc] initWithFrame:CGRectMake(20, 20, 20, 28)];
-        _messageToolbarTextField.delegate = self;
-        _messageToolbarTextField.backgroundColor = [UIColor whiteColor];
-        _messageToolbarTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth
-            | UIViewAutoresizingFlexibleRightMargin;
-//            UIViewAutoresizingFlexibleTopMargin |
-//            UIViewAutoresizingFlexibleBottomMargin |
-//            UIViewAutoresizingFlexibleLeftMargin;
-            //UIViewAutoresizingFlexibleRightMargin;
-    }
-    return _messageToolbarTextField;
+#pragma mark - MessengerToolbarDelegate
+
+- (void)messengerToolbar:(MessengerToolbar *)messengerToolbar
+       didChangeHeightBy:(CGFloat)diff {
+//    [self.view setNeedsLayout];
+//    [self.view layoutIfNeeded];
 }
 
 @end
