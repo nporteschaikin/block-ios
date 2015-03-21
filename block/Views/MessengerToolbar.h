@@ -13,12 +13,17 @@
 @protocol MessengerToolbarDelegate
 
 - (void)messengerToolbar:(MessengerToolbar *)messengerToolbar
-       didChangeHeightBy:(CGFloat)diff;
+         askedToSendText:(NSString *)text;
+
+- (void)messengerToolbar:(MessengerToolbar *)messengerToolbar
+         didChangeHeight:(CGFloat)diff;
 
 @end
 
-@interface MessengerToolbar : UIToolbar
+@interface MessengerToolbar : UIView
 
 @property (strong, nonatomic) id<MessengerToolbarDelegate> theDelegate;
+@property (strong, nonatomic) UITextView *textView;
+@property (strong, nonatomic) UIButton *sendButton;
 
 @end

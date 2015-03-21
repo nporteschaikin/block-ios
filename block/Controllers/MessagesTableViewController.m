@@ -39,6 +39,11 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
     [self scrollToBottomAnimated:NO];
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self scrollToBottomAnimated:NO];
+}
+
 - (void)setMessageHistory:(NSArray *)messages {
     if (messages.count) {
         [self.messages removeAllObjects];
@@ -105,22 +110,27 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView
-heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MessageTableViewCell *cell = [self.offscreenCells objectForKey:reuseIdentifier];
-    if (!cell) {
-        cell = [[MessageTableViewCell alloc] init];
-        [self.offscreenCells setValue:cell
-                               forKey:reuseIdentifier];
-    }
-    [self configureCell:cell
-            atIndexPath:indexPath];
-    cell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(tableView.bounds), CGRectGetHeight(cell.bounds));
-    [cell setNeedsLayout];
-    [cell layoutIfNeeded];
-    
-    CGFloat height = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-    
-    return height;
+estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewAutomaticDimension;
 }
+
+//- (CGFloat)tableView:(UITableView *)tableView
+//heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    MessageTableViewCell *cell = [self.offscreenCells objectForKey:reuseIdentifier];
+//    if (!cell) {
+//        cell = [[MessageTableViewCell alloc] init];
+//        [self.offscreenCells setValue:cell
+//                               forKey:reuseIdentifier];
+//    }
+//    [self configureCell:cell
+//            atIndexPath:indexPath];
+//    cell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(tableView.bounds), CGRectGetHeight(cell.bounds));
+//    [cell setNeedsLayout];
+//    [cell layoutIfNeeded];
+//
+//    CGFloat height = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+//    
+//    return height;
+//}
 
 @end

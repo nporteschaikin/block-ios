@@ -71,7 +71,7 @@
                                                                       constant:5]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.messageLabel
                                                                      attribute:NSLayoutAttributeTop
-                                                                     relatedBy:NSLayoutRelationGreaterThanOrEqual
+                                                                     relatedBy:NSLayoutRelationEqual
                                                                         toItem:self.userNameLabel
                                                                      attribute:NSLayoutAttributeBottom
                                                                     multiplier:1

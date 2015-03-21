@@ -27,17 +27,18 @@
 - (id)initWithRoom:(NSDictionary *)room {
     if (self = [self init]) {
         self.room = room;
+        
         [self addChildViewController:self.tableViewController];
         [self.view addSubview:self.tableViewController.view];
+        
         [self.tableViewController didMoveToParentViewController:self];
         [self.view addSubview:self.messengerToolbar];
     }
     return self;
 }
 
-- (void)setNavigationBarItems {
-    NSString *roomName = [self.room objectForKey:@"name"];
-    if (roomName) self.navigationItem.title = roomName;
+- (void)setupNavigationBarItems {
+    self.navigationItem.title = [self.room objectForKey:@"name"];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks
                                                                                           target:self
                                                                                           action:@selector(handleLeftBarButtonItem)];
@@ -46,32 +47,28 @@
                                                                                            action:@selector(handleRightBarButtonItem)];
 }
 
-- (void)addKeyboardObserver {
+- (void)setupKeyboardObserver {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillChangeFrame:)
                                                  name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
-- (void)addGestureRecognizers {
+- (void)setupGestureRecognizers {
     UITapGestureRecognizer *tableViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                                  action:@selector(handleTableViewTap:)];
     [self.tableView addGestureRecognizer:tableViewGestureRecognizer];
 }
 
 - (void)viewDidLoad {
-    [self setNavigationBarItems];
-    [self addKeyboardObserver];
-    [self addGestureRecognizers];
     [super viewDidLoad];
+    [self setupNavigationBarItems];
+    [self setupKeyboardObserver];
+    [self setupGestureRecognizers];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.view setNeedsUpdateConstraints];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
 }
 
 - (void)updateViewConstraints {
@@ -125,7 +122,7 @@
                                                               attribute:NSLayoutAttributeBottom
                                                              multiplier:1
                                                                constant:0]];
-        //[self.view addConstraint:self.messengerToolbarBottomConstraint];
+        [self.view addConstraint:self.messengerToolbarBottomConstraint];
         self.didSetupConstraints = YES;
     }
     [super updateViewConstraints];
@@ -141,62 +138,33 @@
     [self.tableViewController setMessageHistory:messages];
 }
 
-- (void)sendMessageWithTextField:(UITextView *)textField {
-    if (![textField.text isEqualToString:@""]) {
-        [self.theDelegate messengerViewController:self
-                                      messageSent:textField.text];
-        textField.text = nil;
-    } else {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil
-                                                                                 message:@"A message is required."
-                                                                          preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Continue"
-                                                                style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {}];
-        [alertController addAction:defaultAction];
-        [self presentViewController:alertController
-                           animated:YES
-                         completion:nil];
-        [textField becomeFirstResponder];
-    }
-}
-
-#pragma mark - Keyboard notification target
-
 - (void)keyboardWillChangeFrame:(NSNotification *)notification {
-//    CGFloat startY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue]);
-//    CGFloat endY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue]);
-//    NSTimeInterval movementDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-//    if (self.messengerToolbarBottomConstraint) {
-//        self.messengerToolbarBottomConstraint.constant = (self.messengerToolbarBottomConstraint.constant) + (endY - startY);
-//    }
-//    [UIView animateWithDuration:movementDuration
-//                     animations:^{
-//                         [self.view layoutIfNeeded];
-//                     }];
+    CGFloat startY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue]);
+    CGFloat endY = CGRectGetMidY([[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue]);
+    NSTimeInterval movementDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    if (self.messengerToolbarBottomConstraint) {
+        self.messengerToolbarBottomConstraint.constant = (self.messengerToolbarBottomConstraint.constant) + (endY - startY);
+    }
+    [UIView animateWithDuration:movementDuration
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }];
 }
-#pragma mark - Handle bar button items
 
 - (void)handleLeftBarButtonItem {
-    //[self.textField endEditing:YES];
+    [self.messengerToolbar.textView endEditing:YES];
     [self.theDelegate handleMessengerViewControllerLeftBarButtonItem:self];
 }
 
 - (void)handleRightBarButtonItem {
-    //[self.textField endEditing:YES];
+    [self.messengerToolbar.textView endEditing:YES];
     [self.theDelegate handleMessengerViewControllerRightBarButtonItem:self];
 }
 
-#pragma mark - Handle gesture recognizers
-
 - (void)handleTableViewTap:(UITapGestureRecognizer *)tap {
-//    if (self.textField.isEditing) {
-//        [self.textField endEditing:YES];
-//    }
+    [self.messengerToolbar.textView endEditing:YES];
     [self.theDelegate messengerViewControllerTableViewTapped:self];
 }
-
-#pragma mark - Table view controller
 
 - (MessagesTableViewController *)tableViewController {
     if (!_tableViewController) {
@@ -205,16 +173,11 @@
     return _tableViewController;
 }
 
-#pragma mark - Toolbar
-
 - (MessengerToolbar *)messengerToolbar {
     if (!_messengerToolbar) {
-        _messengerToolbar = [[MessengerToolbar alloc] initWithFrame:CGRectMake(0,
-                                                                               self.view.frame.size.height-50,
-                                                                               self.view.frame.size.width,
-                                                                               50)];
+        _messengerToolbar = [[MessengerToolbar alloc] initWithFrame:CGRectMake(0, 200, 200, 50)];
+        _messengerToolbar.translatesAutoresizingMaskIntoConstraints = NO;
         _messengerToolbar.theDelegate = self;
-        _messengerToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
     }
     return _messengerToolbar;
 }
@@ -232,19 +195,17 @@
     return _messengerToolbarBottomConstraint;
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    self.messengerToolbar.frame = CGRectMake(0,
-                                             self.view.frame.size.height-50,
-                                             self.view.frame.size.width,
-                                             50);
+- (void)messengerToolbar:(MessengerToolbar *)messengerToolbar
+         askedToSendText:(NSString *)text {
+    if (![text isEqualToString:@""]) {
+        [self.theDelegate messengerViewController:self
+                                      messageSent:text];
+    }
 }
 
-#pragma mark - MessengerToolbarDelegate
-
 - (void)messengerToolbar:(MessengerToolbar *)messengerToolbar
-       didChangeHeightBy:(CGFloat)diff {
-//    [self.view setNeedsLayout];
-//    [self.view layoutIfNeeded];
+         didChangeHeight:(CGFloat)diff {
+    [self.tableViewController scrollToBottomAnimated:NO];
 }
 
 @end

@@ -10,8 +10,9 @@
 
 @interface MessengerToolbar () <UITextViewDelegate>
 
-@property (strong, nonatomic) UIView *textView;
-@property (strong, nonatomic) UITextView *internalTextView;
+@property (strong, nonatomic) NSLayoutConstraint *heightConstraint;
+@property (nonatomic) CGFloat textViewContentHeight;
+@property (nonatomic) BOOL didSetupConstraints;
 
 @end
 
@@ -31,79 +32,131 @@
     return self;
 }
 
-- (void)setFrame:(CGRect)frame {
-    [super setFrame:frame];
-    [self setTextViewFrame];
-}
-
 - (void)setupToolbar {
+    // add subviews
     [self addSubview:self.textView];
-    [self setItems:@[
-                     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                   target:nil
-                                                                   action:nil],
-                     [[UIBarButtonItem alloc] initWithTitle:@"Send"
-                                                      style:UIBarButtonItemStyleBordered
-                                                     target:nil
-                                                     action:nil]
-                     ]
-          animated:NO];
+    [self addSubview:self.sendButton];
+    // set background color
+    self.backgroundColor = [UIColor colorWithRed:0.945
+                                           green:0.945
+                                            blue:0.945
+                                           alpha:1];
 }
 
-- (UIView *)textView {
+- (void)updateConstraints {
+    if (!self.didSetupConstraints) {
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
+                                                         attribute:NSLayoutAttributeTop
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeTop
+                                                        multiplier:1
+                                                          constant:7]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
+                                                         attribute:NSLayoutAttributeLeft
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeLeft
+                                                        multiplier:1
+                                                          constant:7]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
+                                                         attribute:NSLayoutAttributeBottom
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeBottom
+                                                        multiplier:1
+                                                          constant:-7]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
+                                                         attribute:NSLayoutAttributeRight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.sendButton
+                                                         attribute:NSLayoutAttributeLeft
+                                                        multiplier:1
+                                                          constant:-7]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.sendButton
+                                                         attribute:NSLayoutAttributeRight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeRight
+                                                        multiplier:1
+                                                          constant:-7]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.sendButton
+                                                         attribute:NSLayoutAttributeCenterY
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeCenterY
+                                                        multiplier:1
+                                                          constant:0]];
+        [self addConstraint:self.heightConstraint];
+        self.didSetupConstraints = YES;
+    }
+    [super updateConstraints];
+}
+
+- (UITextView *)textView {
     if (!_textView) {
-        _textView = [[UIView alloc] initWithFrame:CGRectMake(7, 7, 7, 36)];
-        _textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
-        [_textView addSubview:self.internalTextView];
+        _textView = [[UITextView alloc] init];
+        _textView.translatesAutoresizingMaskIntoConstraints = NO;
+        _textView.delegate = self;
+        _textView.layer.cornerRadius = 5.0f;
+        _textView.layer.borderWidth = 1.0f;
+        _textView.layer.borderColor = [[UIColor grayColor] CGColor];
+        _textView.showsHorizontalScrollIndicator = NO;
+        _textView.showsVerticalScrollIndicator = NO;
     }
     return _textView;
 }
 
-- (UITextView *)internalTextView {
-    if (!_internalTextView) {
-        CGRect textViewFrame = self.textView.frame;
-        textViewFrame.origin.x = 0;
-        textViewFrame.origin.y = 0;
-        _internalTextView = [[UITextView alloc] initWithFrame:textViewFrame];
-        _internalTextView.delegate = self;
-        _internalTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        _internalTextView.layer.cornerRadius = 3.0f;
-        _internalTextView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        _internalTextView.layer.borderWidth = 1.0f;
-        _internalTextView.showsHorizontalScrollIndicator = NO;
+- (UIButton *)sendButton {
+    if (!_sendButton) {
+        _sendButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _sendButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [_sendButton setTitle:@"Send"
+                     forState:UIControlStateNormal];
+        [_sendButton addTarget:self
+                        action:@selector(sendButtonTouchDown:)
+              forControlEvents:UIControlEventTouchDown];
+        [_sendButton sizeToFit];
     }
-    return _internalTextView;
+    return _sendButton;
 }
+
+- (NSLayoutConstraint *)heightConstraint {
+    if (!_heightConstraint) {
+        _heightConstraint = [NSLayoutConstraint constraintWithItem:self
+                                                         attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:nil
+                                                         attribute:NSLayoutAttributeNotAnAttribute
+                                                        multiplier:1.0
+                                                          constant:50];
+    }
+    return _heightConstraint;
+}
+
+- (void)sendButtonTouchDown:(id)sender {
+    [self.theDelegate messengerToolbar:self
+                       askedToSendText:self.textView.text];
+    // remove text
+    self.textView.text = nil;
+}
+
+#pragma mark - UITextViewDelegate
 
 - (void)textViewDidChange:(UITextView *)textView {
-    [self updateTextViewFrame];
-}
-
-- (void)setTextViewFrame {
-    self.textView.frame = CGRectMake(7,
-                                     7,
-                                     (self.bounds.size.width - 84),
-                                     36);
-}
-
-- (void)updateTextViewFrame {
-    CGRect oInternalTextViewFrame = self.internalTextView.frame;
-    CGFloat nInternalTextViewHeight = self.internalTextView.contentSize.height;
-    CGRect oTextViewFrame = self.textView.frame;
-    CGFloat diff = nInternalTextViewHeight - oInternalTextViewFrame.size.height;
-    self.internalTextView.frame = CGRectMake(oInternalTextViewFrame.origin.x,
-                                             oInternalTextViewFrame.origin.y,
-                                             oInternalTextViewFrame.size.width,
-                                             nInternalTextViewHeight);
-    self.textView.frame = CGRectMake(oTextViewFrame.origin.x,
-                                     oTextViewFrame.origin.y,
-                                     oInternalTextViewFrame.size.width,
-                                     nInternalTextViewHeight);
-    if (diff != 0) {
-        CGRect toolbarViewFrame = self.frame;
-        toolbarViewFrame.origin.y -= diff;
-        toolbarViewFrame.size.height += diff;
-        self.frame = toolbarViewFrame;
+    if (!self.textViewContentHeight) {
+        self.textViewContentHeight = self.textView.contentSize.height;
+    } else {
+        CGFloat oTextViewHeight = self.textViewContentHeight;
+        CGFloat nTextViewHeight = self.textView.contentSize.height;
+        CGFloat diff =  nTextViewHeight - oTextViewHeight;
+        self.textViewContentHeight = nTextViewHeight;
+        if (diff != 0) {
+            self.heightConstraint.constant += diff;
+            self.textView.contentOffset = CGPointZero;
+        }
+        [self.theDelegate messengerToolbar:self
+                           didChangeHeight:diff];
     }
 }
 
