@@ -77,7 +77,7 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
     NSDictionary *user = [message objectForKey:@"user"];
     [cell setMessage:[message objectForKey:@"message"]];
     [cell setUserName:[user objectForKey:@"name"]];
-    [cell setTimeAgo:[user objectForKey:@"createdAt"]];
+    [cell setTimeAgo:[message objectForKey:@"createdAt"]];
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
 }

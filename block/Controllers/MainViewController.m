@@ -295,16 +295,23 @@
 - (void)messengerViewControllerTableViewSwipedLeft:(MessengerViewController *)messengerViewController {
     NSUInteger thisIndex = [self.messengerViewControllers indexOfObject:messengerViewController];
     NSUInteger nextIndex = thisIndex + 1;
-    [self viewMessengerViewControllerAtIndex:nextIndex];
-    [self openRoomNavigatorView:NO
-                         offset:0];
+    if (nextIndex < self.messengerViewControllers.count) {
+        [self viewMessengerViewControllerAtIndex:nextIndex];
+        [self openRoomNavigatorView:NO
+                             offset:0];
+    }
 }
 - (void)messengerViewControllerTableViewSwipedRight:(MessengerViewController *)messengerViewController {
     NSUInteger thisIndex = [self.messengerViewControllers indexOfObject:messengerViewController];
     NSUInteger nextIndex = thisIndex - 1;
-    [self viewMessengerViewControllerAtIndex:nextIndex];
-    [self openRoomNavigatorView:NO
-                         offset:0];
+    if (nextIndex == -1) {
+        [self openRoomNavigatorView:YES
+                             offset:60];
+    } else {
+        [self viewMessengerViewControllerAtIndex:nextIndex];
+        [self openRoomNavigatorView:NO
+                             offset:0];
+    }
 }
 
 #pragma mark - Navigation controller

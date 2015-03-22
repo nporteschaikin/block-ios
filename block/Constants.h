@@ -19,6 +19,3 @@ FOUNDATION_EXPORT NSString * const IOCityRoomSearchEndpoint;
 FOUNDATION_EXPORT NSString * const HockeyAppIdentifier;
 
 FOUNDATION_EXPORT NSString * const SessionTokenUserDefaultsKey;
-
-FOUNDATION_EXPORT CGFloat const InputPaddingX;
-FOUNDATION_EXPORT CGFloat const InputPaddingY;

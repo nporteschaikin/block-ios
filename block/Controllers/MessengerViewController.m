@@ -180,12 +180,10 @@
 }
 
 - (void)handleTableViewSwipeLeft:(UITapGestureRecognizer *)swipe {
-    NSLog(@"left");
     [self.theDelegate messengerViewControllerTableViewSwipedLeft:self];
 }
 
 - (void)handleTableViewSwipeRight:(UITapGestureRecognizer *)swipe {
-    NSLog(@"right");
     [self.theDelegate messengerViewControllerTableViewSwipedRight:self];
 }
 

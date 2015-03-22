@@ -19,6 +19,3 @@ NSString * const IOCityRoomSearchEndpoint = @"cities/%@/rooms/search";
 NSString * const HockeyAppIdentifier = @"085f0a612acba457b4f26510c9158e7c";
 
 NSString * const SessionTokenUserDefaultsKey = @"SessionTokenUserDefaults";
-
-CGFloat const InputPaddingX = 15.0f;
-CGFloat const InputPaddingY = 18.0f;
