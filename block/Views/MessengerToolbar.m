@@ -139,6 +139,7 @@
                        askedToSendText:self.textView.text];
     // remove text
     self.textView.text = nil;
+    [self textViewDidChange:self.textView];
 }
 
 #pragma mark - UITextViewDelegate

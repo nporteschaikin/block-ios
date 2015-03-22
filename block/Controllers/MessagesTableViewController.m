@@ -14,7 +14,6 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
 @interface MessagesTableViewController ()
 
 @property (strong, nonatomic) NSMutableArray *messages;
-@property (strong, nonatomic) NSDictionary *offscreenCells;
 
 @end
 
@@ -23,7 +22,6 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
 - (id)init {
     if (self = [super init]) {
         self.messages = [NSMutableArray array];
-        self.offscreenCells = [NSMutableDictionary dictionary];
         self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
         self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
         self.tableView.separatorColor = [UIColor clearColor];
@@ -35,12 +33,8 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"Foo");
     [super viewDidAppear:animated];
-    [self scrollToBottomAnimated:NO];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
     [self scrollToBottomAnimated:NO];
 }
 
@@ -113,24 +107,5 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
 estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewAutomaticDimension;
 }
-
-//- (CGFloat)tableView:(UITableView *)tableView
-//heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    MessageTableViewCell *cell = [self.offscreenCells objectForKey:reuseIdentifier];
-//    if (!cell) {
-//        cell = [[MessageTableViewCell alloc] init];
-//        [self.offscreenCells setValue:cell
-//                               forKey:reuseIdentifier];
-//    }
-//    [self configureCell:cell
-//            atIndexPath:indexPath];
-//    cell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(tableView.bounds), CGRectGetHeight(cell.bounds));
-//    [cell setNeedsLayout];
-//    [cell layoutIfNeeded];
-//
-//    CGFloat height = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-//    
-//    return height;
-//}
 
 @end

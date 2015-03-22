@@ -54,9 +54,17 @@
 }
 
 - (void)setupGestureRecognizers {
-    UITapGestureRecognizer *tableViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                                 action:@selector(handleTableViewTap:)];
-    [self.tableView addGestureRecognizer:tableViewGestureRecognizer];
+    UITapGestureRecognizer *tableViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                                    action:@selector(handleTableViewTap:)];
+    UISwipeGestureRecognizer *tableViewSwipeLeftGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                                                              action:@selector(handleTableViewSwipeLeft:)];
+    tableViewSwipeLeftGestureRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
+    UISwipeGestureRecognizer *tableViewSwipeRightGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                                                               action:@selector(handleTableViewSwipeRight:)];
+    tableViewSwipeLeftGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.tableViewController.tableView addGestureRecognizer:tableViewTapGestureRecognizer];
+    [self.tableViewController.tableView addGestureRecognizer:tableViewSwipeLeftGestureRecognizer];
+    [self.tableViewController.tableView addGestureRecognizer:tableViewSwipeRightGestureRecognizer];
 }
 
 - (void)viewDidLoad {
@@ -164,6 +172,16 @@
 - (void)handleTableViewTap:(UITapGestureRecognizer *)tap {
     [self.messengerToolbar.textView endEditing:YES];
     [self.theDelegate messengerViewControllerTableViewTapped:self];
+}
+
+- (void)handleTableViewSwipeLeft:(UITapGestureRecognizer *)swipe {
+    NSLog(@"left");
+    [self.theDelegate messengerViewControllerTableViewSwipedLeft:self];
+}
+
+- (void)handleTableViewSwipeRight:(UITapGestureRecognizer *)swipe {
+    NSLog(@"right");
+    [self.theDelegate messengerViewControllerTableViewSwipedRight:self];
 }
 
 - (MessagesTableViewController *)tableViewController {

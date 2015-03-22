@@ -12,10 +12,13 @@
 #import "FindingCityViewController.h"
 #import "SelectCityViewController.h"
 #import "MessengerViewController.h"
+#import "MainViewControllerAnimator.h"
 #import "SocketController.h"
 #import "UIColor+Block.h"
 
-@interface MainViewController () <LoginViewControllerDelegate, FindingCityViewControllerDelegate, SocketControllerDelegate, MessengerViewControllerDelegate, RoomNavigatorControllerDelegate>
+@interface MainViewController () <LoginViewControllerDelegate, FindingCityViewControllerDelegate,
+    SocketControllerDelegate, MessengerViewControllerDelegate, RoomNavigatorControllerDelegate,
+    UINavigationControllerDelegate>
 
 @property (strong, nonatomic) SocketController *socketController;
 @property (strong, nonatomic) SessionManager *sessionManager;
@@ -29,6 +32,8 @@
 
 @property (strong, nonatomic, readonly) UIView *navigationControllerView;
 @property (strong, nonatomic, readonly) UIView *roomNavigatorView;
+
+@property (strong, nonatomic) MainViewControllerAnimator *animator;
 
 @property (nonatomic) BOOL roomNavigatorViewIsOpen;
 @property (nonatomic) NSUInteger currentMessengerViewControllerIndex;
@@ -103,20 +108,14 @@
 }
 
 - (void)viewMessengerViewControllerAtIndex:(NSUInteger)index {
-    CATransition* transition = [CATransition animation];
-    transition.duration = 0.5;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    transition.type = kCATransitionFade;
-    [self.navigationControllerView.layer addAnimation:transition
-                                                forKey:nil];
     if (index < self.messengerViewControllers.count) {
         MessengerViewController *viewController = [self.messengerViewControllers objectAtIndex:index];
         if ([self.navigationController.viewControllers containsObject:viewController]) {
             [self.navigationController popToViewController:viewController
-                                                  animated:NO];
+                                                  animated:YES];
         } else {
             [self.navigationController pushViewController:viewController
-                                                 animated:NO];
+                                                 animated:YES];
         }
         self.currentMessengerViewControllerIndex = index;
     } else {
@@ -293,11 +292,27 @@
     }
 }
 
+- (void)messengerViewControllerTableViewSwipedLeft:(MessengerViewController *)messengerViewController {
+    NSUInteger thisIndex = [self.messengerViewControllers indexOfObject:messengerViewController];
+    NSUInteger nextIndex = thisIndex + 1;
+    [self viewMessengerViewControllerAtIndex:nextIndex];
+    [self openRoomNavigatorView:NO
+                         offset:0];
+}
+- (void)messengerViewControllerTableViewSwipedRight:(MessengerViewController *)messengerViewController {
+    NSUInteger thisIndex = [self.messengerViewControllers indexOfObject:messengerViewController];
+    NSUInteger nextIndex = thisIndex - 1;
+    [self viewMessengerViewControllerAtIndex:nextIndex];
+    [self openRoomNavigatorView:NO
+                         offset:0];
+}
+
 #pragma mark - Navigation controller
 
 - (UINavigationController *)navigationController {
     if (!_navigationController) {
         _navigationController = [[UINavigationController alloc] initWithRootViewController:[[UIViewController alloc] init]];
+        _navigationController.delegate = self;
         _navigationController.view.translatesAutoresizingMaskIntoConstraints = NO;
         UIView *view = _navigationController.view;
         UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
@@ -313,6 +328,23 @@
 
 - (UIView *)navigationControllerView {
     return self.navigationController.view;
+}
+
+#pragma mark - UINavigationControllerDelegate
+
+- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                  animationControllerForOperation:(UINavigationControllerOperation)operation
+                                               fromViewController:(UIViewController*)fromVC
+                                                 toViewController:(UIViewController*)toVC {
+    return self.animator;
+}
+
+- (MainViewControllerAnimator *)animator {
+    if (!_animator) {
+        _animator = [[MainViewControllerAnimator alloc] initWithMessengerViewControllers:self.messengerViewControllers
+                                                                                transitionDuration:1.0f];
+    }
+    return _animator;
 }
 
 #pragma mark - RoomNavigatorViewController

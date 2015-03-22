@@ -20,6 +20,8 @@
                     messageSent:(NSString *)message;
 
 - (void)messengerViewControllerTableViewTapped:(MessengerViewController *)messengerViewController;
+- (void)messengerViewControllerTableViewSwipedLeft:(MessengerViewController *)messengerViewController;
+- (void)messengerViewControllerTableViewSwipedRight:(MessengerViewController *)messengerViewController;
 
 @end
 
