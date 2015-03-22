@@ -58,8 +58,6 @@
     toViewController.view.alpha = 0;
     [UIView animateWithDuration:self.transitionDuration
                           delay:0.0f
-         usingSpringWithDamping:0.8f
-          initialSpringVelocity:0.5f
                         options:UIViewAnimationOptionAllowAnimatedContent
                      animations:^{
                          if (betweenMessengerViewControllers) {

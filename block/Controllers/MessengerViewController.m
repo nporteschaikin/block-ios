@@ -54,16 +54,21 @@
 }
 
 - (void)setupGestureRecognizers {
+    // tap
     UITapGestureRecognizer *tableViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                                     action:@selector(handleTableViewTap:)];
+    [self.tableViewController.tableView addGestureRecognizer:tableViewTapGestureRecognizer];
+    
+    // left swipe
     UISwipeGestureRecognizer *tableViewSwipeLeftGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                                               action:@selector(handleTableViewSwipeLeft:)];
-    tableViewSwipeLeftGestureRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
+    tableViewSwipeLeftGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.tableViewController.tableView addGestureRecognizer:tableViewSwipeLeftGestureRecognizer];
+    
+    // right swipe
     UISwipeGestureRecognizer *tableViewSwipeRightGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                                                action:@selector(handleTableViewSwipeRight:)];
-    tableViewSwipeLeftGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.tableViewController.tableView addGestureRecognizer:tableViewTapGestureRecognizer];
-    [self.tableViewController.tableView addGestureRecognizer:tableViewSwipeLeftGestureRecognizer];
+    tableViewSwipeRightGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     [self.tableViewController.tableView addGestureRecognizer:tableViewSwipeRightGestureRecognizer];
 }
 

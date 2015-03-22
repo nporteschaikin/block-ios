@@ -26,6 +26,7 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
         self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
         self.tableView.separatorColor = [UIColor clearColor];
         self.tableView.contentInset = UIEdgeInsetsMake(14, 0, 14, 0);
+        self.tableView.allowsSelection = NO;
         [self.tableView registerClass:[MessageTableViewCell class]
                forCellReuseIdentifier:reuseIdentifier];
     }
@@ -33,7 +34,6 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    NSLog(@"Foo");
     [super viewDidAppear:animated];
     [self scrollToBottomAnimated:NO];
 }
