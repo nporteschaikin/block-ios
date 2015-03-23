@@ -221,6 +221,7 @@
 
 - (void)sessionRoomsSentWithSocketController:(SocketController *)socketController {
     NSArray *messengerViewControllers = [NSArray arrayWithArray:self.messengerViewControllers];
+    NSLog(@"%@", messengerViewControllers);
     [self.messengerViewControllers removeAllObjects];
     if (socketController.rooms.count) {
         NSUInteger i=0;
