@@ -295,11 +295,12 @@
 - (void)messengerViewControllerTableViewSwipedLeft:(MessengerViewController *)messengerViewController {
     NSUInteger thisIndex = [self.messengerViewControllers indexOfObject:messengerViewController];
     NSUInteger nextIndex = thisIndex + 1;
-    if (nextIndex < self.messengerViewControllers.count) {
+    if (nextIndex < self.messengerViewControllers.count
+        && !self.roomNavigatorViewIsOpen) {
         [self viewMessengerViewControllerAtIndex:nextIndex];
-        [self openRoomNavigatorView:NO
-                             offset:0];
     }
+    [self openRoomNavigatorView:NO
+                         offset:0];
 }
 - (void)messengerViewControllerTableViewSwipedRight:(MessengerViewController *)messengerViewController {
     NSUInteger thisIndex = [self.messengerViewControllers indexOfObject:messengerViewController];
@@ -308,7 +309,9 @@
         [self openRoomNavigatorView:YES
                              offset:60];
     } else {
-        [self viewMessengerViewControllerAtIndex:nextIndex];
+        if (!self.roomNavigatorViewIsOpen) {
+           [self viewMessengerViewControllerAtIndex:nextIndex];
+        }
         [self openRoomNavigatorView:NO
                              offset:0];
     }

@@ -180,10 +180,12 @@
 }
 
 - (void)handleTableViewSwipeLeft:(UITapGestureRecognizer *)swipe {
+    [self.messengerToolbar.textView endEditing:YES];
     [self.theDelegate messengerViewControllerTableViewSwipedLeft:self];
 }
 
 - (void)handleTableViewSwipeRight:(UITapGestureRecognizer *)swipe {
+    [self.messengerToolbar.textView endEditing:YES];
     [self.theDelegate messengerViewControllerTableViewSwipedRight:self];
 }
 
