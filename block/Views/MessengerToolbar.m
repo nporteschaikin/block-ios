@@ -154,7 +154,8 @@
         self.textViewContentHeight = nTextViewHeight;
         if (diff != 0) {
             self.heightConstraint.constant += diff;
-            self.textView.contentOffset = CGPointZero;
+            [self.textView setContentOffset:CGPointZero
+                                   animated:NO];
         }
         [self.theDelegate messengerToolbar:self
                            didChangeHeight:diff];

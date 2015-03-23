@@ -8,22 +8,49 @@
 
 #import "RoomNavigatorViewController.h"
 #import "RoomNavigatorSearchResultsController.h"
-#import "APIManager+Cities.h"
+#import "RoomNavigatorTableView.h"
+#import "RoomNavigatorTableViewCell.h"
 
-@interface RoomNavigatorViewController () <UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate, RoomNavigatorSearchResultsControllerDelegate>
+static NSString * const reuseIdentifier = @"RoomNavigatorViewControllerCell";
+
+@interface RoomNavigatorViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, RoomNavigatorSearchResultsControllerDelegate>
 
 @property (strong, nonatomic) RoomNavigatorSearchResultsController *searchResultsController;
-@property (strong, nonatomic) UISearchController *searchController;
-@property (strong, nonatomic) UIButton *createNewRoomButton;
+@property (strong, nonatomic) RoomNavigatorTableView *tableView;
+@property (strong, nonatomic) UISearchBar *searchBar;
+@property (nonatomic) BOOL didSetupConstraints;
 
 @end
 
 @implementation RoomNavigatorViewController
 
+- (id)init {
+    if (self = [super init]) {
+        [self.tableView registerClass:[RoomNavigatorTableViewCell class]
+               forCellReuseIdentifier:reuseIdentifier];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.searchController.searchBar sizeToFit];
-    self.tableView.tableHeaderView = self.searchController.searchBar;
+    [self.view addSubview:self.tableView];
+    [self addChildViewController:self.searchResultsController];
+    [self.view insertSubview:self.searchResultsController.view
+                aboveSubview:self.tableView];
+    [self.searchResultsController didMoveToParentViewController:self];
+    [self.view addSubview:self.searchBar];
+    [self.searchBar sizeToFit];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.view setNeedsUpdateConstraints];
+}
+
+- (void)setCity:(NSDictionary *)city {
+    _city = city;
+    _searchBar.placeholder = [NSString stringWithFormat:@"Find rooms in %@...", [_city valueForKey:@"name"]];
 }
 
 - (void)openSessionRooms {
@@ -38,55 +65,108 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - RoomNavigatorSearchResultsController
+- (void)showSearchResultsController {
+    self.searchResultsController.view.hidden = NO;
+}
 
-- (RoomNavigatorSearchResultsController *)searchResultsController {
-    if (!_searchResultsController) {
-        _searchResultsController = [[RoomNavigatorSearchResultsController alloc] init];
-        _searchResultsController.theDelegate = self;
+- (void)hideSearchResultsController {
+    self.searchResultsController.view.hidden = YES;
+}
+
+- (void)updateViewConstraints {
+    if (!self.didSetupConstraints) {
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.searchBar
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar
+                                                              attribute:NSLayoutAttributeLeft
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeLeft
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar
+                                                              attribute:NSLayoutAttributeRight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeRight
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.topLayoutGuide
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+                                                              attribute:NSLayoutAttributeLeft
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeLeft
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+                                                              attribute:NSLayoutAttributeRight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeRight
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.searchBar
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
+                                                              attribute:NSLayoutAttributeLeft
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeLeft
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
+                                                              attribute:NSLayoutAttributeRight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeRight
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1
+                                                               constant:0]];
+        self.didSetupConstraints = YES;
     }
-    return _searchResultsController;
+    [super updateViewConstraints];
 }
 
-#pragma mark - UISearchController
+#pragma mark - RoomNavigatorTableView
 
-- (UISearchController *)searchController {
-    if (!_searchController) {
-        _searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchResultsController];
-        _searchController.delegate = self;
-        _searchController.searchResultsUpdater = self;
-        _searchController.dimsBackgroundDuringPresentation = NO;
-        _searchController.hidesNavigationBarDuringPresentation = NO;
-        _searchController.searchBar.delegate = self;
+- (RoomNavigatorTableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[RoomNavigatorTableView alloc] init];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.translatesAutoresizingMaskIntoConstraints = NO;
     }
-    return _searchController;
-}
-
-- (BOOL)searchIsActive {
-    return self.searchController.active;
-}
-
-#pragma mark - UISearchControllerDelegate
-
-- (void)willPresentSearchController:(UISearchController *)searchController {
-    [self.theDelegate roomNavigatorViewControllerBeganSearch:self];
-}
-
-- (void)willDismissSearchController:(UISearchController *)searchController {
-    [self.theDelegate roomNavigatorViewControllerEndedSearch:self];
-}
-
-#pragma mark - UISearchResultsUpdating
-
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-    NSString *query = searchController.searchBar.text;
-    [APIManager searchForRoom:query
-                 inCityWithID:self.cityID
-                   onComplete:^(NSArray *rooms) {
-                       dispatch_async(dispatch_get_main_queue(), ^{
-                           [self.searchResultsController updateSearchResults:rooms];
-                       });
-                   }];
+    return _tableView;
 }
 
 #pragma mark - UITableViewDataSource
@@ -106,7 +186,7 @@ titleForHeaderInSection:(NSInteger)section {
 }
 
 - (RoomNavigatorTableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+                    cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RoomNavigatorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     NSDictionary *room = [self.rooms objectAtIndex:indexPath.row];
     NSString *name = [room objectForKey:@"name"];
@@ -127,12 +207,70 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
                              animated:YES];
 }
 
+- (void)tableView:(UITableView *)tableView
+willDisplayHeaderView:(UITableViewHeaderFooterView *)view
+       forSection:(NSInteger)section {
+    view.tintColor = [UIColor clearColor];
+    view.textLabel.textColor = [UIColor lightGrayColor];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView
+estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewAutomaticDimension;
+}
+
+#pragma mark - RoomNavigatorSearchResultsController
+
+- (RoomNavigatorSearchResultsController *)searchResultsController {
+    if (!_searchResultsController) {
+        _searchResultsController = [[RoomNavigatorSearchResultsController alloc] initWithCityID:self.cityID];
+        _searchResultsController.theDelegate = self;
+        _searchResultsController.view.translatesAutoresizingMaskIntoConstraints = NO;
+        _searchResultsController.view.hidden = YES;
+    }
+    return _searchResultsController;
+}
+
 #pragma mark - RoomNavigatorSearchResultsControllerDelegate
 
 - (void)roomSelected:(NSDictionary *)room
 searchResultsController:(RoomNavigatorSearchResultsController *)searchResultsController {
+    [self.searchBar setText:@""];
+    [self searchBar:self.searchBar
+      textDidChange:@""];
     [self.theDelegate roomNavigatorViewController:self
                                        openedRoom:room];
+}
+
+#pragma mark - UISearchBar
+
+- (UISearchBar *)searchBar {
+    if (!_searchBar) {
+        _searchBar = [[UISearchBar alloc] init];
+        _searchBar.delegate = self;
+        _searchBar.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _searchBar;
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBar:(UISearchBar *)searchBar
+    textDidChange:(NSString *)searchText {
+    [self.searchResultsController updateSearchResultsWithQuery:searchText];
+    if ([searchText isEqualToString:@""]) {
+        [self hideSearchResultsController];
+    } else {
+        [self showSearchResultsController];
+    }
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [self.theDelegate roomNavigatorViewControllerBeganSearch:self];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    [self.theDelegate roomNavigatorViewControllerEndedSearch:self];
 }
 
 @end

@@ -38,7 +38,6 @@
 		E46B8CB01AA5742E00F9DF03 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659A81AA570710028EE2D /* FacebookSDK.framework */; };
 		E4800B471AB29A1000308917 /* MessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4800B461AB29A1000308917 /* MessagesTableViewController.m */; };
 		E4800B501AB4B18D00308917 /* RoomNavigatorSearchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4800B4F1AB4B18D00308917 /* RoomNavigatorSearchResultsController.m */; };
-		E4800B531AB5C87E00308917 /* RoomNavigatorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4800B521AB5C87E00308917 /* RoomNavigatorTableViewController.m */; };
 		E48A21481AB7E572001E2F2D /* NSDate+ISO8601.m in Sources */ = {isa = PBXBuildFile; fileRef = E48A21471AB7E572001E2F2D /* NSDate+ISO8601.m */; };
 		E48A214B1AB7E5D3001E2F2D /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = E48A214A1AB7E5D3001E2F2D /* NSDate+TimeAgo.m */; };
 		E4986E1C1AACB6F400E3F81A /* SocketController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4986E1B1AACB6F400E3F81A /* SocketController.m */; };
@@ -47,6 +46,7 @@
 		E4C659AD1AA570ED0028EE2D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659AC1AA570ED0028EE2D /* CFNetwork.framework */; };
 		E4C659AF1AA570F30028EE2D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659AE1AA570F30028EE2D /* Security.framework */; };
 		E4C659B11AA570FB0028EE2D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659B01AA570FB0028EE2D /* Foundation.framework */; };
+		E4D4D5201ABF98F100D338B5 /* RoomNavigatorTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D4D51F1ABF98F100D338B5 /* RoomNavigatorTableView.m */; };
 		E4D8E07E1AA549B7003EA242 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D8E07D1AA549B7003EA242 /* main.m */; };
 		E4D8E0811AA549B7003EA242 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D8E0801AA549B7003EA242 /* AppDelegate.m */; };
 		E4D8E0891AA549B7003EA242 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4D8E0881AA549B7003EA242 /* Images.xcassets */; };
@@ -124,8 +124,6 @@
 		E4800B461AB29A1000308917 /* MessagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesTableViewController.m; sourceTree = "<group>"; };
 		E4800B4E1AB4B18D00308917 /* RoomNavigatorSearchResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorSearchResultsController.h; sourceTree = "<group>"; };
 		E4800B4F1AB4B18D00308917 /* RoomNavigatorSearchResultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorSearchResultsController.m; sourceTree = "<group>"; };
-		E4800B511AB5C87E00308917 /* RoomNavigatorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableViewController.h; sourceTree = "<group>"; };
-		E4800B521AB5C87E00308917 /* RoomNavigatorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorTableViewController.m; sourceTree = "<group>"; };
 		E48A21461AB7E572001E2F2D /* NSDate+ISO8601.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+ISO8601.h"; sourceTree = "<group>"; };
 		E48A21471AB7E572001E2F2D /* NSDate+ISO8601.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ISO8601.m"; sourceTree = "<group>"; };
 		E48A21491AB7E5D3001E2F2D /* NSDate+TimeAgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TimeAgo.h"; sourceTree = "<group>"; };
@@ -139,6 +137,8 @@
 		E4C659AC1AA570ED0028EE2D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		E4C659AE1AA570F30028EE2D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E4C659B01AA570FB0028EE2D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E4D4D51E1ABF98F100D338B5 /* RoomNavigatorTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableView.h; sourceTree = "<group>"; };
+		E4D4D51F1ABF98F100D338B5 /* RoomNavigatorTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorTableView.m; sourceTree = "<group>"; };
 		E4D8E0781AA549B7003EA242 /* block.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = block.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4D8E07C1AA549B7003EA242 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E4D8E07D1AA549B7003EA242 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -201,6 +201,8 @@
 				4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m */,
 				4FDF503C1ABC5356007719AD /* MessengerToolbar.h */,
 				4FDF503D1ABC5356007719AD /* MessengerToolbar.m */,
+				E4D4D51E1ABF98F100D338B5 /* RoomNavigatorTableView.h */,
+				E4D4D51F1ABF98F100D338B5 /* RoomNavigatorTableView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -367,8 +369,6 @@
 				4F55609D1AA678FD00090AFF /* SelectCityViewController.m */,
 				E4986E1A1AACB6F400E3F81A /* SocketController.h */,
 				E4986E1B1AACB6F400E3F81A /* SocketController.m */,
-				E4800B511AB5C87E00308917 /* RoomNavigatorTableViewController.h */,
-				E4800B521AB5C87E00308917 /* RoomNavigatorTableViewController.m */,
 				4F350E8B1AA79D3700637F98 /* RoomNavigatorViewController.h */,
 				4F350E8C1AA79D3700637F98 /* RoomNavigatorViewController.m */,
 				E4800B4E1AB4B18D00308917 /* RoomNavigatorSearchResultsController.h */,
@@ -547,7 +547,6 @@
 				E4E137831AA5552F007C8F50 /* MessengerViewController.m in Sources */,
 				E46B8CAC1AA573FA00F9DF03 /* SocketIOJSONSerialization.m in Sources */,
 				4F350E8D1AA79D3700637F98 /* RoomNavigatorViewController.m in Sources */,
-				E4800B531AB5C87E00308917 /* RoomNavigatorTableViewController.m in Sources */,
 				4F5560981AA66D5E00090AFF /* APIManager+Auth.m in Sources */,
 				E4D8E07E1AA549B7003EA242 /* main.m in Sources */,
 				E48A214B1AB7E5D3001E2F2D /* NSDate+TimeAgo.m in Sources */,
@@ -556,6 +555,7 @@
 				E4D8E0AF1AA550B3003EA242 /* NSDictionary+QueryString.m in Sources */,
 				4F5560951AA668B600090AFF /* APIManager+Cities.m in Sources */,
 				E46B8CAB1AA573FA00F9DF03 /* SocketIO.m in Sources */,
+				E4D4D5201ABF98F100D338B5 /* RoomNavigatorTableView.m in Sources */,
 				4FF795EB1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m in Sources */,
 				4F7FDA741AA6350E0092103B /* UIFont+Block.m in Sources */,
 				4F350E811AA7479800637F98 /* MainViewController.m in Sources */,

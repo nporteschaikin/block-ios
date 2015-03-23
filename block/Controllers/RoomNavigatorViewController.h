@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Noah Portes Chaikin. All rights reserved.
 //
 
-#import "RoomNavigatorTableViewController.h"
+#import <UIKit/UIKit.h>
 
 @class RoomNavigatorViewController;
 
@@ -24,15 +24,13 @@
 
 @end
 
-@interface RoomNavigatorViewController : RoomNavigatorTableViewController
+@interface RoomNavigatorViewController : UIViewController
 
 @property (strong, nonatomic) id<RoomNavigatorControllerDelegate> theDelegate;
 @property (strong, nonatomic) NSDictionary *city;
 @property (strong, nonatomic) NSString *cityID;
 @property (strong, nonatomic) NSArray *rooms;
 @property (nonatomic, readonly) BOOL searchIsActive;
-
-- (id)init;
 
 - (void)openSessionRooms;
 

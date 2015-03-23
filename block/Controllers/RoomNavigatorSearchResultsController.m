@@ -7,18 +7,44 @@
 //
 
 #import "RoomNavigatorSearchResultsController.h"
+#import "RoomNavigatorTableViewCell.h"
+#import "RoomNavigatorTableView.h"
+#import "APIManager+Cities.h"
+
+static NSString * const reuseIdentifier = @"RoomNavigatorSearchResultsControllerCell";
 
 @interface RoomNavigatorSearchResultsController ()
 
+@property (strong, nonatomic) NSString *cityID;
 @property (strong, nonatomic) NSArray *rooms;
 
 @end
 
 @implementation RoomNavigatorSearchResultsController
 
-- (void)updateSearchResults:(NSArray *)rooms {
-    self.rooms = rooms;
-    [self.tableView reloadData];
+- (id)initWithCityID:(NSString *)cityID {
+    if (self = [super init]) {
+        self.tableView = [[RoomNavigatorTableView alloc] init];
+        self.cityID = cityID;
+        [self.tableView registerClass:[RoomNavigatorTableViewCell class]
+               forCellReuseIdentifier:reuseIdentifier];
+    }
+    return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+}
+
+- (void)updateSearchResultsWithQuery:(NSString *)query {
+    [APIManager searchForRoom:query
+                 inCityWithID:self.cityID
+                   onComplete:^(NSArray *rooms) {
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           self.rooms = rooms;
+                           [self.tableView reloadData];
+                       });
+                   }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -52,6 +78,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
            searchResultsController:self];
     [tableView deselectRowAtIndexPath:indexPath
                              animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView
+estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewAutomaticDimension;
 }
 
 @end

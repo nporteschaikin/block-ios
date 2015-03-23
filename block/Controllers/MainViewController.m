@@ -360,7 +360,6 @@
     if (!_roomNavigatorViewController) {
         _roomNavigatorViewController = [[RoomNavigatorViewController alloc] init];
         _roomNavigatorViewController.theDelegate = self;
-        _roomNavigatorViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _roomNavigatorViewController;
 }
