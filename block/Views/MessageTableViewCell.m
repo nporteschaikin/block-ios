@@ -124,7 +124,6 @@
 - (UILabel *)messageLabel {
     if (!_messageLabel) {
         _messageLabel = [[UILabel alloc] init];
-        _messageLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         _messageLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _messageLabel.numberOfLines = 0;
@@ -138,7 +137,6 @@
     if (!_timeAgoLabel) {
         _timeAgoLabel = [[UILabel alloc] init];
         _timeAgoLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _timeAgoLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         _timeAgoLabel.textColor = [UIColor grayColor];
         _timeAgoLabel.numberOfLines = 1;
         _timeAgoLabel.font = [UIFont fontWithName:@"Helvetica"

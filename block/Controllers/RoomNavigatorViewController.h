@@ -22,6 +22,10 @@
 
 - (void)roomNavigatorViewControllerEndedSearch:(RoomNavigatorViewController *)roomNavigatorViewController;
 
+- (void)roomNavigatorViewControllerAskedToCreateNewRoom:(RoomNavigatorViewController *)roomNavigatorViewController;
+
+- (void)roomNavigatorViewControllerAskedToEditSettings:(RoomNavigatorViewController *)roomNavigatorViewController;
+
 @end
 
 @interface RoomNavigatorViewController : UIViewController

@@ -12,6 +12,7 @@
 #import "FindingCityViewController.h"
 #import "SelectCityViewController.h"
 #import "MessengerViewController.h"
+#import "CreateRoomViewController.h"
 #import "MainViewControllerAnimator.h"
 #import "SocketController.h"
 #import "UIColor+Block.h"
@@ -28,6 +29,7 @@
 @property (strong, nonatomic) LoginViewController *loginViewController;
 @property (strong, nonatomic) UINavigationController *navigationController;
 @property (strong, nonatomic) RoomNavigatorViewController *roomNavigatorViewController;
+@property (strong, nonatomic) UINavigationController *createRoomNavigationController;
 @property (strong, nonatomic) NSMutableArray *messengerViewControllers;
 
 @property (strong, nonatomic, readonly) UIView *navigationControllerView;
@@ -149,6 +151,12 @@
         _messengerViewControllers = [NSMutableArray array];
     }
     return _messengerViewControllers;
+}
+
+- (void)openCreateRoomViewController {
+    [self presentViewController:self.createRoomNavigationController
+                       animated:YES
+                     completion:nil];
 }
 
 #pragma mark - LoginViewController
@@ -401,6 +409,27 @@
 - (void)roomNavigatorViewControllerEndedSearch:(RoomNavigatorViewController *)roomNavigatorViewController {
     [self openRoomNavigatorView:YES
                          offset:60];
+}
+
+- (void)roomNavigatorViewControllerAskedToCreateNewRoom:(RoomNavigatorViewController *)roomNavigatorViewController {
+    [self openRoomNavigatorView:NO
+                         offset:0];
+    [self openCreateRoomViewController];
+}
+
+- (void)roomNavigatorViewControllerAskedToEditSettings:(RoomNavigatorViewController *)roomNavigatorViewController {
+    [self openRoomNavigatorView:NO
+                         offset:0];
+}
+
+#pragma mark - CreateRoomNavigationController
+
+- (UINavigationController *)createRoomNavigationController {
+    if (!_createRoomNavigationController) {
+        CreateRoomViewController *createRoomViewController = [[CreateRoomViewController alloc] init];
+        _createRoomNavigationController = [[UINavigationController alloc] initWithRootViewController:createRoomViewController];
+    }
+    return _createRoomNavigationController;
 }
 
 @end

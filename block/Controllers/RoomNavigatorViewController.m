@@ -9,9 +9,11 @@
 #import "RoomNavigatorViewController.h"
 #import "RoomNavigatorSearchResultsController.h"
 #import "RoomNavigatorTableView.h"
-#import "RoomNavigatorTableViewCell.h"
+#import "RoomNavigatorTableViewRoomCell.h"
+#import "RoomNavigatorTableViewMenuCell.h"
 
-static NSString * const reuseIdentifier = @"RoomNavigatorViewControllerCell";
+static NSString * const roomReuseIdentifier = @"RoomNavigatorTableViewRoomCell";
+static NSString * const menuReuseIdentifier = @"RoomNavigatorTableViewMenuCell";
 
 @interface RoomNavigatorViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, RoomNavigatorSearchResultsControllerDelegate>
 
@@ -27,8 +29,10 @@ static NSString * const reuseIdentifier = @"RoomNavigatorViewControllerCell";
 
 - (id)init {
     if (self = [super init]) {
-        [self.tableView registerClass:[RoomNavigatorTableViewCell class]
-               forCellReuseIdentifier:reuseIdentifier];
+        [self.tableView registerClass:[RoomNavigatorTableViewRoomCell class]
+               forCellReuseIdentifier:roomReuseIdentifier];
+        [self.tableView registerClass:[RoomNavigatorTableViewMenuCell class]
+               forCellReuseIdentifier:menuReuseIdentifier];
     }
     return self;
 }
@@ -173,25 +177,54 @@ static NSString * const reuseIdentifier = @"RoomNavigatorViewControllerCell";
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (NSString *)tableView:(UITableView *)tableView
 titleForHeaderInSection:(NSInteger)section {
-    return @"Open";
+    switch (section) {
+        case 0:
+            return @"Open";
+        default:
+            return nil;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section {
-    return self.rooms.count;
+    switch (section) {
+        case 0:
+            return self.rooms.count;
+        default:
+            return 2;
+    }
 }
 
-- (RoomNavigatorTableViewCell *)tableView:(UITableView *)tableView
-                    cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    RoomNavigatorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    NSDictionary *room = [self.rooms objectAtIndex:indexPath.row];
-    NSString *name = [room objectForKey:@"name"];
-    [cell setName:name];
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger section = indexPath.section;
+    UITableViewCell *cell;
+    if (section == 0) {
+        
+        // room
+        cell = [tableView dequeueReusableCellWithIdentifier:roomReuseIdentifier];
+        NSDictionary *room = [self.rooms objectAtIndex:indexPath.row];
+        NSString *name = [room objectForKey:@"name"];
+        [((RoomNavigatorTableViewRoomCell *)cell) setName:name];
+        
+    } else {
+        
+        // settings
+        cell = [tableView dequeueReusableCellWithIdentifier:roomReuseIdentifier];
+        switch (indexPath.row) {
+            case 0:
+                ((RoomNavigatorTableViewMenuCell *)cell).nameLabel.text = @"Create New Room";
+                break;
+            default:
+                ((RoomNavigatorTableViewMenuCell *)cell).nameLabel.text = @"Settings";
+                break;
+        }
+    }
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
     return cell;
@@ -201,11 +234,23 @@ titleForHeaderInSection:(NSInteger)section {
 
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger section = indexPath.section;
     NSUInteger index = indexPath.row;
     self.isOpeningRoom = YES;
     [self.searchBar endEditing:YES];
-    [self.theDelegate roomNavigatorViewController:self
-                              selectedRoomAtIndex:index];
+    if (section == 0) {
+        [self.theDelegate roomNavigatorViewController:self
+                                  selectedRoomAtIndex:index];
+    } else {
+        switch (indexPath.row) {
+            case 0:
+                [self.theDelegate roomNavigatorViewControllerAskedToCreateNewRoom:self];
+                break;
+            default:
+                [self.theDelegate roomNavigatorViewControllerAskedToEditSettings:self];
+                break;
+        }
+    }
     [tableView deselectRowAtIndexPath:indexPath
                              animated:YES];
 }

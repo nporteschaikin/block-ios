@@ -1,21 +1,21 @@
 //
-//  RoomNavigatorTableViewCell.m
+//  RoomNavigatorTableViewRoomCell.m
 //  block
 //
 //  Created by Noah Portes Chaikin on 3/5/15.
 //  Copyright (c) 2015 Noah Portes Chaikin. All rights reserved.
 //
 
-#import "RoomNavigatorTableViewCell.h"
+#import "RoomNavigatorTableViewRoomCell.h"
 
-@interface RoomNavigatorTableViewCell ()
+@interface RoomNavigatorTableViewRoomCell ()
 
 @property (nonatomic, readwrite) BOOL didSetupConstraints;
 @property (strong, nonatomic) UILabel *nameLabel;
 
 @end
 
-@implementation RoomNavigatorTableViewCell
+@implementation RoomNavigatorTableViewRoomCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier {
@@ -75,17 +75,18 @@
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _nameLabel.numberOfLines = 1;
         _nameLabel.textColor = [UIColor whiteColor];
+        _nameLabel.font = [UIFont fontWithName:@"Helvetica"
+                                                size:14.f];
     }
     return _nameLabel;
 }
 
 - (void)setName:(NSString *)name {
-    self.nameLabel.text = [NSString stringWithFormat:@"# %@", name];
+    self.nameLabel.text = [NSString stringWithFormat:@"#%@", name];
 }
 
 @end

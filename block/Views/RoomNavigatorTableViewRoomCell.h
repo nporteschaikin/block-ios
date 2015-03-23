@@ -1,5 +1,5 @@
 //
-//  RoomNavigatorTableViewCell.h
+//  RoomNavigatorTableViewRoomCell.h
 //  block
 //
 //  Created by Noah Portes Chaikin on 3/5/15.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RoomNavigatorTableViewCell : UITableViewCell
+@interface RoomNavigatorTableViewRoomCell : UITableViewCell
 
 - (void)setName:(NSString *)name;
 

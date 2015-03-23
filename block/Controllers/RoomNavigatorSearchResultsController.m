@@ -7,11 +7,11 @@
 //
 
 #import "RoomNavigatorSearchResultsController.h"
-#import "RoomNavigatorTableViewCell.h"
+#import "RoomNavigatorTableViewRoomCell.h"
 #import "RoomNavigatorTableView.h"
 #import "APIManager+Cities.h"
 
-static NSString * const reuseIdentifier = @"RoomNavigatorSearchResultsControllerCell";
+static NSString * const reuseIdentifier = @"RoomNavigatorTableViewRoomCell";
 
 @interface RoomNavigatorSearchResultsController ()
 
@@ -26,7 +26,7 @@ static NSString * const reuseIdentifier = @"RoomNavigatorSearchResultsController
     if (self = [super init]) {
         self.tableView = [[RoomNavigatorTableView alloc] init];
         self.cityID = cityID;
-        [self.tableView registerClass:[RoomNavigatorTableViewCell class]
+        [self.tableView registerClass:[RoomNavigatorTableViewRoomCell class]
                forCellReuseIdentifier:reuseIdentifier];
     }
     return self;
@@ -58,9 +58,9 @@ static NSString * const reuseIdentifier = @"RoomNavigatorSearchResultsController
     return self.rooms.count;
 }
 
-- (RoomNavigatorTableViewCell *)tableView:(UITableView *)tableView
-                    cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    RoomNavigatorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+- (RoomNavigatorTableViewRoomCell *)tableView:(UITableView *)tableView
+                        cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    RoomNavigatorTableViewRoomCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     NSDictionary *room = [self.rooms objectAtIndex:indexPath.row];
     NSString *name = [room objectForKey:@"name"];
     [cell setName:name];

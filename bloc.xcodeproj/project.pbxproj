@@ -18,7 +18,7 @@
 		4F7FDA711AA634DF0092103B /* AppearanceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FDA701AA634DF0092103B /* AppearanceHelper.m */; };
 		4F7FDA741AA6350E0092103B /* UIFont+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FDA731AA6350E0092103B /* UIFont+Block.m */; };
 		4FDF503E1ABC5356007719AD /* MessengerToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDF503D1ABC5356007719AD /* MessengerToolbar.m */; };
-		4FF795EB1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m */; };
+		4FF795EB1AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.m */; };
 		4FF796031AA8FE570005AB36 /* NSArray+Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF796021AA8FE570005AB36 /* NSArray+Map.m */; };
 		E40292FB1AB102C20004FA04 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E40292FA1AB102C20004FA04 /* AssetsLibrary.framework */; };
 		E40292FD1AB102C80004FA04 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E40292FC1AB102C80004FA04 /* CoreText.framework */; };
@@ -47,6 +47,8 @@
 		E4C659AF1AA570F30028EE2D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659AE1AA570F30028EE2D /* Security.framework */; };
 		E4C659B11AA570FB0028EE2D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659B01AA570FB0028EE2D /* Foundation.framework */; };
 		E4D4D5201ABF98F100D338B5 /* RoomNavigatorTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D4D51F1ABF98F100D338B5 /* RoomNavigatorTableView.m */; };
+		E4D4D5231ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D4D5221ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.m */; };
+		E4D4D5261ABFBCEF00D338B5 /* CreateRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D4D5251ABFBCEF00D338B5 /* CreateRoomViewController.m */; };
 		E4D8E07E1AA549B7003EA242 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D8E07D1AA549B7003EA242 /* main.m */; };
 		E4D8E0811AA549B7003EA242 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D8E0801AA549B7003EA242 /* AppDelegate.m */; };
 		E4D8E0891AA549B7003EA242 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4D8E0881AA549B7003EA242 /* Images.xcassets */; };
@@ -93,8 +95,8 @@
 		4F7FDA731AA6350E0092103B /* UIFont+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFont+Block.m"; path = "block/Categories/UIFont+Block.m"; sourceTree = SOURCE_ROOT; };
 		4FDF503C1ABC5356007719AD /* MessengerToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessengerToolbar.h; sourceTree = "<group>"; };
 		4FDF503D1ABC5356007719AD /* MessengerToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessengerToolbar.m; sourceTree = "<group>"; };
-		4FF795E91AA8AD840005AB36 /* RoomNavigatorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableViewCell.h; sourceTree = "<group>"; };
-		4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorTableViewCell.m; sourceTree = "<group>"; };
+		4FF795E91AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableViewRoomCell.h; sourceTree = "<group>"; };
+		4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorTableViewRoomCell.m; sourceTree = "<group>"; };
 		4FF796011AA8FE570005AB36 /* NSArray+Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Map.h"; sourceTree = "<group>"; };
 		4FF796021AA8FE570005AB36 /* NSArray+Map.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Map.m"; sourceTree = "<group>"; };
 		E40292FA1AB102C20004FA04 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -139,6 +141,10 @@
 		E4C659B01AA570FB0028EE2D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E4D4D51E1ABF98F100D338B5 /* RoomNavigatorTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableView.h; sourceTree = "<group>"; };
 		E4D4D51F1ABF98F100D338B5 /* RoomNavigatorTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorTableView.m; sourceTree = "<group>"; };
+		E4D4D5211ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableViewMenuCell.h; sourceTree = "<group>"; };
+		E4D4D5221ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorTableViewMenuCell.m; sourceTree = "<group>"; };
+		E4D4D5241ABFBCEF00D338B5 /* CreateRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateRoomViewController.h; sourceTree = "<group>"; };
+		E4D4D5251ABFBCEF00D338B5 /* CreateRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateRoomViewController.m; sourceTree = "<group>"; };
 		E4D8E0781AA549B7003EA242 /* block.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = block.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4D8E07C1AA549B7003EA242 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E4D8E07D1AA549B7003EA242 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -197,12 +203,14 @@
 			children = (
 				4F7FDA691AA621340092103B /* MessageTableViewCell.h */,
 				4F7FDA6A1AA621340092103B /* MessageTableViewCell.m */,
-				4FF795E91AA8AD840005AB36 /* RoomNavigatorTableViewCell.h */,
-				4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m */,
 				4FDF503C1ABC5356007719AD /* MessengerToolbar.h */,
 				4FDF503D1ABC5356007719AD /* MessengerToolbar.m */,
 				E4D4D51E1ABF98F100D338B5 /* RoomNavigatorTableView.h */,
 				E4D4D51F1ABF98F100D338B5 /* RoomNavigatorTableView.m */,
+				E4D4D5211ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.h */,
+				E4D4D5221ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.m */,
+				4FF795E91AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.h */,
+				4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -377,6 +385,8 @@
 				E4E137821AA5552F007C8F50 /* MessengerViewController.m */,
 				E4800B451AB29A1000308917 /* MessagesTableViewController.h */,
 				E4800B461AB29A1000308917 /* MessagesTableViewController.m */,
+				E4D4D5241ABFBCEF00D338B5 /* CreateRoomViewController.h */,
+				E4D4D5251ABFBCEF00D338B5 /* CreateRoomViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -555,8 +565,9 @@
 				E4D8E0AF1AA550B3003EA242 /* NSDictionary+QueryString.m in Sources */,
 				4F5560951AA668B600090AFF /* APIManager+Cities.m in Sources */,
 				E46B8CAB1AA573FA00F9DF03 /* SocketIO.m in Sources */,
+				E4D4D5261ABFBCEF00D338B5 /* CreateRoomViewController.m in Sources */,
 				E4D4D5201ABF98F100D338B5 /* RoomNavigatorTableView.m in Sources */,
-				4FF795EB1AA8AD840005AB36 /* RoomNavigatorTableViewCell.m in Sources */,
+				4FF795EB1AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.m in Sources */,
 				4F7FDA741AA6350E0092103B /* UIFont+Block.m in Sources */,
 				4F350E811AA7479800637F98 /* MainViewController.m in Sources */,
 				4F7FDA6B1AA621340092103B /* MessageTableViewCell.m in Sources */,
@@ -570,6 +581,7 @@
 				E4986E1C1AACB6F400E3F81A /* SocketController.m in Sources */,
 				4F55608F1AA65B2500090AFF /* FindingCityViewController.m in Sources */,
 				4F7FDA711AA634DF0092103B /* AppearanceHelper.m in Sources */,
+				E4D4D5231ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.m in Sources */,
 				E46B8CAE1AA573FA00F9DF03 /* SocketIOTransportWebsocket.m in Sources */,
 				E4800B501AB4B18D00308917 /* RoomNavigatorSearchResultsController.m in Sources */,
 				E4BA6B7B1ABDE6CC00A1611A /* MainViewControllerAnimator.m in Sources */,
