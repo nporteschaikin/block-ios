@@ -115,7 +115,7 @@
 }
 
 - (NSDictionary *)roomByID:(NSString *)roomID {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(_id == %@)", roomID];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K == %@)", IOCityIDAttribute, roomID];
     NSArray *rooms = [self.rooms filteredArrayUsingPredicate:predicate];
     return [rooms firstObject];
 }
@@ -142,7 +142,7 @@
 }
 
 - (NSString *)roomID:(NSDictionary *)room {
-    return [room objectForKey:@"_id"];
+    return [room objectForKey:IORoomIDAttribute];
 }
 
 #pragma mark SocketIODelegate

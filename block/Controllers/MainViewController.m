@@ -16,6 +16,7 @@
 #import "MainViewControllerAnimator.h"
 #import "SocketController.h"
 #import "UIColor+Block.h"
+#import "Constants.h"
 
 @interface MainViewController () <LoginViewControllerDelegate, FindingCityViewControllerDelegate,
     SocketControllerDelegate, MessengerViewControllerDelegate, RoomNavigatorControllerDelegate,
@@ -87,7 +88,7 @@
 }
 
 - (void)connectSocketControllerWithCity:(NSDictionary *)city {
-    self.socketController = [[SocketController alloc] initWithCityID:[city objectForKey:@"_id"]
+    self.socketController = [[SocketController alloc] initWithCityID:[city objectForKey:IOCityIDAttribute]
                                                       sessionManager:self.sessionManager
                                                             delegate:self];
     [self.socketController connect];
@@ -113,8 +114,10 @@
     if (index < self.messengerViewControllers.count) {
         MessengerViewController *viewController = [self.messengerViewControllers objectAtIndex:index];
         if ([self.navigationController.viewControllers containsObject:viewController]) {
-            [self.navigationController popToViewController:viewController
-                                                  animated:YES];
+            if (self.navigationController.topViewController != viewController) {
+                [self.navigationController popToViewController:viewController
+                                                      animated:YES];
+            }
         } else {
             [self.navigationController pushViewController:viewController
                                                  animated:YES];
@@ -221,16 +224,20 @@
 
 - (void)sessionRoomsSentWithSocketController:(SocketController *)socketController {
     NSArray *messengerViewControllers = [NSArray arrayWithArray:self.messengerViewControllers];
-    NSLog(@"%@", messengerViewControllers);
     [self.messengerViewControllers removeAllObjects];
     if (socketController.rooms.count) {
         NSUInteger i=0;
         for (NSDictionary *room in socketController.rooms) {
             if (i < messengerViewControllers.count) {
                 MessengerViewController *messengerViewController = [messengerViewControllers objectAtIndex:i];
-                if (messengerViewController.room == room) [self.messengerViewControllers addObject:messengerViewController];
+                if ([messengerViewController.room objectForKey:IORoomIDAttribute] == [room objectForKey:IORoomIDAttribute]) {
+                    [self.messengerViewControllers addObject:messengerViewController];
+                    messengerViewController.room = room;
+                }
             }
-            if (i >= self.messengerViewControllers.count) [self createMessengerViewControllerForRoom:room];
+            if (i >= self.messengerViewControllers.count) {
+                [self createMessengerViewControllerForRoom:room];
+            }
             [self requestMessageHistoryAtIndex:i];
             i++;
         }

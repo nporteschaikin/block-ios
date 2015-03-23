@@ -15,6 +15,10 @@ NSString * const IOAuthEndpoint = @"auth";
 NSString * const IOCitiesAroundLocationEndpoint = @"cities/around";
 NSString * const IOCityEndpoint = @"cities/%@";
 NSString * const IOCityRoomSearchEndpoint = @"cities/%@/rooms/search";
+NSString * const IOCityIDAttribute = @"_id";
+NSString * const IORoomIDAttribute = @"_id";
+NSString * const IOMessageIDAttribute = @"_id";
+NSString * const IOUserIDAttribute = @"_id";
 
 NSString * const HockeyAppIdentifier = @"085f0a612acba457b4f26510c9158e7c";
 

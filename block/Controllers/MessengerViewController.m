@@ -14,7 +14,6 @@
 @interface MessengerViewController () <MessengerToolbarDelegate>
 
 @property (nonatomic, readwrite) BOOL didSetupConstraints;
-@property (strong, nonatomic, readwrite) NSDictionary *room;
 @property (strong, nonatomic) MessagesTableViewController *tableViewController;
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) MessengerToolbar *messengerToolbar;

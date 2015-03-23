@@ -28,7 +28,7 @@
 @interface MessengerViewController : UIViewController
 
 @property (strong, nonatomic) id<MessengerViewControllerDelegate> theDelegate;
-@property (strong, nonatomic, readonly) NSDictionary *room;
+@property (strong, nonatomic) NSDictionary *room;
 
 - (id)initWithRoom:(NSDictionary *)room;
 - (void)setMessageHistory:(NSArray *)messages;
