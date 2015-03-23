@@ -25,17 +25,17 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
         self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
         self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
         self.tableView.separatorColor = [UIColor clearColor];
-        self.tableView.contentInset = UIEdgeInsetsMake(14, 0, 14, 0);
         self.tableView.allowsSelection = NO;
+        self.tableView.contentInset = UIEdgeInsetsMake(14, 0, 14, 0);
         [self.tableView registerClass:[MessageTableViewCell class]
                forCellReuseIdentifier:reuseIdentifier];
     }
     return self;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
     [self scrollToBottomAnimated:NO];
+    [super viewWillAppear:animated];
 }
 
 - (void)setMessageHistory:(NSArray *)messages {
@@ -43,6 +43,7 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
         [self.messages removeAllObjects];
         [self.messages addObjectsFromArray:messages];
         [self.tableView reloadData];
+        [self.tableView layoutIfNeeded];
         [self scrollToBottomAnimated:NO];
     }
 }
@@ -64,10 +65,12 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
 - (void)scrollToBottomAnimated:(BOOL)animated {
     NSInteger lastIndex = self.messages.count - 1;
     if (lastIndex >= 0) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastIndex
-                                                                  inSection:0]
-                              atScrollPosition:UITableViewScrollPositionBottom
-                                      animated:animated];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastIndex
+                                                                      inSection:0]
+                                  atScrollPosition:UITableViewScrollPositionBottom
+                                          animated:animated];
+        });
     }
 }
 
