@@ -19,6 +19,7 @@ static NSString * const reuseIdentifier = @"RoomNavigatorViewControllerCell";
 @property (strong, nonatomic) RoomNavigatorTableView *tableView;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (nonatomic) BOOL didSetupConstraints;
+@property (nonatomic) BOOL isOpeningRoom;
 
 @end
 
@@ -201,6 +202,8 @@ titleForHeaderInSection:(NSInteger)section {
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSUInteger index = indexPath.row;
+    self.isOpeningRoom = YES;
+    [self.searchBar endEditing:YES];
     [self.theDelegate roomNavigatorViewController:self
                               selectedRoomAtIndex:index];
     [tableView deselectRowAtIndexPath:indexPath
@@ -238,6 +241,8 @@ searchResultsController:(RoomNavigatorSearchResultsController *)searchResultsCon
     [self.searchBar setText:@""];
     [self searchBar:self.searchBar
       textDidChange:@""];
+    self.isOpeningRoom = YES;
+    [self.searchBar endEditing:YES];
     [self.theDelegate roomNavigatorViewController:self
                                        openedRoom:room];
 }
@@ -270,7 +275,10 @@ searchResultsController:(RoomNavigatorSearchResultsController *)searchResultsCon
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-    [self.theDelegate roomNavigatorViewControllerEndedSearch:self];
+    if (!self.isOpeningRoom) {
+        [self.theDelegate roomNavigatorViewControllerEndedSearch:self];
+    }
+    self.isOpeningRoom = NO;
 }
 
 @end

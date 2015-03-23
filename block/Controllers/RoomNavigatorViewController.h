@@ -30,7 +30,6 @@
 @property (strong, nonatomic) NSDictionary *city;
 @property (strong, nonatomic) NSString *cityID;
 @property (strong, nonatomic) NSArray *rooms;
-@property (nonatomic, readonly) BOOL searchIsActive;
 
 - (void)openSessionRooms;
 

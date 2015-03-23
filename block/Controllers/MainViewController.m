@@ -352,7 +352,7 @@
 - (MainViewControllerAnimator *)animator {
     if (!_animator) {
         _animator = [[MainViewControllerAnimator alloc] initWithMessengerViewControllers:self.messengerViewControllers
-                                                                                transitionDuration:0.5f];
+                                                                                transitionDuration:0.25f];
     }
     return _animator;
 }
