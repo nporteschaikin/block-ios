@@ -84,6 +84,11 @@
     [self.view setNeedsUpdateConstraints];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.messengerToolbar.textView endEditing:YES];
+}
+
 - (void)updateViewConstraints {
     if (!self.didSetupConstraints) {
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
@@ -175,7 +180,6 @@
 }
 
 - (void)handleTableViewTap:(UITapGestureRecognizer *)tap {
-    [self.messengerToolbar.textView endEditing:YES];
     [self.theDelegate messengerViewControllerTableViewTapped:self];
 }
 
