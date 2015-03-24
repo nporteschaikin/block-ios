@@ -46,7 +46,6 @@
 		E4C659AF1AA570F30028EE2D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659AE1AA570F30028EE2D /* Security.framework */; };
 		E4C659B11AA570FB0028EE2D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C659B01AA570FB0028EE2D /* Foundation.framework */; };
 		E4D4D5201ABF98F100D338B5 /* RoomNavigatorTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D4D51F1ABF98F100D338B5 /* RoomNavigatorTableView.m */; };
-		E4D4D5231ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D4D5221ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.m */; };
 		E4D4D5261ABFBCEF00D338B5 /* CreateRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D4D5251ABFBCEF00D338B5 /* CreateRoomViewController.m */; };
 		E4D8E07E1AA549B7003EA242 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D8E07D1AA549B7003EA242 /* main.m */; };
 		E4D8E0811AA549B7003EA242 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D8E0801AA549B7003EA242 /* AppDelegate.m */; };
@@ -140,8 +139,6 @@
 		E4C659B01AA570FB0028EE2D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E4D4D51E1ABF98F100D338B5 /* RoomNavigatorTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableView.h; sourceTree = "<group>"; };
 		E4D4D51F1ABF98F100D338B5 /* RoomNavigatorTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorTableView.m; sourceTree = "<group>"; };
-		E4D4D5211ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableViewMenuCell.h; sourceTree = "<group>"; };
-		E4D4D5221ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorTableViewMenuCell.m; sourceTree = "<group>"; };
 		E4D4D5241ABFBCEF00D338B5 /* CreateRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateRoomViewController.h; sourceTree = "<group>"; };
 		E4D4D5251ABFBCEF00D338B5 /* CreateRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateRoomViewController.m; sourceTree = "<group>"; };
 		E4D8E0781AA549B7003EA242 /* block.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = block.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,8 +203,6 @@
 				4FDF503D1ABC5356007719AD /* MessengerToolbar.m */,
 				E4D4D51E1ABF98F100D338B5 /* RoomNavigatorTableView.h */,
 				E4D4D51F1ABF98F100D338B5 /* RoomNavigatorTableView.m */,
-				E4D4D5211ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.h */,
-				E4D4D5221ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.m */,
 				4FF795E91AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.h */,
 				4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.m */,
 			);
@@ -579,7 +574,6 @@
 				E4986E1C1AACB6F400E3F81A /* SocketController.m in Sources */,
 				4F55608F1AA65B2500090AFF /* FindingCityViewController.m in Sources */,
 				4F7FDA711AA634DF0092103B /* AppearanceHelper.m in Sources */,
-				E4D4D5231ABFA80000D338B5 /* RoomNavigatorTableViewMenuCell.m in Sources */,
 				E46B8CAE1AA573FA00F9DF03 /* SocketIOTransportWebsocket.m in Sources */,
 				E4800B501AB4B18D00308917 /* RoomNavigatorSearchResultsController.m in Sources */,
 				E4BA6B7B1ABDE6CC00A1611A /* MainViewControllerAnimator.m in Sources */,

@@ -8,7 +8,7 @@
 
 #import "UIFont+Block.h"
 
-static NSString * const defaultFont = @"Avenir";
+static NSString * const defaultFont = @"Helvetica";
 
 @implementation UIFont (Block)
 

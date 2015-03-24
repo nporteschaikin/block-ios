@@ -15,11 +15,9 @@
 + (void)customizeAppearance {
     [[UITextView appearance] setFont:[UIFont defaultTextViewFont]];
     [[UITextField appearance] setFont:[UIFont defaultTextFieldFont]];
-    [[UILabel appearance] setFont:[UIFont defaultLabelFont]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor blockGreyColor]];
     [[UINavigationBar appearance] setTintColor:[UIColor blockGreenColor]];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont defaultNavigationBarFont],
-                                                           NSForegroundColorAttributeName:[UIColor blockGreenColor]}];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blockGreenColor]}];
     [[UISearchBar appearance] setBarTintColor:[UIColor clearColor]];
     [[UISearchBar appearance] setBackgroundColor:[UIColor clearColor]];
     [[UISearchBar appearance] setBackgroundImage:[[UIImage alloc] init]];
