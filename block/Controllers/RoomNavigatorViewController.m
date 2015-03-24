@@ -205,16 +205,11 @@ titleForHeaderInSection:(NSInteger)section {
     NSInteger section = indexPath.section;
     UITableViewCell *cell;
     if (section == 0) {
-        
-        // room
         cell = [tableView dequeueReusableCellWithIdentifier:roomReuseIdentifier];
         NSDictionary *room = [self.rooms objectAtIndex:indexPath.row];
         NSString *name = [room objectForKey:@"name"];
-        [((RoomNavigatorTableViewRoomCell *)cell) setName:name];
-        
+        ((RoomNavigatorTableViewRoomCell *)cell).name = name;
     } else {
-        
-        // settings
         cell = [tableView dequeueReusableCellWithIdentifier:roomReuseIdentifier];
         switch (indexPath.row) {
             case 0:

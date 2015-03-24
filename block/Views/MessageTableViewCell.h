@@ -10,8 +10,9 @@
 
 @interface MessageTableViewCell : UITableViewCell
 
-- (void)setUserName:(NSString *)userName;
-- (void)setMessage:(NSString *)message;
-- (void)setTimeAgo:(NSString *)createdAt;
+@property (strong, nonatomic) NSString *userName;
+@property (strong, nonatomic) NSString *message;
+@property (strong, nonatomic) NSString *createdAt;
+@property (nonatomic) BOOL isCurrentUser;
 
 @end

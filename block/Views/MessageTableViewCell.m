@@ -9,6 +9,7 @@
 #import "MessageTableViewCell.h"
 #import "NSDate+ISO8601.h"
 #import "NSDate+TimeAgo.h"
+#import "UIColor+Block.h"
 
 @interface MessageTableViewCell ()
 
@@ -146,16 +147,28 @@
 }
 
 - (void)setUserName:(NSString *)userName {
+    _userName = userName;
     self.userNameLabel.text = userName;
 }
 
 - (void)setMessage:(NSString *)message {
+    _message = message;
     self.messageLabel.text = message;
 }
 
-- (void)setTimeAgo:(NSString *)createdAt {
+- (void)setCreatedAt:(NSString *)createdAt {
+    _createdAt = createdAt;
     NSDate *date = [NSDate dateWithISO8601:createdAt];
     self.timeAgoLabel.text = [date timeAgo];
+}
+
+- (void)setIsCurrentUser:(BOOL)isCurrentUser {
+    _isCurrentUser = isCurrentUser;
+    if (_isCurrentUser == YES) {
+        self.backgroundColor = [UIColor blockGreenColorAlpha:0.05];
+    } else {
+        self.backgroundColor = [UIColor clearColor];
+    }
 }
 
 @end

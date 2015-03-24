@@ -14,6 +14,7 @@
 @interface MessengerViewController () <MessengerToolbarDelegate>
 
 @property (nonatomic, readwrite) BOOL didSetupConstraints;
+@property (strong, nonatomic) NSDictionary *user;
 @property (strong, nonatomic) MessagesTableViewController *tableViewController;
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) MessengerToolbar *messengerToolbar;
@@ -23,9 +24,11 @@
 
 @implementation MessengerViewController
 
-- (id)initWithRoom:(NSDictionary *)room {
+- (id)initWithRoom:(NSDictionary *)room
+              user:(NSDictionary *)user {
     if (self = [self init]) {
         self.room = room;
+        self.user = user;
         
         [self addChildViewController:self.tableViewController];
         [self.view addSubview:self.tableViewController.view];
@@ -187,7 +190,7 @@
 
 - (MessagesTableViewController *)tableViewController {
     if (!_tableViewController) {
-        _tableViewController = [[MessagesTableViewController alloc] init];
+        _tableViewController = [[MessagesTableViewController alloc] initWithUser:self.user];
     }
     return _tableViewController;
 }

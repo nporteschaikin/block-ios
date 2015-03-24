@@ -11,6 +11,7 @@
 @interface SessionManager : NSObject
 
 @property (strong, nonatomic, readonly) NSString *sessionToken;
+@property (strong, nonatomic, readonly) NSDictionary *user;
 
 + (void)withFacebookAccessToken:(NSString *)fbAccessToken
                      onComplete:(void (^)(SessionManager *))onComplete

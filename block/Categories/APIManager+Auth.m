@@ -12,7 +12,7 @@
 @implementation APIManager (Auth)
 
 + (void)getAuthTokenWithParams:(NSDictionary *)params
-                    onComplete:(void(^)(NSString *sessionToken))onComplete
+                    onComplete:(void(^)(NSDictionary *result))onComplete
                         onFail:(void (^)(void))onFail {
     [[self sharedManager] POST:IOAuthEndpoint sessionManager:nil params:params
                     onComplete:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -20,8 +20,9 @@
                         if (statusCode != 200) {
                             onFail();
                         } else {
-                            onComplete([[NSString alloc] initWithData:data
-                                                             encoding:NSUTF8StringEncoding]);
+                            onComplete([NSJSONSerialization JSONObjectWithData:data
+                                                                       options:kNilOptions
+                                                                         error:nil]);
                         };
                     }];
 }

@@ -17,6 +17,13 @@
                            alpha:1];
 }
 
++ (UIColor *)blockGreenColorAlpha:(float)alpha {
+    return [UIColor colorWithRed:0
+                           green:1
+                            blue:0.8
+                           alpha:alpha];
+}
+
 + (UIColor *)blockGreyColor {
     return [UIColor colorWithRed:0.259
                            green:0.259

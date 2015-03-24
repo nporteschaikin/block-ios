@@ -95,7 +95,8 @@
 }
 
 - (void)createMessengerViewControllerForRoom:(NSDictionary *)room {
-    MessengerViewController *messengerViewController = [[MessengerViewController alloc] initWithRoom:room];
+    MessengerViewController *messengerViewController = [[MessengerViewController alloc] initWithRoom:room
+                                                                                                user:self.sessionManager.user];
     messengerViewController.theDelegate = self;
     [self.messengerViewControllers addObject:messengerViewController];
 }
@@ -230,7 +231,8 @@
         for (NSDictionary *room in socketController.rooms) {
             if (i < messengerViewControllers.count) {
                 MessengerViewController *messengerViewController = [messengerViewControllers objectAtIndex:i];
-                if ([messengerViewController.room objectForKey:IORoomIDAttribute] == [room objectForKey:IORoomIDAttribute]) {
+                if ([(NSString *)[messengerViewController.room objectForKey:IORoomIDAttribute]
+                     isEqualToString:(NSString *)[room objectForKey:IORoomIDAttribute]]) {
                     [self.messengerViewControllers addObject:messengerViewController];
                     messengerViewController.room = room;
                 }

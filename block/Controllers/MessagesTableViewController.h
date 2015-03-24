@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SessionManager.h"
 
 @interface MessagesTableViewController : UITableViewController
 
+- (id)initWithUser:(NSDictionary *)user;
 - (void)setMessageHistory:(NSArray *)messages;
 - (void)addMessage:(NSDictionary *)message
             byUser:(NSDictionary *)user;

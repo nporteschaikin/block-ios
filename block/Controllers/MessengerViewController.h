@@ -30,7 +30,8 @@
 @property (strong, nonatomic) id<MessengerViewControllerDelegate> theDelegate;
 @property (strong, nonatomic) NSDictionary *room;
 
-- (id)initWithRoom:(NSDictionary *)room;
+- (id)initWithRoom:(NSDictionary *)room
+              user:(NSDictionary *)user;
 - (void)setMessageHistory:(NSArray *)messages;
 - (void)addMessage:(NSDictionary *)message
             byUser:(NSDictionary *)user;

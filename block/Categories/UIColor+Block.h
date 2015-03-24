@@ -11,6 +11,7 @@
 @interface UIColor (Block)
 
 + (UIColor *)blockGreenColor;
++ (UIColor *)blockGreenColorAlpha:(float)alpha;
 + (UIColor *)blockGreyColor;
 
 @end

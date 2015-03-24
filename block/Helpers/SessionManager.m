@@ -14,6 +14,7 @@ static SessionManager *activeSession;
 
 @interface SessionManager ()
 @property (strong, nonatomic, readwrite) NSString *sessionToken;
+@property (strong, nonatomic, readwrite) NSDictionary *user;
 @end
 
 @implementation SessionManager
@@ -42,16 +43,23 @@ static SessionManager *activeSession;
 + (void)withParams:(NSDictionary *)params
         onComplete:(void (^)(SessionManager *))onComplete
             onFail:(void (^)(void))onFail {
-    [APIManager getAuthTokenWithParams:params onComplete:^(NSString *sessionToken) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:sessionToken forKey:SessionTokenUserDefaultsKey];
-        onComplete([[SessionManager alloc] initWithSessionToken:sessionToken]);
-    } onFail:onFail];
+    [APIManager getAuthTokenWithParams:params
+                            onComplete:^(NSDictionary *result) {
+                                NSLog(@"%@", result);
+                                NSString *sessionToken = [result objectForKey:@"sessionToken"];
+                                NSDictionary *user = [result objectForKey:@"user"];
+                                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                                [defaults setObject:sessionToken forKey:SessionTokenUserDefaultsKey];
+                                onComplete([[SessionManager alloc] initWithSessionToken:sessionToken
+                                                                                   user:user]);
+                            } onFail:onFail];
 }
 
-- (id)initWithSessionToken:(NSString *)sessionToken {
+- (id)initWithSessionToken:(NSString *)sessionToken
+                      user:(NSDictionary *)user {
     if (self = [super init]) {
         self.sessionToken = sessionToken;
+        self.user = user;
     }
     return self;
 }

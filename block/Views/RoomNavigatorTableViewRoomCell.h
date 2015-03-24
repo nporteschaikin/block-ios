@@ -10,6 +10,6 @@
 
 @interface RoomNavigatorTableViewRoomCell : UITableViewCell
 
-- (void)setName:(NSString *)name;
+@property (strong, nonatomic) NSString *name;
 
 @end

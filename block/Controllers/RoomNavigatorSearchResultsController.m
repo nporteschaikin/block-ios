@@ -62,8 +62,7 @@ static NSString * const reuseIdentifier = @"RoomNavigatorTableViewRoomCell";
                         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RoomNavigatorTableViewRoomCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     NSDictionary *room = [self.rooms objectAtIndex:indexPath.row];
-    NSString *name = [room objectForKey:@"name"];
-    [cell setName:name];
+    cell.name = [room objectForKey:@"name"];
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
     return cell;

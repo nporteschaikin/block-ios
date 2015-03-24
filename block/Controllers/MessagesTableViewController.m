@@ -8,25 +8,27 @@
 
 #import "MessagesTableViewController.h"
 #import "MessageTableViewCell.h"
+#import "Constants.h"
 
 NSString * const reuseIdentifier = @"reuseIdentifier";
 
 @interface MessagesTableViewController ()
 
 @property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) NSDictionary *user;
 
 @end
 
 @implementation MessagesTableViewController
 
-- (id)init {
+- (id)initWithUser:(NSDictionary *)user {
     if (self = [super init]) {
+        self.user = user;
         self.messages = [NSMutableArray array];
         self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
         self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
         self.tableView.separatorColor = [UIColor clearColor];
         self.tableView.allowsSelection = NO;
-        self.tableView.contentInset = UIEdgeInsetsMake(14, 0, 14, 0);
         [self.tableView registerClass:[MessageTableViewCell class]
                forCellReuseIdentifier:reuseIdentifier];
     }
@@ -78,9 +80,11 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
           atIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *message = [self.messages objectAtIndex:indexPath.row];
     NSDictionary *user = [message objectForKey:@"user"];
-    [cell setMessage:[message objectForKey:@"message"]];
-    [cell setUserName:[user objectForKey:@"name"]];
-    [cell setTimeAgo:[message objectForKey:@"createdAt"]];
+    cell.message = [message objectForKey:@"message"];
+    cell.userName = [user objectForKey:@"name"];
+    cell.createdAt = [message objectForKey:@"createdAt"];
+    cell.isCurrentUser = [(NSString *)[self.user objectForKey:IOUserIDAttribute]
+                          isEqualToString:(NSString *)[user objectForKey:IOUserIDAttribute]];
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
 }
