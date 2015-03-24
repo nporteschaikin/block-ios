@@ -32,7 +32,8 @@
 
 - (id)initWithRoom:(NSDictionary *)room
               user:(NSDictionary *)user;
-- (void)setMessageHistory:(NSArray *)messages;
+- (void)setMessageHistory:(NSArray *)messages
+             lastReadDate:(NSDate *)lastReadDate;
 - (void)addMessage:(NSDictionary *)message
             byUser:(NSDictionary *)user;
 

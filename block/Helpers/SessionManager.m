@@ -45,7 +45,6 @@ static SessionManager *activeSession;
             onFail:(void (^)(void))onFail {
     [APIManager getAuthTokenWithParams:params
                             onComplete:^(NSDictionary *result) {
-                                NSLog(@"%@", result);
                                 NSString *sessionToken = [result objectForKey:@"sessionToken"];
                                 NSDictionary *user = [result objectForKey:@"user"];
                                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

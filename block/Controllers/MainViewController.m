@@ -267,9 +267,11 @@
 
 - (void)messageHistorySent:(NSArray *)messages
              inRoomAtIndex:(NSUInteger)index
+              lastReadDate:(NSDate *)lastReadDate
           socketController:(SocketController *)socketController {
     MessengerViewController *messengerViewController = [self.messengerViewControllers objectAtIndex:index];
-    [messengerViewController setMessageHistory:messages];
+    [messengerViewController setMessageHistory:messages
+                                  lastReadDate:lastReadDate];
 }
 
 - (void)messageSent:(NSDictionary *)message

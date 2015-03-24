@@ -12,7 +12,8 @@
 
 @property (strong, nonatomic) NSString *userName;
 @property (strong, nonatomic) NSString *message;
-@property (strong, nonatomic) NSString *createdAt;
+@property (strong, nonatomic) NSDate *createdAt;
 @property (nonatomic) BOOL isCurrentUser;
+@property (nonatomic) BOOL isUnread;
 
 @end

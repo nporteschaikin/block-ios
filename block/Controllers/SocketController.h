@@ -35,6 +35,7 @@
 
 - (void)messageHistorySent:(NSArray *)messages
              inRoomAtIndex:(NSUInteger)index
+              lastReadDate:(NSDate *)lastReadDate
           socketController:(SocketController *)socketController;
 
 @end

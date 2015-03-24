@@ -12,7 +12,8 @@
 @interface MessagesTableViewController : UITableViewController
 
 - (id)initWithUser:(NSDictionary *)user;
-- (void)setMessageHistory:(NSArray *)messages;
+- (void)setMessageHistory:(NSArray *)messages
+             lastReadDate:(NSDate *)lastReadDate;
 - (void)addMessage:(NSDictionary *)message
             byUser:(NSDictionary *)user;
 - (void)scrollToBottomAnimated:(BOOL)animated;

@@ -147,8 +147,10 @@
                                   byUser:user];
 }
 
-- (void)setMessageHistory:(NSArray *)messages {
-    [self.tableViewController setMessageHistory:messages];
+- (void)setMessageHistory:(NSArray *)messages
+             lastReadDate:(NSDate *)lastReadDate {
+    [self.tableViewController setMessageHistory:messages
+                                   lastReadDate:lastReadDate];
 }
 
 - (void)keyboardWillChangeFrame:(NSNotification *)notification {

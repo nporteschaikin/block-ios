@@ -7,7 +7,6 @@
 //
 
 #import "MessageTableViewCell.h"
-#import "NSDate+ISO8601.h"
 #import "NSDate+TimeAgo.h"
 #import "UIColor+Block.h"
 
@@ -38,6 +37,15 @@
     [self.contentView setNeedsLayout];
     [self.contentView layoutIfNeeded];
     self.messageLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.messageLabel.bounds);
+    
+    // set background color
+    if (self.isCurrentUser == YES) {
+        self.backgroundColor = [UIColor blockGreenColorAlpha:0.05];
+    } else if (self.isUnread == YES) {
+        self.backgroundColor = [UIColor blockGreenColorAlpha:0.5];
+    } else {
+        self.backgroundColor = [UIColor whiteColor];
+    }
 }
 
 - (void) updateConstraints {
@@ -156,19 +164,9 @@
     self.messageLabel.text = message;
 }
 
-- (void)setCreatedAt:(NSString *)createdAt {
+- (void)setCreatedAt:(NSDate *)createdAt {
     _createdAt = createdAt;
-    NSDate *date = [NSDate dateWithISO8601:createdAt];
-    self.timeAgoLabel.text = [date timeAgo];
-}
-
-- (void)setIsCurrentUser:(BOOL)isCurrentUser {
-    _isCurrentUser = isCurrentUser;
-    if (_isCurrentUser == YES) {
-        self.backgroundColor = [UIColor blockGreenColorAlpha:0.05];
-    } else {
-        self.backgroundColor = [UIColor clearColor];
-    }
+    self.timeAgoLabel.text = [createdAt timeAgo];
 }
 
 @end
