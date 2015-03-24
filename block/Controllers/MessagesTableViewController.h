@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "SessionManager.h"
 
+typedef NS_ENUM(NSInteger, MessagesTableViewControllerMenu) {
+    MessagesTableViewControllerMenuCreateNewRoom,
+    MessagesTableViewControllerMenuSettings
+};
+
 @interface MessagesTableViewController : UITableViewController
 
 - (id)initWithUser:(NSDictionary *)user;
