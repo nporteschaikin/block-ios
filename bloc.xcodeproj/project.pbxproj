@@ -27,7 +27,6 @@
 		E40293031AB102E60004FA04 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E40293021AB102E60004FA04 /* QuickLook.framework */; };
 		E40293051AB102F30004FA04 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E40293041AB102F30004FA04 /* SystemConfiguration.framework */; };
 		E402930B1AB103050004FA04 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E40293071AB103050004FA04 /* HockeySDK.framework */; };
-		E402930C1AB103050004FA04 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E40293091AB103050004FA04 /* HockeySDK.xcconfig */; };
 		E402930D1AB103050004FA04 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E402930A1AB103050004FA04 /* HockeySDKResources.bundle */; };
 		E46B8C9B1AA5727200F9DF03 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E46B8C9A1AA5727200F9DF03 /* SRWebSocket.m */; };
 		E46B8CAB1AA573FA00F9DF03 /* SocketIO.m in Sources */ = {isa = PBXBuildFile; fileRef = E46B8CA11AA573FA00F9DF03 /* SocketIO.m */; };
@@ -479,7 +478,7 @@
 		E4D8E0701AA549B7003EA242 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "Noah Portes Chaikin";
 				TargetAttributes = {
 					E4D8E0771AA549B7003EA242 = {
@@ -516,7 +515,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E402930C1AB103050004FA04 /* HockeySDK.xcconfig in Resources */,
 				E402930D1AB103050004FA04 /* HockeySDKResources.bundle in Resources */,
 				E4D8E0891AA549B7003EA242 /* Images.xcassets in Resources */,
 			);

@@ -132,13 +132,6 @@
                                                               attribute:NSLayoutAttributeRight
                                                              multiplier:1
                                                                constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messengerToolbar
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1
-                                                               constant:0]];
         [self.view addConstraint:self.messengerToolbarBottomConstraint];
         self.didSetupConstraints = YES;
     }
