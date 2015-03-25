@@ -12,7 +12,6 @@
 
 @property (strong, nonatomic) NSLayoutConstraint *heightConstraint;
 @property (nonatomic) CGFloat textViewContentHeight;
-@property (nonatomic) BOOL didSetupConstraints;
 
 @end
 
@@ -21,6 +20,7 @@
 - (id)init {
     if (self = [super init]) {
         [self setupToolbar];
+        [self setupConstraints];
     }
     return self;
 }
@@ -28,6 +28,7 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setupToolbar];
+        [self setupConstraints];
     }
     return self;
 }
@@ -43,54 +44,50 @@
                                            alpha:1];
 }
 
-- (void)updateConstraints {
-    if (!self.didSetupConstraints) {
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
-                                                         attribute:NSLayoutAttributeTop
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
-                                                         attribute:NSLayoutAttributeTop
-                                                        multiplier:1
-                                                          constant:7]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
-                                                         attribute:NSLayoutAttributeLeft
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
-                                                         attribute:NSLayoutAttributeLeft
-                                                        multiplier:1
-                                                          constant:7]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
-                                                         attribute:NSLayoutAttributeBottom
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
-                                                         attribute:NSLayoutAttributeBottom
-                                                        multiplier:1
-                                                          constant:-7]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
-                                                         attribute:NSLayoutAttributeRight
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.sendButton
-                                                         attribute:NSLayoutAttributeLeft
-                                                        multiplier:1
-                                                          constant:-7]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.sendButton
-                                                         attribute:NSLayoutAttributeRight
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
-                                                         attribute:NSLayoutAttributeRight
-                                                        multiplier:1
-                                                          constant:-7]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.sendButton
-                                                         attribute:NSLayoutAttributeCenterY
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
-                                                         attribute:NSLayoutAttributeCenterY
-                                                        multiplier:1
-                                                          constant:0]];
-        [self addConstraint:self.heightConstraint];
-        self.didSetupConstraints = YES;
-    }
-    [super updateConstraints];
+- (void)setupConstraints {
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
+                                                     attribute:NSLayoutAttributeTop
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeTop
+                                                    multiplier:1
+                                                      constant:7]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
+                                                     attribute:NSLayoutAttributeLeft
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeLeft
+                                                    multiplier:1
+                                                      constant:7]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
+                                                     attribute:NSLayoutAttributeBottom
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeBottom
+                                                    multiplier:1
+                                                      constant:-7]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.textView
+                                                     attribute:NSLayoutAttributeRight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.sendButton
+                                                     attribute:NSLayoutAttributeLeft
+                                                    multiplier:1
+                                                      constant:-7]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.sendButton
+                                                     attribute:NSLayoutAttributeRight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeRight
+                                                    multiplier:1
+                                                      constant:-7]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.sendButton
+                                                     attribute:NSLayoutAttributeCenterY
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeCenterY
+                                                    multiplier:1
+                                                      constant:0]];
+    [self addConstraint:self.heightConstraint];
 }
 
 - (UITextView *)textView {
@@ -151,7 +148,7 @@
     } else {
         CGFloat oTextViewHeight = self.textViewContentHeight;
         CGFloat nTextViewHeight = self.textView.contentSize.height;
-        CGFloat diff =  nTextViewHeight - oTextViewHeight;
+        CGFloat diff = nTextViewHeight - oTextViewHeight;
         self.textViewContentHeight = nTextViewHeight;
         if (diff != 0) {
             self.heightConstraint.constant += diff;

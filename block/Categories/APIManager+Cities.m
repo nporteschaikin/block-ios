@@ -48,4 +48,17 @@
                    }];
 }
 
++ (void)createRoomInCityWithID:(NSString *)cityID
+                          name:(NSString *)name
+                   description:(NSString *)description
+                    onComplete:(void(^)(NSDictionary *room))onComplete {
+    [[self sharedManager] POST:[NSString stringWithFormat:IOCityRoomEndpoint, cityID]
+                sessionManager:nil
+                        params:@{@"name": name, @"description": description}
+                    onComplete:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                        onComplete([NSJSONSerialization JSONObjectWithData:data
+                                                                   options:kNilOptions error:nil]);
+                    }];
+}
+
 @end

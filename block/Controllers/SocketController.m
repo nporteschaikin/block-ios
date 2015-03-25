@@ -216,7 +216,11 @@
 
 - (void)handleRoomHistoryEvent:(NSArray *)args {
     NSUInteger index = [self roomIndexByID:(NSString *)[args objectAtIndex:0]];
-    NSDate *lastReadDate = [NSDate dateWithTimeIntervalSince1970:[[args objectAtIndex:2] doubleValue] / 1000];
+    NSString *lastReadDateValue = (NSString *)[args objectAtIndex:2];
+    NSDate *lastReadDate;
+    if (lastReadDateValue != (id)[NSNull null]) {
+         lastReadDate = [NSDate dateWithTimeIntervalSince1970:[lastReadDateValue doubleValue] / 1000];
+    }
     [self.delegate messageHistorySent:(NSArray *)[args objectAtIndex:1]
                         inRoomAtIndex:index
                          lastReadDate:lastReadDate

@@ -22,7 +22,6 @@ static NSString * const menuReuseIdentifier = @"RoomNavigatorTableViewMenuCell";
 @property (strong, nonatomic) RoomNavigatorTableView *tableView;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) UIButton *createNewRoomButton;
-@property (nonatomic) BOOL didSetupConstraints;
 @property (nonatomic) BOOL isOpeningRoom;
 
 @end
@@ -35,41 +34,36 @@ static NSString * const menuReuseIdentifier = @"RoomNavigatorTableViewMenuCell";
                forCellReuseIdentifier:roomReuseIdentifier];
         [self.tableView registerClass:[RoomNavigatorTableViewMenuCell class]
                forCellReuseIdentifier:menuReuseIdentifier];
+        [self.view addSubview:self.tableView];
+        [self addChildViewController:self.searchResultsController];
+        [self.view insertSubview:self.searchResultsController.view
+                    aboveSubview:self.tableView];
+        [self.searchResultsController didMoveToParentViewController:self];
+        [self.view addSubview:self.searchBar];
+        [self.searchBar sizeToFit];
+        [self setupConstraints];
     }
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self.view addSubview:self.tableView];
-    [self addChildViewController:self.searchResultsController];
-    [self.view insertSubview:self.searchResultsController.view
-                aboveSubview:self.tableView];
-    [self.searchResultsController didMoveToParentViewController:self];
-    [self.view addSubview:self.searchBar];
-    [self.searchBar sizeToFit];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.view setNeedsUpdateConstraints];
-}
-
 - (void)setCity:(NSDictionary *)city {
     _city = city;
-    _searchBar.placeholder = [NSString stringWithFormat:@"Find rooms in %@...", [_city valueForKey:@"name"]];
+    self.searchBar.placeholder = [NSString stringWithFormat:@"Find rooms in %@...", [_city valueForKey:@"name"]];
 }
 
 - (void)openSessionRooms {
-    [self.tableView reloadData];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
+                  withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)openRoomAtIndex:(NSUInteger)index {
-    [self.tableView reloadData];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
+                  withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)leaveRoomAtIndex:(NSUInteger)index {
-    [self.tableView reloadData];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
+                  withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)showSearchResultsController {
@@ -80,88 +74,84 @@ static NSString * const menuReuseIdentifier = @"RoomNavigatorTableViewMenuCell";
     self.searchResultsController.view.hidden = YES;
 }
 
-- (void)updateViewConstraints {
-    if (!self.didSetupConstraints) {
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
-                                                              attribute:NSLayoutAttributeTop
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.searchBar
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar
-                                                              attribute:NSLayoutAttributeLeft
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar
-                                                              attribute:NSLayoutAttributeRight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeRight
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar
-                                                              attribute:NSLayoutAttributeTop
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.topLayoutGuide
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
-                                                              attribute:NSLayoutAttributeLeft
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
-                                                              attribute:NSLayoutAttributeRight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeRight
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
-                                                              attribute:NSLayoutAttributeTop
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.searchBar
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
-                                                              attribute:NSLayoutAttributeRight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeRight
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1
-                                                               constant:0]];
-        self.didSetupConstraints = YES;
-    }
-    [super updateViewConstraints];
+- (void)setupConstraints {
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.searchBar
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar
+                                                          attribute:NSLayoutAttributeRight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchBar
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.topLayoutGuide
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+                                                          attribute:NSLayoutAttributeRight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.searchBar
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
+                                                          attribute:NSLayoutAttributeRight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.searchResultsController.view
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1
+                                                           constant:0]];
 }
 
 #pragma mark - RoomNavigatorTableView
@@ -187,7 +177,7 @@ static NSString * const menuReuseIdentifier = @"RoomNavigatorTableViewMenuCell";
     if (section == 0) {
         return self.rooms.count;
     }
-    return 1;
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -244,19 +234,30 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void)didSelectMenuCellAtRow:(NSUInteger)row {
-    // do nothing... yet
+    
+}
+
+- (UIView *)tableView:(UITableView *)tableView
+viewForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        return self.createNewRoomButton;
+    }
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView
+heightForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        return self.createNewRoomButton.frame.size.height;
+    }
+    return 0;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView
 estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewAutomaticDimension;
 }
-
-- (UIView *)tableView:(UITableView *)tableView
-viewForFooterInSection:(NSInteger)section {
-    return self.createNewRoomButton;
-}
-
 
 #pragma mark - RoomNavigatorSearchResultsController
 
@@ -321,13 +322,32 @@ searchResultsController:(RoomNavigatorSearchResultsController *)searchResultsCon
 
 - (UIButton *)createNewRoomButton {
     if (!_createNewRoomButton) {
-        _createNewRoomButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        _createNewRoomButton.titleLabel.text = @"Create New Room";
-        _createNewRoomButton.backgroundColor = [UIColor blockGreenColor];
-        _createNewRoomButton.titleLabel.textColor = [UIColor whiteColor];
+        _createNewRoomButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _createNewRoomButton.titleLabel.font = [UIFont fontWithName:@"Arial"
+                                                               size:14.f];
+        _createNewRoomButton.titleLabel.numberOfLines = 1;
+        _createNewRoomButton.contentEdgeInsets = UIEdgeInsetsMake(12, 17, 12, 12);
+        _createNewRoomButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        _createNewRoomButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [_createNewRoomButton setTitle:@"+ Create New Room"
+                              forState:UIControlStateNormal];
+        [_createNewRoomButton setTitleColor:[UIColor blockGreenColor]
+                                   forState:UIControlStateNormal];
+        [_createNewRoomButton setTitleColor:[UIColor blockGreenColorAlpha:0.5]
+                                   forState:UIControlStateSelected];
+        [_createNewRoomButton setTitleColor:[UIColor blockGreenColorAlpha:0.5]
+                                   forState:UIControlStateHighlighted];
+        [_createNewRoomButton addTarget:self
+                                 action:@selector(handleCreateNewRoomButtonTouchDown:)
+                       forControlEvents:UIControlEventTouchDown];
         [_createNewRoomButton sizeToFit];
     }
     return _createNewRoomButton;
+}
+
+- (void)handleCreateNewRoomButtonTouchDown:(id)sender {
+    [self.theDelegate roomNavigatorViewController:self
+                                           action:RoomNavigatorViewControllerActionCreateNewRoom];
 }
 
 @end

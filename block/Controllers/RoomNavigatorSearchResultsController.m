@@ -32,10 +32,6 @@ static NSString * const reuseIdentifier = @"RoomNavigatorTableViewRoomCell";
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
 - (void)updateSearchResultsWithQuery:(NSString *)query {
     [APIManager searchForRoom:query
                  inCityWithID:self.cityID

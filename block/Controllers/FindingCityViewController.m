@@ -17,8 +17,6 @@ static NSString * const couldNotFindLocationStatusLabelText = @"Block could not 
 
 @interface FindingCityViewController () <CLLocationManagerDelegate>
 
-@property (nonatomic, readwrite) BOOL didSetupConstraints;
-
 @property (strong, nonatomic) SessionManager *sessionManager;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) UILabel *statusLabel;
@@ -32,6 +30,7 @@ static NSString * const couldNotFindLocationStatusLabelText = @"Block could not 
         self.sessionManager = sessionManager;
         self.view.backgroundColor = [UIColor blockGreyColor];
         [self.view addSubview:self.statusLabel];
+        [self setupConstraints];
     }
     return self;
 }
@@ -56,43 +55,39 @@ static NSString * const couldNotFindLocationStatusLabelText = @"Block could not 
     return _statusLabel;
 }
 
-- (void)updateViewConstraints {
-    if (!self.didSetupConstraints) {
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.statusLabel
-                                                              attribute:NSLayoutAttributeCenterX
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeCenterX
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.statusLabel
-                                                              attribute:NSLayoutAttributeCenterY
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeCenterY
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.statusLabel
-                                                              attribute:NSLayoutAttributeLeft
-                                                              relatedBy:NSLayoutRelationLessThanOrEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1
-                                                               constant:20]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.statusLabel
-                                                              attribute:NSLayoutAttributeRight
-                                                              relatedBy:NSLayoutRelationLessThanOrEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeRight
-                                                             multiplier:1
-                                                               constant:-20]];
-        self.didSetupConstraints = YES;
-    }
-    [super updateViewConstraints];
+- (void)setupConstraints {
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.statusLabel
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.statusLabel
+                                                          attribute:NSLayoutAttributeCenterY
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterY
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.statusLabel
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationLessThanOrEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1
+                                                           constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.statusLabel
+                                                          attribute:NSLayoutAttributeRight
+                                                          relatedBy:NSLayoutRelationLessThanOrEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1
+                                                           constant:-20]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self.view setNeedsUpdateConstraints];
+    //[self.view setNeedsUpdateConstraints];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

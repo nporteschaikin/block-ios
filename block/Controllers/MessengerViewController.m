@@ -13,7 +13,6 @@
 
 @interface MessengerViewController () <MessengerToolbarDelegate>
 
-@property (nonatomic, readwrite) BOOL didSetupConstraints;
 @property (strong, nonatomic) NSDictionary *user;
 @property (strong, nonatomic) MessagesTableViewController *tableViewController;
 @property (strong, nonatomic) UITableView *tableView;
@@ -35,6 +34,11 @@
         
         [self.tableViewController didMoveToParentViewController:self];
         [self.view addSubview:self.messengerToolbar];
+        
+        [self setupConstraints];
+        [self setupNavigationBarItems];
+        [self setupKeyboardObserver];
+        [self setupGestureRecognizers];
     }
     return self;
 }
@@ -74,71 +78,55 @@
     [self.tableViewController.tableView addGestureRecognizer:tableViewSwipeRightGestureRecognizer];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setupNavigationBarItems];
-    [self setupKeyboardObserver];
-    [self setupGestureRecognizers];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.view setNeedsUpdateConstraints];
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.messengerToolbar.textView endEditing:YES];
 }
 
-- (void)updateViewConstraints {
-    if (!self.didSetupConstraints) {
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
-                                                              attribute:NSLayoutAttributeTop
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.topLayoutGuide
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
-                                                              attribute:NSLayoutAttributeRight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeRight
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.messengerToolbar
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messengerToolbar
-                                                              attribute:NSLayoutAttributeLeft
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messengerToolbar
-                                                              attribute:NSLayoutAttributeRight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeRight
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:self.messengerToolbarBottomConstraint];
-        self.didSetupConstraints = YES;
-    }
-    [super updateViewConstraints];
+- (void)setupConstraints {
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.topLayoutGuide
+                                                          attribute:NSLayoutAttributeTop
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
+                                                          attribute:NSLayoutAttributeRight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableViewController.view
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.messengerToolbar
+                                                          attribute:NSLayoutAttributeTop
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messengerToolbar
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.messengerToolbar
+                                                          attribute:NSLayoutAttributeRight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:self.messengerToolbarBottomConstraint];
 }
 
 - (void)addMessage:(NSDictionary *)message

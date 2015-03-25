@@ -49,7 +49,6 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
         [self.messages removeAllObjects];
         [self.messages addObjectsFromArray:messages];
         [self.tableView reloadData];
-        [self.tableView layoutIfNeeded];
         [self scrollToBottomAnimated:NO];
     }
 }

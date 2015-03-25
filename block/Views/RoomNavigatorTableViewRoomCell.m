@@ -10,7 +10,6 @@
 
 @interface RoomNavigatorTableViewRoomCell ()
 
-@property (nonatomic, readwrite) BOOL didSetupConstraints;
 @property (strong, nonatomic) UILabel *nameLabel;
 
 @end
@@ -27,6 +26,7 @@
         UIView *selectedBackgroundView = [[UIView alloc] init];
         selectedBackgroundView.backgroundColor = [UIColor blackColor];
         self.selectedBackgroundView = selectedBackgroundView;
+        [self setupConstraints];
     }
     return self;
 }
@@ -37,39 +37,35 @@
     [self.contentView layoutIfNeeded];
 }
 
-- (void)updateConstraints {
-    if (!self.didSetupConstraints) {
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel
-                                                                     attribute:NSLayoutAttributeLeft
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.contentView
-                                                                     attribute:NSLayoutAttributeLeft
-                                                                    multiplier:1
-                                                                      constant:17]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel
-                                                                     attribute:NSLayoutAttributeRight
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.contentView
-                                                                     attribute:NSLayoutAttributeRight
-                                                                    multiplier:1
-                                                                      constant:-17]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel
-                                                                     attribute:NSLayoutAttributeTop
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.contentView
-                                                                     attribute:NSLayoutAttributeTop
-                                                                    multiplier:1
-                                                                      constant:10]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel
-                                                                     attribute:NSLayoutAttributeBottom
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.contentView
-                                                                     attribute:NSLayoutAttributeBottom
-                                                                    multiplier:1
-                                                                      constant:-10]];
-        self.didSetupConstraints = YES;
-    }
-    [super updateConstraints];
+- (void)setupConstraints {
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel
+                                                                 attribute:NSLayoutAttributeLeft
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeLeft
+                                                                multiplier:1
+                                                                  constant:17]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel
+                                                                 attribute:NSLayoutAttributeRight
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeRight
+                                                                multiplier:1
+                                                                  constant:-17]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel
+                                                                 attribute:NSLayoutAttributeTop
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeTop
+                                                                multiplier:1
+                                                                  constant:10]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.nameLabel
+                                                                 attribute:NSLayoutAttributeBottom
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeBottom
+                                                                multiplier:1
+                                                                  constant:-10]];
 };
 
 - (UILabel *)nameLabel {

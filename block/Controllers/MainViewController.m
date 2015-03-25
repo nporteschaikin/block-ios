@@ -20,7 +20,7 @@
 
 @interface MainViewController () <LoginViewControllerDelegate, FindingCityViewControllerDelegate,
     SocketControllerDelegate, MessengerViewControllerDelegate, RoomNavigatorControllerDelegate,
-    UINavigationControllerDelegate>
+    CreateRoomViewControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) SocketController *socketController;
 @property (strong, nonatomic) SessionManager *sessionManager;
@@ -30,7 +30,7 @@
 @property (strong, nonatomic) LoginViewController *loginViewController;
 @property (strong, nonatomic) UINavigationController *navigationController;
 @property (strong, nonatomic) RoomNavigatorViewController *roomNavigatorViewController;
-@property (strong, nonatomic) UINavigationController *createRoomNavigationController;
+@property (strong, nonatomic) CreateRoomViewController *createRoomViewController;
 @property (strong, nonatomic) NSMutableArray *messengerViewControllers;
 
 @property (strong, nonatomic, readonly) UIView *navigationControllerView;
@@ -158,9 +158,27 @@
 }
 
 - (void)openCreateRoomViewController {
-    [self presentViewController:self.createRoomNavigationController
-                       animated:YES
-                     completion:nil];
+    [self addChildViewController:self.createRoomViewController];
+    [self.view addSubview:self.createRoomViewController.view];
+    self.createRoomViewController.view.transform = CGAffineTransformMakeTranslation(0, self.view.frame.size.height);
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.createRoomViewController.view.transform = CGAffineTransformMakeTranslation(0, 0);
+                     } completion:^(BOOL finished) {
+                         [self.createRoomViewController didMoveToParentViewController:self];
+                     }];
+}
+
+- (void)closeCreateRoomViewController {
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.createRoomViewController.view.transform = CGAffineTransformMakeTranslation(0, self.view.frame.size.height);
+                     } completion:^(BOOL finished) {
+                         [self.createRoomViewController.view removeFromSuperview];
+                         [self.createRoomViewController removeFromParentViewController];
+                         [self.createRoomViewController didMoveToParentViewController:nil];
+                         self.createRoomViewController = nil;
+                     }];
 }
 
 #pragma mark - LoginViewController
@@ -208,6 +226,8 @@
     self.roomNavigatorViewController.city = socketController.city;
     self.roomNavigatorViewController.cityID = socketController.cityID;
     self.roomNavigatorViewController.rooms = socketController.rooms;
+    self.createRoomViewController.city = socketController.city;
+    self.createRoomViewController.cityID = socketController.cityID;
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }
@@ -423,25 +443,40 @@
                          offset:60];
 }
 
-- (void)roomNavigatorViewControllerAskedToCreateNewRoom:(RoomNavigatorViewController *)roomNavigatorViewController {
-    [self openRoomNavigatorView:NO
-                         offset:0];
-    [self openCreateRoomViewController];
-}
-
 - (void)roomNavigatorViewControllerAskedToEditSettings:(RoomNavigatorViewController *)roomNavigatorViewController {
     [self openRoomNavigatorView:NO
                          offset:0];
 }
 
-#pragma mark - CreateRoomNavigationController
-
-- (UINavigationController *)createRoomNavigationController {
-    if (!_createRoomNavigationController) {
-        CreateRoomViewController *createRoomViewController = [[CreateRoomViewController alloc] init];
-        _createRoomNavigationController = [[UINavigationController alloc] initWithRootViewController:createRoomViewController];
+- (void)roomNavigatorViewController:(RoomNavigatorViewController *)roomNavigationViewController
+                             action:(RoomNavigatorViewControllerAction)action {
+    [self openRoomNavigatorView:NO
+                         offset:0];
+    switch (action) {
+        case RoomNavigatorViewControllerActionCreateNewRoom:
+            [self openCreateRoomViewController];
+            break;
+        default:
+            break;
     }
-    return _createRoomNavigationController;
+}
+
+#pragma mark - CreateRoomViewController
+
+- (CreateRoomViewController *)createRoomViewController {
+    if (!_createRoomViewController) {
+        _createRoomViewController = [[CreateRoomViewController alloc] init];
+        _createRoomViewController.theDelegate = self;
+    }
+    return _createRoomViewController;
+}
+
+#pragma mark - CreateRoomViewControllerDelegate
+
+- (void)createRoomViewController:(CreateRoomViewController *)createRoomViewController
+                     createdRoom:(NSDictionary *)room {
+    [self.socketController joinRoom:room];
+    [self closeCreateRoomViewController];
 }
 
 @end
