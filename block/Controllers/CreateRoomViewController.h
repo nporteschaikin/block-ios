@@ -12,6 +12,8 @@
 
 @protocol CreateRoomViewControllerDelegate
 
+- (void)dismissCreateRoomViewController:(CreateRoomViewController *)createRoomViewController;
+
 - (void)createRoomViewController:(CreateRoomViewController *)createRoomViewController
                      createdRoom:(NSDictionary *)room;
 

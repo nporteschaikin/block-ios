@@ -30,9 +30,16 @@
         [self.view addSubview:self.nameTextField];
         [self.view addSubview:self.descriptionTextField];
         [self.view addSubview:self.saveButton];
+        [self setupGestureRecognizer];
         [self setupConstraints];
     }
     return self;
+}
+
+- (void)setupGestureRecognizer {
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                        action:@selector(dismissController)];
+    [self.view addGestureRecognizer:gestureRecognizer];
 }
 
 - (void)setupConstraints {
@@ -63,7 +70,7 @@
                                                              toItem:self.nameTextField
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1
-                                                           constant:-1]];
+                                                           constant:2]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.descriptionTextField
                                                           attribute:NSLayoutAttributeLeft
                                                           relatedBy:NSLayoutRelationEqual
@@ -102,8 +109,9 @@
 }
 
 - (void)dismissController {
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
+    [self.nameTextField resignFirstResponder];
+    [self.descriptionTextField resignFirstResponder];
+    [self.theDelegate dismissCreateRoomViewController:self];
 }
 
 - (void)saveRoom {
@@ -119,9 +127,7 @@
                                         [self.theDelegate createRoomViewController:self
                                                                        createdRoom:room];
                                         self.nameTextField.text = nil;
-                                        [self.nameTextField resignFirstResponder];
                                         self.descriptionTextField.text = nil;
-                                        [self.descriptionTextField resignFirstResponder];
                                         self.saveButton.enabled = YES;
                                     });
                                 }];
@@ -133,8 +139,6 @@
         _nameTextField = [[BlockTextField alloc] initWithFrame:CGRectMake(0, 0, 200, 25)];
         _nameTextField.translatesAutoresizingMaskIntoConstraints = NO;
         _nameTextField.backgroundColor = [UIColor whiteColor];
-        _nameTextField.layer.borderWidth = 1.0f;
-        _nameTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         _nameTextField.font = [UIFont fontWithName:@"Arial"
                                               size:15.f];
         _nameTextField.placeholder = @"Enter a name...";
@@ -144,11 +148,9 @@
 
 - (BlockTextField *)descriptionTextField {
     if (!_descriptionTextField) {
-        _descriptionTextField = [[BlockTextField alloc] initWithFrame:CGRectMake(0, 0, 200, 25)];
+        _descriptionTextField = [[BlockTextField alloc] initWithFrame:CGRectMake(0, 0, 200, 50)];
         _descriptionTextField.translatesAutoresizingMaskIntoConstraints = NO;
         _descriptionTextField.backgroundColor = [UIColor whiteColor];
-        _descriptionTextField.layer.borderWidth = 1.0f;
-        _descriptionTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         _descriptionTextField.font = [UIFont fontWithName:@"Arial"
                                                      size:15.f];
         _descriptionTextField.placeholder = @"Enter a description...";
@@ -162,7 +164,7 @@
         _saveButton.translatesAutoresizingMaskIntoConstraints = NO;
         _saveButton.frame = CGRectMake(0, 0, 0, 500);
         _saveButton.backgroundColor = [UIColor blockGreenColor];
-        _saveButton.titleEdgeInsets = UIEdgeInsetsMake(30, 30, 30, 30);
+        _saveButton.layer.cornerRadius = 3;
         _saveButton.titleLabel.font = [UIFont fontWithName:@"Arial"
                                                       size:15.f];
         [_saveButton setTitle:@"Save"

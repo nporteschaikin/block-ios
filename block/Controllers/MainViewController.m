@@ -160,19 +160,19 @@
 - (void)openCreateRoomViewController {
     [self addChildViewController:self.createRoomViewController];
     [self.view addSubview:self.createRoomViewController.view];
-    self.createRoomViewController.view.transform = CGAffineTransformMakeTranslation(0, self.view.frame.size.height);
-    [UIView animateWithDuration:0.5
+    self.createRoomViewController.view.alpha = 0.0f;
+    [UIView animateWithDuration:0.25
                      animations:^{
-                         self.createRoomViewController.view.transform = CGAffineTransformMakeTranslation(0, 0);
+                         self.createRoomViewController.view.alpha = 1.0f;
                      } completion:^(BOOL finished) {
                          [self.createRoomViewController didMoveToParentViewController:self];
                      }];
 }
 
 - (void)closeCreateRoomViewController {
-    [UIView animateWithDuration:0.5
+    [UIView animateWithDuration:0.25
                      animations:^{
-                         self.createRoomViewController.view.transform = CGAffineTransformMakeTranslation(0, self.view.frame.size.height);
+                         self.createRoomViewController.view.alpha = 0.0f;
                      } completion:^(BOOL finished) {
                          [self.createRoomViewController.view removeFromSuperview];
                          [self.createRoomViewController removeFromParentViewController];
@@ -476,6 +476,10 @@
 - (void)createRoomViewController:(CreateRoomViewController *)createRoomViewController
                      createdRoom:(NSDictionary *)room {
     [self.socketController joinRoom:room];
+    [self closeCreateRoomViewController];
+}
+
+- (void)dismissCreateRoomViewController:(CreateRoomViewController *)createRoomViewController {
     [self closeCreateRoomViewController];
 }
 
