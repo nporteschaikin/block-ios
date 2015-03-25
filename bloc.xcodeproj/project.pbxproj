@@ -14,9 +14,11 @@
 		4F5560951AA668B600090AFF /* APIManager+Cities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5560941AA668B600090AFF /* APIManager+Cities.m */; };
 		4F5560981AA66D5E00090AFF /* APIManager+Auth.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5560971AA66D5E00090AFF /* APIManager+Auth.m */; };
 		4F55609E1AA678FD00090AFF /* SelectCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F55609D1AA678FD00090AFF /* SelectCityViewController.m */; };
+		4F58381C1AC2078F003E946F /* RoomNavigatorTableViewMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F58381B1AC2078F003E946F /* RoomNavigatorTableViewMenuCell.m */; };
 		4F7FDA6B1AA621340092103B /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FDA6A1AA621340092103B /* MessageTableViewCell.m */; };
 		4F7FDA711AA634DF0092103B /* AppearanceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FDA701AA634DF0092103B /* AppearanceHelper.m */; };
 		4F7FDA741AA6350E0092103B /* UIFont+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FDA731AA6350E0092103B /* UIFont+Block.m */; };
+		4FCE3B3C1AC33152000246B8 /* BlockTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE3B3B1AC33152000246B8 /* BlockTextField.m */; };
 		4FDF503E1ABC5356007719AD /* MessengerToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDF503D1ABC5356007719AD /* MessengerToolbar.m */; };
 		4FF795EB1AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.m */; };
 		4FF796031AA8FE570005AB36 /* NSArray+Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF796021AA8FE570005AB36 /* NSArray+Map.m */; };
@@ -85,12 +87,16 @@
 		4F5560971AA66D5E00090AFF /* APIManager+Auth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "APIManager+Auth.m"; sourceTree = "<group>"; };
 		4F55609C1AA678FD00090AFF /* SelectCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCityViewController.h; sourceTree = "<group>"; };
 		4F55609D1AA678FD00090AFF /* SelectCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCityViewController.m; sourceTree = "<group>"; };
+		4F58381A1AC2078F003E946F /* RoomNavigatorTableViewMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableViewMenuCell.h; sourceTree = "<group>"; };
+		4F58381B1AC2078F003E946F /* RoomNavigatorTableViewMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomNavigatorTableViewMenuCell.m; sourceTree = "<group>"; };
 		4F7FDA691AA621340092103B /* MessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewCell.h; sourceTree = "<group>"; };
 		4F7FDA6A1AA621340092103B /* MessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewCell.m; sourceTree = "<group>"; wrapsLines = 1; };
 		4F7FDA6F1AA634DF0092103B /* AppearanceHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppearanceHelper.h; path = block/Helpers/AppearanceHelper.h; sourceTree = SOURCE_ROOT; };
 		4F7FDA701AA634DF0092103B /* AppearanceHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppearanceHelper.m; path = block/Helpers/AppearanceHelper.m; sourceTree = SOURCE_ROOT; };
 		4F7FDA721AA6350E0092103B /* UIFont+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIFont+Block.h"; path = "block/Categories/UIFont+Block.h"; sourceTree = SOURCE_ROOT; };
 		4F7FDA731AA6350E0092103B /* UIFont+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFont+Block.m"; path = "block/Categories/UIFont+Block.m"; sourceTree = SOURCE_ROOT; };
+		4FCE3B3A1AC33152000246B8 /* BlockTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockTextField.h; sourceTree = "<group>"; };
+		4FCE3B3B1AC33152000246B8 /* BlockTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockTextField.m; sourceTree = "<group>"; };
 		4FDF503C1ABC5356007719AD /* MessengerToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessengerToolbar.h; sourceTree = "<group>"; };
 		4FDF503D1ABC5356007719AD /* MessengerToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessengerToolbar.m; sourceTree = "<group>"; };
 		4FF795E91AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomNavigatorTableViewRoomCell.h; sourceTree = "<group>"; };
@@ -197,6 +203,8 @@
 		4F7FDA5C1AA617070092103B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4FCE3B3A1AC33152000246B8 /* BlockTextField.h */,
+				4FCE3B3B1AC33152000246B8 /* BlockTextField.m */,
 				4F7FDA691AA621340092103B /* MessageTableViewCell.h */,
 				4F7FDA6A1AA621340092103B /* MessageTableViewCell.m */,
 				4FDF503C1ABC5356007719AD /* MessengerToolbar.h */,
@@ -205,6 +213,8 @@
 				E4D4D51F1ABF98F100D338B5 /* RoomNavigatorTableView.m */,
 				4FF795E91AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.h */,
 				4FF795EA1AA8AD840005AB36 /* RoomNavigatorTableViewRoomCell.m */,
+				4F58381A1AC2078F003E946F /* RoomNavigatorTableViewMenuCell.h */,
+				4F58381B1AC2078F003E946F /* RoomNavigatorTableViewMenuCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -551,9 +561,11 @@
 				E46B8CAC1AA573FA00F9DF03 /* SocketIOJSONSerialization.m in Sources */,
 				4F350E8D1AA79D3700637F98 /* RoomNavigatorViewController.m in Sources */,
 				4F5560981AA66D5E00090AFF /* APIManager+Auth.m in Sources */,
+				4F58381C1AC2078F003E946F /* RoomNavigatorTableViewMenuCell.m in Sources */,
 				E4D8E07E1AA549B7003EA242 /* main.m in Sources */,
 				E48A214B1AB7E5D3001E2F2D /* NSDate+TimeAgo.m in Sources */,
 				4F132B891ABB490000AD1704 /* UIColor+Block.m in Sources */,
+				4FCE3B3C1AC33152000246B8 /* BlockTextField.m in Sources */,
 				E46B8CAD1AA573FA00F9DF03 /* SocketIOPacket.m in Sources */,
 				E4D8E0AF1AA550B3003EA242 /* NSDictionary+QueryString.m in Sources */,
 				4F5560951AA668B600090AFF /* APIManager+Cities.m in Sources */,

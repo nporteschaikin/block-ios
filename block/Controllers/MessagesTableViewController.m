@@ -29,7 +29,7 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
         self.messages = [NSMutableArray array];
         self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
         self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
-        self.tableView.separatorColor = [UIColor clearColor];
+        self.tableView.separatorColor = [UIColor whiteColor];
         self.tableView.allowsSelection = NO;
         [self.tableView registerClass:[MessageTableViewCell class]
                forCellReuseIdentifier:reuseIdentifier];
@@ -49,7 +49,6 @@ NSString * const reuseIdentifier = @"reuseIdentifier";
         [self.messages removeAllObjects];
         [self.messages addObjectsFromArray:messages];
         [self.tableView reloadData];
-        [self.tableView layoutIfNeeded];
         [self scrollToBottomAnimated:NO];
     }
 }

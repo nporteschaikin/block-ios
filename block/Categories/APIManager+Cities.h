@@ -21,4 +21,9 @@
          inCityWithID:(NSString *)cityID
            onComplete:(void(^)(NSArray *rooms))onComplete;
 
++ (void)createRoomInCityWithID:(NSString *)cityID
+                          name:(NSString *)name
+                   description:(NSString *)description
+                    onComplete:(void(^)(NSDictionary *room))onComplete;
+
 @end

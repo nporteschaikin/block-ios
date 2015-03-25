@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, RoomNavigatorViewControllerAction) {
+    RoomNavigatorViewControllerActionCreateNewRoom,
+    RoomNavigatorViewControllerActionSettings
+};
+
 @class RoomNavigatorViewController;
 
 @protocol RoomNavigatorControllerDelegate
@@ -22,9 +27,8 @@
 
 - (void)roomNavigatorViewControllerEndedSearch:(RoomNavigatorViewController *)roomNavigatorViewController;
 
-- (void)roomNavigatorViewControllerAskedToCreateNewRoom:(RoomNavigatorViewController *)roomNavigatorViewController;
-
-- (void)roomNavigatorViewControllerAskedToEditSettings:(RoomNavigatorViewController *)roomNavigatorViewController;
+- (void)roomNavigatorViewController:(RoomNavigatorViewController *)roomNavigationViewController
+                             action:(RoomNavigatorViewControllerAction)action;
 
 @end
 

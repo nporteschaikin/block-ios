@@ -14,6 +14,7 @@ NSString * const IOBaseURL = @"block-io.herokuapp.com";
 NSString * const IOAuthEndpoint = @"auth";
 NSString * const IOCitiesAroundLocationEndpoint = @"cities/around";
 NSString * const IOCityEndpoint = @"cities/%@";
+NSString * const IOCityRoomEndpoint = @"cities/%@/rooms";
 NSString * const IOCityRoomSearchEndpoint = @"cities/%@/rooms/search";
 NSString * const IOCityIDAttribute = @"_id";
 NSString * const IORoomIDAttribute = @"_id";

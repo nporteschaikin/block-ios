@@ -12,7 +12,6 @@
 
 @interface MessageTableViewCell ()
 
-@property (nonatomic, readwrite) BOOL didSetupConstraints;
 @property (strong, nonatomic) UILabel *userNameLabel;
 @property (strong, nonatomic) UILabel *messageLabel;
 @property (strong, nonatomic) UILabel *timeAgoLabel;
@@ -28,6 +27,7 @@
         [self.contentView addSubview:self.userNameLabel];
         [self.contentView addSubview:self.messageLabel];
         [self.contentView addSubview:self.timeAgoLabel];
+        [self setupConstraints];
     }
     return self;
 }
@@ -48,79 +48,75 @@
     }
 }
 
-- (void) updateConstraints {
-    if (!self.didSetupConstraints) {
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.userNameLabel
-                                                                     attribute:NSLayoutAttributeTop
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.contentView
-                                                                     attribute:NSLayoutAttributeTop
-                                                                    multiplier:1
-                                                                      constant:10]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.timeAgoLabel
-                                                                     attribute:NSLayoutAttributeTop
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.contentView
-                                                                     attribute:NSLayoutAttributeTop
-                                                                    multiplier:1
-                                                                      constant:10]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.userNameLabel
-                                                                     attribute:NSLayoutAttributeLeft
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.contentView
-                                                                     attribute:NSLayoutAttributeLeft
-                                                                    multiplier:1
-                                                                      constant:14]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.timeAgoLabel
-                                                                     attribute:NSLayoutAttributeLeft
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.userNameLabel
-                                                                     attribute:NSLayoutAttributeRight
-                                                                    multiplier:1
-                                                                      constant:5]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.messageLabel
-                                                                     attribute:NSLayoutAttributeTop
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.userNameLabel
-                                                                     attribute:NSLayoutAttributeBottom
-                                                                    multiplier:1
-                                                                      constant:5]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.messageLabel
-                                                                     attribute:NSLayoutAttributeLeft
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.userNameLabel
-                                                                     attribute:NSLayoutAttributeLeft
-                                                                    multiplier:1
-                                                                      constant:0]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.messageLabel
-                                                                     attribute:NSLayoutAttributeRight
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.contentView
-                                                                     attribute:NSLayoutAttributeRight
-                                                                    multiplier:1
-                                                                      constant:-14]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.timeAgoLabel
-                                                                     attribute:NSLayoutAttributeRight
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.messageLabel
-                                                                     attribute:NSLayoutAttributeRight
-                                                                    multiplier:1
-                                                                      constant:0]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.messageLabel
-                                                                     attribute:NSLayoutAttributeBottom
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.contentView
-                                                                     attribute:NSLayoutAttributeBottom
-                                                                    multiplier:1
-                                                                      constant:-10]];
-    }
-    [super updateConstraints];
+- (void)setupConstraints {
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.userNameLabel
+                                                                 attribute:NSLayoutAttributeTop
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeTop
+                                                                multiplier:1
+                                                                  constant:10]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.timeAgoLabel
+                                                                 attribute:NSLayoutAttributeTop
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeTop
+                                                                multiplier:1
+                                                                  constant:10]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.userNameLabel
+                                                                 attribute:NSLayoutAttributeLeft
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeLeft
+                                                                multiplier:1
+                                                                  constant:14]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.timeAgoLabel
+                                                                 attribute:NSLayoutAttributeLeft
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.userNameLabel
+                                                                 attribute:NSLayoutAttributeRight
+                                                                multiplier:1
+                                                                  constant:5]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.messageLabel
+                                                                 attribute:NSLayoutAttributeTop
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.userNameLabel
+                                                                 attribute:NSLayoutAttributeBottom
+                                                                multiplier:1
+                                                                  constant:5]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.messageLabel
+                                                                 attribute:NSLayoutAttributeLeft
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.userNameLabel
+                                                                 attribute:NSLayoutAttributeLeft
+                                                                multiplier:1
+                                                                  constant:0]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.messageLabel
+                                                                 attribute:NSLayoutAttributeRight
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeRight
+                                                                multiplier:1
+                                                                  constant:-14]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.timeAgoLabel
+                                                                 attribute:NSLayoutAttributeRight
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.messageLabel
+                                                                 attribute:NSLayoutAttributeRight
+                                                                multiplier:1
+                                                                  constant:0]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.messageLabel
+                                                                 attribute:NSLayoutAttributeBottom
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeBottom
+                                                                multiplier:1
+                                                                  constant:-10]];
 }
 
 - (UILabel *)userNameLabel {
     if (!_userNameLabel) {
         _userNameLabel = [[UILabel alloc] init];
-        _userNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         _userNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _userNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _userNameLabel.numberOfLines = 1;
