@@ -10,6 +10,4 @@
 
 @interface BlockTextField : UITextField
 
-- (id)initWithFont:(UIFont *)font;
-
 @end
