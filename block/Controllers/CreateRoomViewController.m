@@ -122,15 +122,19 @@
         [APIManager createRoomInCityWithID:self.cityID
                                       name:self.nameTextField.text
                                description:self.descriptionTextField.text
-                                onComplete:^(NSDictionary *room) {
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        [self.theDelegate createRoomViewController:self
-                                                                       createdRoom:room];
-                                        self.nameTextField.text = nil;
-                                        self.descriptionTextField.text = nil;
-                                        self.saveButton.enabled = YES;
-                                    });
-                                }];
+                                 onSuccess:^(NSDictionary *room) {
+                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                         [self.theDelegate createRoomViewController:self
+                                                                        createdRoom:room];
+                                         self.nameTextField.text = nil;
+                                         self.descriptionTextField.text = nil;
+                                         self.saveButton.enabled = YES;
+                                     });
+                                 } onFail:^(NSURLResponse *response, NSData *data) {
+                                     // validation stuffs?
+                                 } onError:^(NSError *error) {
+                                     // error stuffs?
+                                 }];
     }
 }
 

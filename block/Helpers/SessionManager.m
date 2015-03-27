@@ -20,38 +20,44 @@ static SessionManager *activeSession;
 @implementation SessionManager
 
 + (void)withFacebookAccessToken:(NSString *)fbAccessToken
-                     onComplete:(void (^)(SessionManager *))onComplete
-                         onFail:(void (^)(void))onFail {
+                      onSuccess:(void (^)(SessionManager *sessionManager))onSuccess
+                         onFail:(void (^)(NSURLResponse *response, NSData *data))onFail
+                        onError:(void (^)(NSError *error))onError {
     [self withParams:@{@"fbAccessToken": fbAccessToken}
-          onComplete:onComplete
-              onFail:onFail];
+           onSuccess:onSuccess
+              onFail:onFail
+             onError:onError];
 }
 
-+ (void)withSessionToken:(void (^)(SessionManager *))onComplete
-                  onFail:(void (^)(void))onFail {
++ (void)withSessionTokenOnSuccess:(void (^)(SessionManager *sessionManager))onSuccess
+                           onFail:(void (^)(NSURLResponse *response, NSData *data))onFail
+                          onError:(void (^)(NSError *error))onError {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *sessionToken = [defaults objectForKey:SessionTokenUserDefaultsKey];
     if (sessionToken) {
         [self withParams:@{@"sessionToken": sessionToken}
-              onComplete:onComplete
-                  onFail:onFail];
+               onSuccess:onSuccess
+                  onFail:onFail
+                 onError:onError];
     } else {
-        onFail();
+        onFail(nil, nil);
     }
 }
 
 + (void)withParams:(NSDictionary *)params
-        onComplete:(void (^)(SessionManager *))onComplete
-            onFail:(void (^)(void))onFail {
+         onSuccess:(void (^)(SessionManager *sessionManager))onSuccess
+            onFail:(void (^)(NSURLResponse *response, NSData *data))onFail
+           onError:(void (^)(NSError *error))onError {
     [APIManager getAuthTokenWithParams:params
-                            onComplete:^(NSDictionary *result) {
-                                NSString *sessionToken = [result objectForKey:@"sessionToken"];
-                                NSDictionary *user = [result objectForKey:@"user"];
-                                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                                [defaults setObject:sessionToken forKey:SessionTokenUserDefaultsKey];
-                                onComplete([[SessionManager alloc] initWithSessionToken:sessionToken
-                                                                                   user:user]);
-                            } onFail:onFail];
+                             onSuccess:^(NSDictionary *result) {
+                                 NSString *sessionToken = [result objectForKey:@"sessionToken"];
+                                 NSDictionary *user = [result objectForKey:@"user"];
+                                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                                 [defaults setObject:sessionToken forKey:SessionTokenUserDefaultsKey];
+                                 SessionManager *sessionManager = [[SessionManager alloc] initWithSessionToken:sessionToken
+                                                                                                          user:user];
+                                 onSuccess(sessionManager);
+                             } onFail:onFail onError:onError];
 }
 
 - (id)initWithSessionToken:(NSString *)sessionToken

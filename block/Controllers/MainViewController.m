@@ -65,16 +65,20 @@
 }
 
 - (void)start {
-    [SessionManager withSessionToken:^(SessionManager *sessionManager) {
+    [SessionManager withSessionTokenOnSuccess:^(SessionManager *sessionManager) {
+        // let's find the city!
         dispatch_async(dispatch_get_main_queue(), ^{
             [self setSessionManagerPresentFindingCityViewController:sessionManager];
         });
-    } onFail:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self presentViewController:self.loginViewController
-                               animated:YES
-                             completion:nil];
-        });
+    } onFail:^(NSURLResponse *response, NSData *data) {
+        // guess we're not logged in! open the login view controller
+       dispatch_async(dispatch_get_main_queue(), ^{
+           [self presentViewController:self.loginViewController
+                              animated:YES
+                            completion:nil];
+       });
+    } onError:^(NSError *error) {
+      // what the hell is up?
     }];
 }
 

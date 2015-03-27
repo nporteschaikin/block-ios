@@ -47,12 +47,16 @@
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
     NSString *fbAccessToken = [[[FBSession activeSession] accessTokenData] accessToken];
     [SessionManager withFacebookAccessToken:fbAccessToken
-                                 onComplete:^(SessionManager *sessionManager) {
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        [self.delegate loginViewController:self
-                                                didLogInWithSessionManager:sessionManager];
-                                    });
-                                 } onFail:nil];
+                                  onSuccess:^(SessionManager *sessionManager) {
+                                      [self.delegate loginViewController:self
+                                              didLogInWithSessionManager:sessionManager];
+                                  } onFail:^(NSURLResponse *response, NSData *data) {
+                                      NSLog(@"heyyyyyy");
+                                      // failed?  this makes no sense!
+                                  } onError:^(NSError *error) {
+                                      NSLog(@"heyyyyyy");
+                                      // no internet connection.
+                                  }];
 }
 
 @end

@@ -35,12 +35,16 @@ static NSString * const reuseIdentifier = @"RoomNavigatorTableViewRoomCell";
 - (void)updateSearchResultsWithQuery:(NSString *)query {
     [APIManager searchForRoom:query
                  inCityWithID:self.cityID
-                   onComplete:^(NSArray *rooms) {
-                       dispatch_async(dispatch_get_main_queue(), ^{
-                           self.rooms = rooms;
-                           [self.tableView reloadData];
-                       });
-                   }];
+                    onSuccess:^(NSArray *rooms) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            self.rooms = rooms;
+                            [self.tableView reloadData];
+                        });
+                    } onFail:^(NSURLResponse *response, NSData *data) {
+                        // what?
+                    } onError:^(NSError *error) {
+                        // no internet connection
+                    }];
 }
 
 #pragma mark - UITableViewDataSource

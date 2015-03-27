@@ -13,12 +13,18 @@
 
 + (APIManager *)sharedManager;
 
-- (void)GET:(NSString *)path sessionManager:(SessionManager *)sessionManager
+- (void)GET:(NSString *)path
+sessionManager:(SessionManager *)sessionManager
      params:(NSDictionary *)params
- onComplete:(void(^)(NSURLResponse *response, NSData *data, NSError *connectionError))onComplete;
+  onSuccess:(void(^)(NSURLResponse *response, NSData *data))onSuccess
+     onFail:(void(^)(NSURLResponse *response, NSData *data))onFail
+    onError:(void(^)(NSError *error))onError;
 
-- (void)POST:(NSString *)path sessionManager:(SessionManager *)sessionManager
+- (void)POST:(NSString *)path
+sessionManager:(SessionManager *)sessionManager
       params:(NSDictionary *)params
-  onComplete:(void(^)(NSURLResponse *response, NSData *data, NSError *connectionError))onComplete;
+   onSuccess:(void(^)(NSURLResponse *response, NSData *data))onSuccess
+      onFail:(void(^)(NSURLResponse *response, NSData *data))onFail
+     onError:(void(^)(NSError *error))onError;
 
 @end

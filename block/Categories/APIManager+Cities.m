@@ -13,52 +13,68 @@
 @implementation APIManager (Cities)
 
 + (void)getCitiesByLocation:(CLLocation *)location
-                 onComplete:(void(^)(NSArray *cities))onComplete {
+                  onSuccess:(void(^)(NSArray *cities))onSuccess
+                     onFail:(void(^)(NSURLResponse *response, NSData *data))onFail
+                    onError:(void(^)(NSError * error))onError {
     [[self sharedManager] GET:IOCitiesAroundLocationEndpoint
                sessionManager:nil
                        params:@{@"lat": [NSString stringWithFormat:@"%f", location.coordinate.latitude],
                                 @"lng": [NSString stringWithFormat:@"%f", location.coordinate.longitude]}
-                   onComplete:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                       NSArray *cities = [NSJSONSerialization JSONObjectWithData:data
-                                                                         options:kNilOptions error:nil];
-                       onComplete(cities);
-                   }];
+                    onSuccess:^(NSURLResponse *response, NSData *data) {
+                        NSArray *cities = [NSJSONSerialization JSONObjectWithData:data
+                                                                          options:kNilOptions
+                                                                            error:nil];
+                        onSuccess(cities);
+                    } onFail:onFail onError:onError];
 }
 
 + (void)getCityByID:(NSString *)cityID
-         onComplete:(void(^)(NSDictionary *city))onComplete {
+          onSuccess:(void(^)(NSDictionary *city))onSuccess
+             onFail:(void(^)(NSURLResponse *response, NSData *data))onFail
+            onError:(void(^)(NSError * error))onError {
     [[self sharedManager] GET:[NSString stringWithFormat:IOCityEndpoint, cityID]
                sessionManager:nil
                        params:nil
-                   onComplete:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                       onComplete([NSJSONSerialization JSONObjectWithData:data
-                                                                  options:kNilOptions error:nil]);
-                   }];
+                    onSuccess:^(NSURLResponse *response, NSData *data) {
+                        NSDictionary *city = [NSJSONSerialization JSONObjectWithData:data
+                                                                             options:kNilOptions
+                                                                               error:nil];
+                        onSuccess(city);
+                    } onFail:onFail onError:onError];
 }
 
 + (void)searchForRoom:(NSString *)query
          inCityWithID:(NSString *)cityID
-           onComplete:(void(^)(NSArray *rooms))onComplete {
+            onSuccess:(void(^)(NSArray *rooms))onSuccess
+               onFail:(void(^)(NSURLResponse *response, NSData *data))onFail
+              onError:(void(^)(NSError * error))onError {
     [[self sharedManager] POST:[NSString stringWithFormat:IOCityRoomSearchEndpoint, cityID]
                 sessionManager:nil
                         params:@{@"query": query}
-                   onComplete:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                       onComplete([NSJSONSerialization JSONObjectWithData:data
-                                                                  options:kNilOptions error:nil]);
-                   }];
+                     onSuccess:^(NSURLResponse *response, NSData *data) {
+                         NSArray *rooms = [NSJSONSerialization JSONObjectWithData:data
+                                                                          options:kNilOptions
+                                                                            error:nil];
+                         onSuccess(rooms);
+                     } onFail:onFail onError:onError];
 }
 
 + (void)createRoomInCityWithID:(NSString *)cityID
                           name:(NSString *)name
                    description:(NSString *)description
-                    onComplete:(void(^)(NSDictionary *room))onComplete {
+                     onSuccess:(void(^)(NSDictionary *city))onSuccess
+                        onFail:(void(^)(NSURLResponse *response, NSData *data))onFail
+                       onError:(void(^)(NSError * error))onError {
     [[self sharedManager] POST:[NSString stringWithFormat:IOCityRoomEndpoint, cityID]
                 sessionManager:nil
-                        params:@{@"name": name, @"description": description}
-                    onComplete:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                        onComplete([NSJSONSerialization JSONObjectWithData:data
-                                                                   options:kNilOptions error:nil]);
-                    }];
+                        params:@{@"name": name,
+                                 @"description": description}
+                     onSuccess:^(NSURLResponse *response, NSData *data) {
+                         NSDictionary *room = [NSJSONSerialization JSONObjectWithData:data
+                                                                              options:kNilOptions
+                                                                                error:nil];
+                         onSuccess(room);
+                     } onFail:onFail onError:onError];
 }
 
 @end

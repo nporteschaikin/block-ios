@@ -14,10 +14,12 @@
 @property (strong, nonatomic, readonly) NSDictionary *user;
 
 + (void)withFacebookAccessToken:(NSString *)fbAccessToken
-                     onComplete:(void (^)(SessionManager *))onComplete
-                         onFail:(void (^)(void))onFail;
+                      onSuccess:(void (^)(SessionManager *sessionManager))onSuccess
+                         onFail:(void (^)(NSURLResponse *response, NSData *data))onFail
+                        onError:(void (^)(NSError *error))onError;
 
-+ (void)withSessionToken:(void (^)(SessionManager *))onComplete
-                  onFail:(void (^)(void))onFail;
++ (void)withSessionTokenOnSuccess:(void (^)(SessionManager *sessionManager))onSuccess
+                           onFail:(void (^)(NSURLResponse *response, NSData *data))onFail
+                          onError:(void (^)(NSError *error))onError;
 
 @end

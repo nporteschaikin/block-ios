@@ -11,7 +11,8 @@
 @interface APIManager (Auth)
 
 + (void)getAuthTokenWithParams:(NSDictionary *)params
-                    onComplete:(void(^)(NSDictionary *result))onComplete
-                        onFail:(void (^)(void))onFail;
+                     onSuccess:(void(^)(NSDictionary *city))onSuccess
+                        onFail:(void(^)(NSURLResponse *response, NSData *data))onFail
+                       onError:(void(^)(NSError *error))onError;
 
 @end

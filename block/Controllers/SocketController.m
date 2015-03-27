@@ -54,12 +54,16 @@
     }
 }
 
-- (void)connectAPI:(void(^)(NSDictionary *city))onComplete {
+- (void)connectAPI:(void(^)(NSDictionary *city))onSuccess {
     [APIManager getCityByID:self.cityID
-                 onComplete:^(NSDictionary *city) {
-                     self.city = city;
-                     onComplete(city);
-                 }];
+                  onSuccess:^(NSDictionary *city) {
+                      self.city = city;
+                      onSuccess(city);
+                  } onFail:^(NSURLResponse *response, NSData *data) {
+                     // this will probably never happen.  hopefully.
+                  } onError:^(NSError *error) {
+                      // this could though; no internet connection.
+                  }];
 }
 
 - (void)connectSocket {

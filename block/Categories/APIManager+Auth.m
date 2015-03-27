@@ -12,19 +12,18 @@
 @implementation APIManager (Auth)
 
 + (void)getAuthTokenWithParams:(NSDictionary *)params
-                    onComplete:(void(^)(NSDictionary *result))onComplete
-                        onFail:(void (^)(void))onFail {
-    [[self sharedManager] POST:IOAuthEndpoint sessionManager:nil params:params
-                    onComplete:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                        if (statusCode != 200) {
-                            onFail();
-                        } else {
-                            onComplete([NSJSONSerialization JSONObjectWithData:data
-                                                                       options:kNilOptions
-                                                                         error:nil]);
-                        };
-                    }];
+                     onSuccess:(void(^)(NSDictionary *city))onSuccess
+                        onFail:(void(^)(NSURLResponse *response, NSData *data))onFail
+                       onError:(void(^)(NSError *error))onError {
+    [[self sharedManager] POST:IOAuthEndpoint
+                sessionManager:nil
+                        params:params
+                     onSuccess:^(NSURLResponse *response, NSData *data) {
+                         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data
+                                                                                options:kNilOptions
+                                                                                  error:nil];
+                         onSuccess(result);
+                     } onFail:onFail onError:onError];
 }
 
 @end

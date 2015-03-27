@@ -109,23 +109,28 @@ static NSString * const couldNotFindLocationStatusLabelText = @"Block could not 
 }
 
 - (void)updateCitiesByLocation:(CLLocation *)location {
-    [APIManager getCitiesByLocation:location onComplete:^(NSArray *cities) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            switch (cities.count) {
-                case 1:
-                    [self.delegate findingCityViewController:self
-                                           didFindSingleCity:[cities firstObject]];
-                    break;
-                case 0:
-                    self.statusLabel.text = noCitiesAroundLocationStatusLabelText;
-                    break;
-                default:
-                    [self.delegate findingCityViewController:self
-                                       didFindMultipleCities:cities];
-                    break;
-            }
-        });
-    }];
+    [APIManager getCitiesByLocation:location
+                          onSuccess:^(NSArray *cities) {
+                              dispatch_async(dispatch_get_main_queue(), ^{
+                                  switch (cities.count) {
+                                      case 1:
+                                          [self.delegate findingCityViewController:self
+                                                                 didFindSingleCity:[cities firstObject]];
+                                          break;
+                                      case 0:
+                                          self.statusLabel.text = noCitiesAroundLocationStatusLabelText;
+                                          break;
+                                      default:
+                                          [self.delegate findingCityViewController:self
+                                                             didFindMultipleCities:cities];
+                                          break;
+                                  }
+                              });
+                          } onFail:^(NSURLResponse *response, NSData *data) {
+                              // this should never happen.
+                          } onError:^(NSError *error) {
+                              // this may happen (no internet connection)
+                          }];
 }
 
 - (void)locationManager:(CLLocationManager *)manager

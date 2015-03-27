@@ -43,30 +43,49 @@
 - (void)GET:(NSString *)path
 sessionManager:(SessionManager *)sessionManager
      params:(NSDictionary *)params
- onComplete:(void(^)(NSURLResponse *response, NSData *data, NSError *connectionError))onComplete {
+  onSuccess:(void(^)(NSURLResponse *response, NSData *data))onSuccess
+     onFail:(void(^)(NSURLResponse *response, NSData *data))onFail
+    onError:(void(^)(NSError *error))onError {
     NSURLRequest *request = [self getRequestWithPath:path
                                       sessionManager:sessionManager
                                               params:params];
     [self sendRequest:request
-           onComplete:onComplete];
+            onSuccess:onSuccess
+               onFail:onFail
+              onError:onError];
 }
 
 - (void)POST:(NSString *)path
 sessionManager:(SessionManager *)sessionManager
       params:(NSDictionary *)params
-  onComplete:(void(^)(NSURLResponse *response, NSData *data, NSError *connectionError))onComplete {
+   onSuccess:(void(^)(NSURLResponse *response, NSData *data))onSuccess
+      onFail:(void(^)(NSURLResponse *response, NSData *data))onFail
+     onError:(void(^)(NSError *error))onError {
     NSURLRequest *request = [self postRequestWithPath:path
                                        sessionManager:sessionManager
                                                params:params];
     [self sendRequest:request
-           onComplete:onComplete];
+            onSuccess:onSuccess
+               onFail:onFail
+              onError:onError];
 }
 
 - (void)sendRequest:(NSURLRequest *)request
-         onComplete:(void(^)(NSURLResponse *response, NSData *data, NSError *connectionError))onComplete {
+          onSuccess:(void(^)(NSURLResponse *response, NSData *data))onSuccess
+             onFail:(void(^)(NSURLResponse *response, NSData *data))onFail
+            onError:(void(^)(NSError *error))onError {
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:operationQueue
-                           completionHandler:onComplete];
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                               NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                               if (connectionError) {
+                                   onError(connectionError);
+                               } else if ([httpResponse statusCode] != 200) {
+                                   onFail(response, data);
+                               } else {
+                                   onSuccess(response, data);
+                               }
+                           }];
 }
 
 - (NSURLRequest *)getRequestWithPath:(NSString *)path
